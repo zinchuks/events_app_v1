@@ -46,3 +46,31 @@ jobs:
       - run: uv run --frozen ruff format --check .
       - run: uv run --frozen python -m ingestion --check
       - run: APP_ENV=staging uv run --frozen python -m ingestion --check
+  database-auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.6
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.34.3
+      - run: pnpm install --frozen-lockfile
+      # CLI startup prints local keys; never upload this raw log as an artifact.
+      - run: supabase start > /tmp/event-radar-supabase.log 2>&1
+      - run: supabase gen types typescript --local --schema public > /tmp/event-radar-types.ts
+      - run: diff -u apps/mobile/src/lib/database.types.ts /tmp/event-radar-types.ts
+      - run: pnpm test:s2
+      - run: pnpm local:env
+      - run: pnpm export:mobile
+      - run: pnpm check:client-bundles
+      - if: always()
+        run: supabase stop --no-backup

@@ -19,10 +19,14 @@
     "build:admin": "pnpm --filter @event-radar/admin build",
     "export:mobile": "pnpm --filter @event-radar/mobile export",
     "audit:deps": "pnpm audit --audit-level=high",
-    "check:secrets": "node scripts/check-secrets.mjs"
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "local:env": "node scripts/configure-local.mjs",
+    "test:s2": "node scripts/test-s2-integration.mjs",
+    "check:client-bundles": "node scripts/check-client-bundles.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@supabase/supabase-js": "2.117.2",
     "eslint": "^9.39.4",
     "globals": "^16.5.0",
     "typescript-eslint": "^8.0.0"

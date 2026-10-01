@@ -1,9 +1,14 @@
 import { useState } from 'react';
+import { router } from 'expo-router';
+import { LanguagePicker } from '@/components/language-picker';
+import { useLanguage } from '@/lib/i18n';
+import { DemoTerritories } from '@/components/demo-territories';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '@/components/ui/button';
 
 export default function WelcomeScreen() {
+  const { t } = useLanguage();
   const [showAbout, setShowAbout] = useState(false);
   return (
     <SafeAreaView style={styles.page}>
@@ -12,29 +17,32 @@ export default function WelcomeScreen() {
           <View style={styles.dot} />
           <Text style={styles.wordmark}>event radar</Text>
         </View>
+        <LanguagePicker />
+        <Button label={t('account')} onPress={() => router.push('/account')} />
         <View style={styles.radar} accessible={false}>
           <View style={styles.radarInner}><View style={styles.radarCenter} /></View>
           <View style={styles.signal} />
         </View>
-        <Text style={styles.eyebrow}>БІЛЬШЕ ПРИВОДІВ ВИЙТИ З ДОМУ</Text>
-        <Text accessibilityRole="header" style={styles.title}>Події поруч.{ '\n' }Враження попереду.</Text>
+        <Text style={styles.eyebrow}>{t('eyebrow')}</Text>
+        <Text accessibilityRole="header" style={styles.title}>{t('title')}</Text>
         <Text style={styles.description}>
-          Концерти, фестивалі, виставки й маленькі відкриття. Ваші інтереси — ваш радар.
+          {t('description')}
         </Text>
         <View style={styles.notice}>
-          <Text style={styles.noticeTitle}>Готуємо перші добірки</Text>
-          <Text style={styles.noticeText}>Незабаром тут з’являться події з перевірених джерел.</Text>
+          <Text style={styles.noticeTitle}>{t('preparing')}</Text>
+          <Text style={styles.noticeText}>{t('empty')}</Text>
         </View>
         <Button
-          label={showAbout ? 'Згорнути' : 'Про застосунок'}
+          label={showAbout ? t('collapse') : t('aboutButton')}
           onPress={() => setShowAbout(!showAbout)}
           accessibilityRole="button"
           accessibilityState={{ expanded: showAbout }}
           className="rounded-full bg-black px-6"
         />
         {showAbout && (
-          <Text style={styles.about}>Event Radar допоможе знаходити події у вибраних містах і відкривати інформацію від організаторів.</Text>
+          <Text style={styles.about}>{t('about')}</Text>
         )}
+        <DemoTerritories />
       </ScrollView>
     </SafeAreaView>
   );

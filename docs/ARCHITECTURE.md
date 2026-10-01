@@ -2,7 +2,20 @@
 
 Вимоги: [MVP_PLAN.md](../MVP_PLAN.md), докази вибору: [REPO_AUDIT.md](REPO_AUDIT.md). Далі відділено реалізовану основу S1 від майбутніх компонентів MVP.
 
-## Реалізовано у S1
+## Реалізовано у S2
+
+- Local Supabase CLI 2.34.3 (`event-radar-local`), PostgreSQL 17.4/PostGIS 3.3.7, відтворювані migrations + seed. 19 public tables, RLS увімкнений на всіх. Public catalog read-only для anon/authenticated; raw source_records та ingestion_runs server-only; private rows owner-only. Entitlements/digests/jobs/deliveries client read-only. Compound parent+owner FKs не дозволяють прив'язати приватний child до чужого parent.
+- Profiles створює auth trigger. Signup metadata приймає лише allowlisted locale; не успадковує role/tier. Окремі locale/translation_locale і validated IANA notification_timezone. PostGIS GiST indexes; occurrences розрізняють known UTC / date_only / unknown, без вигаданого midnight чи нульової ціни.
+- Email/password signup + confirmation OTP, login, captured-email recovery OTP + password update, foreground refresh, session restoration, logout, explicit deletion confirmation. SECURITY DEFINER RPC `delete_my_account()` не приймає user ID і видаляє лише auth.uid(); всі private rows cascade, public catalog лишається. Сесії/refresh tokens також видаляє Auth cascade; вже виданий JWT живе до expiry, але не повертає видалені приватні rows.
+- Supabase JS 2.117.2, typed generated DB contract; server credentials лише tooling/server. Native persistence — Expo SecureStore 15.0.8 із bounded UTF-8 chunks, serialized writes/atomic manifest, unit failure tests; фактичний device test unverified. Web — localStorage, без тверджень про native/keychain security. SDK storage/refresh pattern звірено з [official React Native guide](https://supabase.com/docs/guides/auth/quickstarts/react-native).
+- Installed SDK default refresh coordination використано без deprecated custom `processLock`; звірено з [official migration](https://github.com/supabase/supabase-js/blob/master/packages/core/auth-js/migrations/lockless-coordination.md). Старий quickstart не є доказом актуальності кожного option; actual package/browser warnings враховані.
+- Email OTP templates для local Mailpit; confirmed emails увімкнено, minimum password 10. [Email template API](https://supabase.com/docs/guides/auth/auth-email-templates), [Mailpit API](https://mailpit.axllent.org/docs/api-v1/). Локальний capture не є перевіркою зовнішнього SMTP/delivery чи staging environment.
+- Повні mobile та admin UI uk/en/es; вибір мови persisted, переклад подій налаштовується незалежно, actual event translation відкладено до S6. Світла тема Uniwind узгоджена з light-only shell: dark system theme більше не робить outline labels невидимими.
+- 4 original synthetic territories (ES/UA + Madrid/Kyiv centers) із demo IDs/provenance та 11 categories; boundary data і live events не імпортовані. Welcome показує demo marker. Auth не дає доступу до admin: admin лишається статичним shell до S10.
+
+Rules/areas, digest/job/delivery/entitlement tables на S2 — **схема й privacy boundary**, без matching, scheduling, push, billing або adapters. JSON rule parameters ще не є повним validated S4/S7 contract. Розширення constraints/logic належить відповідним етапам; S3 не починався. Local real integration + browser QA pass; native auth/storage, external SMTP/staging і remote CI unverified.
+
+## Стан на кінець S1 (історичний)
 
 - `apps/mobile`: вибіркова адаптація Obytes, Expo SDK 54 / RN 0.81.5 / React 19.1, Expo Router, Uniwind, стартовий екран з кнопкою опису. Власні provisional IDs `app.eventradar.dev` / `app.eventradar.staging`; чужі owner/EAS/URLs/demo providers відсутні. Native projects генеруються, не зберігаються в Git.
 - `apps/admin`: Vite + TypeScript, локальний статичний shell стану джерел. Відхилення від орієнтовного Next.js: S1 не потребує SSR, server API або дубльованого backend. CRUD/Auth належать наступним етапам.

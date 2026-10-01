@@ -1,0 +1,18 @@
+
+> event-radar@0.1.0 build:admin /Users/serhiizinchuk/my_projects/events_app
+> pnpm --filter @event-radar/admin build
+
+
+> @event-radar/admin@0.1.0 build /Users/serhiizinchuk/my_projects/events_app/apps/admin
+> tsc --noEmit && vite build
+
+vite v8.3.2 building client environment for production...
+transforming...
+✓ 5 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                 0.37 kB │ gzip: 0.27 kB
+dist/assets/index-DQHr-Dyi.css  0.42 kB │ gzip: 0.27 kB
+dist/assets/index-E7fEB2VT.js   2.69 kB │ gzip: 1.42 kB
+
+✓ built in 51ms

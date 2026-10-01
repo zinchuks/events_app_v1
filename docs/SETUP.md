@@ -1,6 +1,48 @@
 # Запуск і перевірки Event Radar
 
-## Поточна основа S1
+## Поточний запуск S2
+
+Docker Desktop працює; перевірено Docker 29.8.1, Supabase CLI **2.34.3**, local PostgreSQL **17.4**, PostGIS **3.3.7**. Pinned Node/pnpm лишаються **22.23.3 / 10.34.6**. У root:
+
+На цьому комп'ютері pinned tools вже доступні тимчасово; у новому терміналі спочатку `export PATH="/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH"`. Для переносного checkout встановіть ці версії своїм version manager; системний Node 20/23 не є project runtime.
+
+```sh
+pnpm install --frozen-lockfile
+supabase start
+pnpm local:env
+pnpm check
+pnpm test:s2
+pnpm dev:web
+```
+
+`pnpm local:env` записує лише URL/anon key у ignored `apps/mobile/.env.local` (0600). Чужий existing env не перезаписує; keys не друкує. `supabase status` / startup можуть показувати local service credentials: не копіюйте raw output у evidence/чат чи mobile. У `.env.example` credentials лишаються порожніми. Worker service role не потрібен для S2 UI.
+
+Mobile URL показаний у терміналі; QA виконано на localhost:8087. API: http://127.0.0.1:54321, Studio: http://127.0.0.1:54323, **Mailpit: http://127.0.0.1:54324**. Local email templates містять OTP для signup/recovery: створіть disposable email `name@example.test`, прочитайте код у Mailpit й введіть його у застосунку. Password ≥10 символів. Лист не відправляється реальному зовнішньому адресату. Зовнішній SMTP/delivery, staging accounts і native deep links не перевірені; OTP flow не потребує deep links.
+
+Native: iOS simulator може використовувати loopback після toolchain setup; Android emulator URL зазвичай потребує host address (`10.0.2.2`), фізичний пристрій — reachable development host. Ці мережеві/device маршрути **unverified**. Не копіюйте server key у EXPO_PUBLIC; native SDK build gate із S1 лишається.
+
+### Реальні DB/Auth перевірки
+
+`pnpm test:s2` дозволяє лише `http://127.0.0.1:54321`; створює disposable `@example.test` акаунти, synthetic event/private fixtures і прибирає власні записи. Використовує справжні Auth, PostgREST/Postgres і captured Mailpit emails. Тест не підходить для hosted/staging DB. Фактично **108 checks pass**: email signup/confirmation, password policy/reset, profile settings, cross-owner read/update/delete/ownership transfer, parent-owner FK, server-only writes/entitlements, date-only/timezone, persisted session/logout, self-delete/private cascades/public preservation, demo seeds.
+
+Базу відтворено з нуля командами нижче **тільки у новому disposable local stack**. Reset видаляє його дані; для звичайного запуску він не потрібний. Якщо local DB вже містить потрібні дані, спочатку backup/окрема test DB — не виконуйте reset навмання.
+
+```sh
+supabase db reset
+supabase gen types typescript --local --schema public > apps/mobile/src/lib/database.types.ts
+pnpm test:s2
+pnpm build:admin
+CI=1 pnpm export:mobile
+pnpm check:client-bundles
+```
+
+RLS увімкнено на **19/19** public tables. PostGIS/seed constraints реальні; boundaries не імпортовані. Root check: TypeScript/lint, **12 Jest + 3 Node tests**, env/token-pattern checks pass. Chunked SecureStore unit tests не є device/keychain proof. Expo dependency check/Doctor **18/18**, frozen install, admin build та iOS/Android/web JS exports pass. Client bundle scan: local service-role value відсутній; pattern scan не є повним security audit. Audit лишається **1 moderate / 0 high / 0 critical**.
+
+Browser QA: uk/en/es mobile й admin, real login, locale/translation/timezone save, reload with session, delete confirmation + cancel, logout + reload with no session, demo markers. RPC deletion/recovery перевірені actual API integration; native auth/storage, external SMTP і remote CI — unverified. Світла Uniwind theme усуває невидимі outline labels на dark system settings.
+
+Додано CI `database-auth` job із local Supabase/real integration/type generation boundary/exports. GitHub Actions не запускався: remote відсутній. Supabase можна залишити працювати для ручної перевірки; зупинка `supabase stop` зберігає local backup. Не застосовуйте `--no-backup` до потрібних local даних. QA Metro/admin servers зупиняються Ctrl-C; final state — у PROGRESS.
+
+## Основа S1 — історичні перевірки та інструменти
 
 Версії: Node **22.23.3**, pnpm **10.34.6**, Python **3.13.3**, uv **0.12.21**. Node/pnpm закріплено `.nvmrc`, engines та packageManager; Python minor — `.python-version` / pyproject, exact CI runtime 3.13.3. Використовуйте свій version manager; системні Node 20/23 цього комп'ютера не є runtime проєкту.
 

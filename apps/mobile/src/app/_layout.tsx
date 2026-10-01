@@ -3,12 +3,18 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
+import { AuthProvider } from '@/lib/auth-context';
+import { LanguageProvider } from '@/lib/i18n';
+import { Uniwind } from 'uniwind';
+
+// This shell is light-only, including when the browser's system theme is dark.
+Uniwind.setTheme('light');
 
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false }} />
+      <AuthProvider><LanguageProvider><Stack screenOptions={{ headerShown: false }} /></LanguageProvider></AuthProvider>
     </SafeAreaProvider>
   );
 }

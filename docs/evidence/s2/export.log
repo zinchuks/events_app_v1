@@ -1,0 +1,68 @@
+
+> event-radar@0.1.0 export:mobile /Users/serhiizinchuk/my_projects/events_app
+> pnpm --filter @event-radar/mobile export
+
+
+> @event-radar/mobile@0.1.0 export /Users/serhiizinchuk/my_projects/events_app/apps/mobile
+> expo export --platform ios --platform android --platform web
+
+env: load .env.local
+env: export APP_VARIANT EXPO_PUBLIC_SUPABASE_URL EXPO_PUBLIC_SUPABASE_ANON_KEY
+Using src/app as the root directory for Expo Router.
+Starting Metro Bundler
+| (node:7721) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:7720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:7722) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+Web node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 76.8% (622/795)
+iOS node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 75.4% (757/872)
+Android node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 61.9% ( 805/1023)
+Web Bundled 1823ms node_modules/expo-router/entry.js (894 modules)
+Android Bundled 3373ms node_modules/expo-router/entry.js (1023 modules)
+iOS node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (1249/1249)
+iOS Bundled 4870ms node_modules/expo-router/entry.js (1249 modules)
+
+› Assets (49):
+../../node_modules/@react-navigation/elements/lib/module/assets/back-icon-mask.0a328cd9c1afd0afe8e3b1ec5165b1b4.png (653 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/back-icon-mask.png (653 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/back-icon.35ba0eaec5a4f5ed12ca16fabeae451d.png (207 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/back-icon.png (8 variations | 359 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/clear-icon.c94f6478e7ae0cdd9f15de1fcb9e5e55.png (4 variations | 425 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/clear-icon.png (4 variations | 425 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/close-icon.808e1b1b9b53114ec2838071a7e6daa7.png (4 variations | 235 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/close-icon.png (4 variations | 235 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/search-icon.286d67d3f74808a60a78d3ebf1a5fb57.png (928 B)
+../../node_modules/@react-navigation/elements/lib/module/assets/search-icon.png (7 variations | 592 B)
+../../node_modules/expo-router/assets/arrow_down.017bc6ba3fc25503e5eb5e53826d48a8.png (9.46 kB)
+../../node_modules/expo-router/assets/arrow_down.png (9.46 kB)
+../../node_modules/expo-router/assets/error.d1ea1496f9057eb392d5bbf3732a61b7.png (469 B)
+../../node_modules/expo-router/assets/error.png (469 B)
+../../node_modules/expo-router/assets/file.19eeb73b9593a38f8e9f418337fc7d10.png (138 B)
+../../node_modules/expo-router/assets/file.png (138 B)
+../../node_modules/expo-router/assets/forward.d8b800c443b8972542883e0b9de2bdc6.png (188 B)
+../../node_modules/expo-router/assets/forward.png (188 B)
+../../node_modules/expo-router/assets/pkg.ab19f4cbc543357183a20571f68380a3.png (364 B)
+../../node_modules/expo-router/assets/pkg.png (364 B)
+../../node_modules/expo-router/assets/sitemap.412dd9275b6b48ad28f5e3d81bb1f626.png (465 B)
+../../node_modules/expo-router/assets/sitemap.png (465 B)
+../../node_modules/expo-router/assets/unmatched.20e71bdf79e3a97bf55fd9e164041578.png (4.75 kB)
+../../node_modules/expo-router/assets/unmatched.png (4.75 kB)
+
+› web bundles (3):
+_expo/static/css/global-65efe5cbbece2ffcc3d64c7adcfdaf0e.css (8.71 kB)
+_expo/static/css/global-d41d8cd98f00b204e9800998ecf8427e.css (0 B)
+_expo/static/js/web/entry-21e12cb61ec1878282a310f9f71d6236.js (1.56 MB)
+
+› android bundles (1):
+_expo/static/js/android/entry-8654943dbb47d8b0cedba6f9557e00cc.hbc (3.57 MB)
+
+› ios bundles (1):
+_expo/static/js/ios/entry-328c817f85b353c7c6102cc955b94acf.hbc (3.58 MB)
+
+› Files (2):
+index.html (1.37 kB)
+metadata.json (3.52 kB)
+
+Exported: dist

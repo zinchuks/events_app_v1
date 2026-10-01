@@ -2,3 +2,5 @@
 licenses/** -whitespace
 # Unified diff blank context lines contain a required space; keep patch hashes.
 patches/*.patch -whitespace
+# Supabase CLI emits a final blank line; preserve exact generated-type comparison.
+apps/mobile/src/lib/database.types.ts whitespace=-blank-at-eof

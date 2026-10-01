@@ -1,0 +1,1 @@
+{"postgres" : "17.4", "postgis" : "3.3.7", "public_tables" : 19, "rls_tables" : 19, "territories" : 4, "categories" : 11, "events" : 0, "sources" : 0, "auth_users" : 1}

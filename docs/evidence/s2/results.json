@@ -1,0 +1,70 @@
+{
+  "stage": "S2",
+  "date": "2026-10-01",
+  "status": "implemented",
+  "database": {
+    "stack": "event-radar-local",
+    "supabase_cli": "2.34.3",
+    "docker": "29.8.1",
+    "postgres": "17.4",
+    "postgis": "3.3.7",
+    "public_tables": 19,
+    "rls_enabled_tables": 19,
+    "migrations": 2,
+    "demo_territories": 4,
+    "categories": 11,
+    "real_sources": 0
+  },
+  "checks": {
+    "pnpm_check": "pass (12 Jest + 3 Node tests, TypeScript, lint, env, token patterns)",
+    "frozen_install": "pass",
+    "generated_types_vs_actual_db": "pass",
+    "database_reset_from_zero": "pass",
+    "real_integration_checks": 108,
+    "admin_build": "pass",
+    "expo_dependency_check": "pass",
+    "expo_doctor": "18/18",
+    "js_export": "ios/android/web pass; not native compile/run",
+    "client_server_key_boundary": "pass (56 files)",
+    "audit": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 1
+    }
+  },
+  "browser_qa": [
+    "uk/en/es mobile",
+    "real login with disposable local account",
+    "independent locale/translation/timezone save verified in actual DB",
+    "reload restores session/settings",
+    "delete confirmation and cancel",
+    "logout then reload has no session",
+    "uk/en/es admin shell",
+    "light theme contrast fix, auth form at 390x844",
+    "final auth startup has no browser errors/warnings",
+    "direct /account Back returns to welcome"
+  ],
+  "tested_at_api": [
+    "email signup and actual captured OTP confirmation",
+    "password minimum10 and captured recovery OTP/change",
+    "cross-owner read/write/delete/transfer restrictions",
+    "server-only raw data and server-owned entitlement writes",
+    "date-only/known time/timezone constraints",
+    "self-delete private cascade and public catalog preservation"
+  ],
+  "unverified": [
+    "iOS/Android native Auth/SecureStore/device builds",
+    "external SMTP and real mail delivery",
+    "managed staging/production deployment",
+    "GitHub Actions remote execution",
+    "full distribution license/security clearance"
+  ],
+  "known_backlog": [
+    "decode-uri-component moderate finding",
+    "S3 live source schema/rights/ingestion/digest/push not implemented",
+    "S4/S7 full rule JSON/domain constraints pending"
+  ],
+  "cleanup": "Own integration/browser fixtures removed; unrelated remaining local account preserved; no further reset",
+  "git": "Ready for local checkpoint; no remote/push",
+  "services": "Local Supabase retained running; QA Metro/admin stopped"
+}

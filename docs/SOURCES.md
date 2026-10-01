@@ -39,3 +39,7 @@ Ticketmaster/Meetup/Eventbrite/upstream scrapers — references, не затве
 | Operator/support/brand | не надано; Event Radar робоча назва | S12 policies/metadata; не вигадувати реквізити |
 
 Майбутні назви конфігурації без секретних значень — у [SETUP.md](SETUP.md). Не вимагати усі акаунти перед незалежною роботою S1.
+
+# Demo-території S2
+
+`supabase/seed.sql` створює 4 synthetic records: ES/UA і приблизні центри Madrid/Kyiv. IDs мають префікс `demo:`, `is_demo=true`, provenance записує ручне походження. Це власні тестові fixtures без скопійованих boundary datasets, без polygons і без заяви реального покриття. Demo marker показаний у mobile. Events/source feed у seed відсутні; тимчасова synthetic event інтеграційного тесту видаляється після тесту й не рахується live source.

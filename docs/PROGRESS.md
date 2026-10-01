@@ -1,12 +1,12 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-01, Europe/Madrid. Поточна задача: **S1**, без переходу до S2. Результати аудитів — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md).
+Оновлено 2026-10-01, Europe/Madrid. Поточна задача: **S2**, без переходу до S3. Результати аудитів — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md).
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
 | S0 | **verified** | Перевірено код/licenses/SHA/manifests/recent Git семи кандидатів; виконано basic checks Obytes і community-calendar, додатково Simonstorms/event-discovery; обрано одну mobile основу й ingestion спосіб; документи та blockers зафіксовані |
 | S1 | **implemented** | Mobile/admin/worker основа, env/runtime/locks/CI; browser startup/toggle, code checks, exports pass. Native builds і remote CI unverified |
-| S2 | pending | DB/PostGIS/Auth/RLS, uk/en/es; потрібне working local/managed DB |
+| S2 | **implemented** | Local PostGIS/migrations/19 RLS tables, email Auth/privacy/uk-en-es; 108 real integration checks + browser QA pass. Native/storage/external SMTP/remote CI unverified |
 | S3 | pending | Один дозволений live source → DB/mobile/digest/push; device/credentials unverified |
 | S4 | pending | Territories/radius/polygon/rules; boundary provider не обраний |
 | S5 | pending | Mobile UX/maps; native MapLibre і map infrastructure unverified |
@@ -38,7 +38,7 @@
 | Android native build/run | unverified; adb/standard SDK absent | SDK/JDK/emulator або EAS + physical device, потім S1 native smoke |
 | community full install | S0 failed на Python 3.13 і 3.11; legacy lxml gate | S1 worker має stdlib-only runtime і працює; selective import адаптерів із новими pins — S3 |
 | Product dependencies | S1 critical/high = 0; moderate decode-uri-component через Expo Router/query-string = 1 | Сумісний upstream update/retest перед release; JSON finding збережено, high-only gate його не приховує |
-| Supabase DB / RLS | unverified; Docker daemon unavailable, project access не надано | Увімкнути Docker або надати dev project setup для S1/S2 |
+| Supabase DB / RLS | local verified: Docker 29.8.1, Postgres 17.4/PostGIS 3.3.7, 19/19 RLS tables, 108 real Auth/API checks | Managed staging/production deployment не виконано; S3 може використовувати local DB |
 | Push/billing/AI/maps/external auth | unverified; accounts/keys/device evidence не надано | Налаштовувати за етапами S2/S3/S5/S6/S9, не блокувати незалежний S1 |
 | Real data | 0 product imports; Madrid payload unverified, Barcelona 403, Toronto resource metadata unverified | Fetch/schema/rights review першого Madrid source у S3; 3 sources/2 countries у S6 |
 
@@ -53,7 +53,19 @@
 - Frozen install, TypeScript, ESLint, 8 UI + 3 Node tests, env і token-pattern checks, admin build, Expo dependency check, Doctor 18/18, iOS/Android/web JS exports: pass. Worker Ruff check/format і CLI development/staging: pass.
 - Реальний local web startup у Chrome, mobile viewport 390×844, відкриття/згортання опису та admin startup: pass. [Доказ](evidence/s1/mobile-web.png), [результати](evidence/s1/results.json), [SETUP](SETUP.md). Native compile/run/device acceptance лишаються unverified; exports їх не замінюють. Через ці межі S1 позначено implemented, не загальне verified всіх платформ.
 
-Наступний етап — **S2**, лише за новим завданням. Потрібен працюючий Docker/Supabase або development project, щоб створювати й реально тестувати DB/RLS. Native tooling можна налагоджувати незалежно. Для own EAS builds пізніше потрібні project/account/signing/device. Жодні акаунти чи ключі не вигадано.
+## Що зроблено у S2
+
+- Docker blocker знято; окремий `event-radar-local` Supabase stack, two migrations + original demo territory/category seed, generated typed DB contract. DB створено з нуля, 19/19 RLS tables і PostGIS version перевірені.
+- Private owner RLS та restricted grants; raw ingestion server-only, entitlements/jobs/digests client read-only; composite parent-owner FKs. Auth trigger allowlists signup locale. UTC/date-only/unknown/timezone/price constraints не вигадують факти.
+- Mobile email/password signup + OTP confirmation/recovery, session validation/persistence/foreground refresh, logout, self-delete RPC/explicit confirmation. SQL delete cascades private data/auth sessions, preserves public catalog. Native SecureStore chunked adapter має failure/concurrency/Unicode unit tests, але device evidence відсутнє; web storage tested.
+- Усі current mobile/admin UI keys uk/en/es; independently persisted locale/translation preference + IANA timezone. Demo territories видно з marker; boundaries/live events не завантажено. Світла theme виправила невидимі dark variant labels під час visual QA.
+- Frozen install / TypeScript / lint / 12 Jest + 3 Node tests / env/token scan / admin build / dependency check / Doctor18/18 / three JS exports: pass. Actual Auth/PostgREST/Mailpit integration **108 checks pass**, cross-owner changes and self-delete/public preservation підтверджені, не mocks.
+- Browser: real login, uk/en/es, profile save, session + settings restore after reload, delete-confirmation/cancel, logout/reload, admin translation startup pass. External SMTP, managed staging, iOS/Android auth/storage і remote CI execution лишаються unverified.
+- Keys тільки в ignored local env/temporary tools. Actual client exports не містять local server-role key. CI додано local DB/Auth job; remote/push не створено. Dependency audit 1 moderate decode-uri-component лишається.
+
+Докази S2 — [results.json](evidence/s2/results.json), [integration.log](evidence/s2/integration.log), [auth screen](evidence/s2/mobile-auth.png). Checkpoint SHA записується після final review. S2 має статус implemented через відсутність native acceptance; local DB/Auth/browser частина перевірена. QA Metro/admin servers зупинено; Docker/local Supabase залишено працювати. Own fixtures прибрано; unrelated local data не чіпали.
+
+Наступний етап — **S3**, лише за новим завданням: потрібні fetch/schema/rights review першого live source та actual ingest/DB/mobile/digest workflow. Push потребує own Expo credentials і device; local DB більше не blocker. Native tooling/SMTP/staging налаштовуються незалежно. S3 adapters/matching/digest/push не реалізовано у S2.
 
 Історична фінальна перевірка S0: links/JSON/SHA/license snapshots узгоджені; product paths тоді відсутні. Upstream license whitespace збережено окремим attribute.
 
