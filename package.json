@@ -1,0 +1,42 @@
+{
+  "name": "event-radar",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.6",
+  "engines": {
+    "node": "22.23.3",
+    "pnpm": "10.34.6"
+  },
+  "scripts": {
+    "dev:mobile": "pnpm --filter @event-radar/mobile start",
+    "dev:web": "pnpm --filter @event-radar/mobile web",
+    "dev:admin": "pnpm --filter @event-radar/admin dev",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint apps scripts",
+    "test": "pnpm --filter @event-radar/mobile test && node --test scripts/*.test.mjs",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm check:env && pnpm check:secrets",
+    "check:env": "node scripts/check-env.mjs",
+    "build:admin": "pnpm --filter @event-radar/admin build",
+    "export:mobile": "pnpm --filter @event-radar/mobile export",
+    "audit:deps": "pnpm audit --audit-level=high",
+    "check:secrets": "node scripts/check-secrets.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "globals": "^16.5.0",
+    "typescript-eslint": "^8.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "shell-quote": "1.11.0",
+      "tar": "7.5.22",
+      "postcss": "8.5.28",
+      "image-size": "2.0.3",
+      "xcode>uuid": "11.1.1"
+    },
+    "patchedDependencies": {
+      "metro@0.83.3": "patches/metro@0.83.3.patch"
+    }
+  }
+}

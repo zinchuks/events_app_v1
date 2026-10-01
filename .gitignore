@@ -14,3 +14,9 @@ __pycache__/
 .DS_Store
 candidate-checkouts/
 .audit-tmp/
+coverage/
+.ruff_cache/
+apps/mobile/ios/
+apps/mobile/android/
+apps/mobile/expo-env.d.ts
+apps/mobile/uniwind-types.d.ts

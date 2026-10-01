@@ -1,0 +1,79 @@
+
+> event-radar@0.1.0 check /Users/serhiizinchuk/my_projects/events_app
+> pnpm typecheck && pnpm lint && pnpm test && pnpm check:env && pnpm check:secrets
+
+
+> event-radar@0.1.0 typecheck /Users/serhiizinchuk/my_projects/events_app
+> pnpm -r typecheck
+
+Scope: 2 of 3 workspace projects
+apps/admin typecheck$ tsc --noEmit
+apps/mobile typecheck$ tsc --noEmit
+apps/admin typecheck: Done
+apps/mobile typecheck: Done
+
+> event-radar@0.1.0 lint /Users/serhiizinchuk/my_projects/events_app
+> eslint apps scripts
+
+
+> event-radar@0.1.0 test /Users/serhiizinchuk/my_projects/events_app
+> pnpm --filter @event-radar/mobile test && node --test scripts/*.test.mjs
+
+
+> @event-radar/mobile@0.1.0 test /Users/serhiizinchuk/my_projects/events_app/apps/mobile
+> jest --runInBand --watch=false --watchman=false
+
+PASS src/components/ui/button.test.tsx
+  button component
+    ✓ should render correctly  (131 ms)
+    ✓ should render correctly if we add explicit child  (3 ms)
+    ✓ should render the label correctly (2 ms)
+    ✓ should render the loading indicator correctly (11 ms)
+    ✓ should call onClick handler when clicked (136 ms)
+    ✓ should be disabled when loading (4 ms)
+    ✓ should be disabled when disabled prop is true (2 ms)
+    ✓ shouldn't call onClick when disabled (6 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.806 s, estimated 1 s
+Ran all test suites.
+TAP version 13
+# Subtest: Expo Metro reads a real router PNG through patched image-size
+ok 1 - Expo Metro reads a real router PNG through patched image-size
+  ---
+  duration_ms: 3.617709
+  type: 'test'
+  ...
+# Subtest: unknown environment fails instead of silently using development
+ok 2 - unknown environment fails instead of silently using development
+  ---
+  duration_ms: 0.57425
+  type: 'test'
+  ...
+# Subtest: development and staging can coexist without IDs or deep links colliding
+ok 3 - development and staging can coexist without IDs or deep links colliding
+  ---
+  duration_ms: 0.089709
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 63.2625
+
+> event-radar@0.1.0 check:env /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-env.mjs
+
+Environment examples and separate development/staging IDs are valid.
+
+> event-radar@0.1.0 check:secrets /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-secrets.mjs
+
+Tracked/unignored files contain no known token/private-key patterns or public server-key names.

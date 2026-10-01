@@ -1,2 +1,4 @@
 # Preserve upstream license snapshots byte-for-byte, including their whitespace.
 licenses/** -whitespace
+# Unified diff blank context lines contain a required space; keep patch hashes.
+patches/*.patch -whitespace

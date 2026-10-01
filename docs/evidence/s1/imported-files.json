@@ -1,0 +1,63 @@
+[
+  {
+    "upstream_path": "src/components/ui/button.tsx",
+    "local_path": "apps/mobile/src/components/ui/button.tsx",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7"
+  },
+  {
+    "upstream_path": "src/components/ui/button.test.tsx",
+    "local_path": "apps/mobile/src/components/ui/button.test.tsx",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7"
+  },
+  {
+    "upstream_path": "src/global.css",
+    "local_path": "apps/mobile/src/global.css",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7"
+  },
+  {
+    "upstream_path": "metro.config.js",
+    "local_path": "apps/mobile/metro.config.js",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7"
+  },
+  {
+    "upstream_path": "LICENSE",
+    "local_path": "apps/mobile/LICENSE",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7"
+  },
+  {
+    "upstream_path": "babel.config.js",
+    "local_path": "apps/mobile/babel.config.js",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7",
+    "reuse": "configuration pattern adapted; demo integrations removed"
+  },
+  {
+    "upstream_path": "jest.config.js",
+    "local_path": "apps/mobile/jest.config.js",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7",
+    "reuse": "configuration pattern adapted; demo integrations removed"
+  },
+  {
+    "upstream_path": "tsconfig.json",
+    "local_path": "apps/mobile/tsconfig.json",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7",
+    "reuse": "configuration pattern adapted; demo integrations removed"
+  },
+  {
+    "upstream_path": "app.config.ts",
+    "local_path": "apps/mobile/app.config.ts",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7",
+    "reuse": "configuration pattern adapted; demo integrations removed"
+  },
+  {
+    "upstream_path": "src/app/_layout.tsx",
+    "local_path": "apps/mobile/src/app/_layout.tsx",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7",
+    "reuse": "configuration pattern adapted; demo integrations removed"
+  },
+  {
+    "upstream_path": "src/lib/test-utils.tsx",
+    "local_path": "apps/mobile/src/lib/test-utils.tsx",
+    "upstream_sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7",
+    "reuse": "configuration pattern adapted; demo integrations removed"
+  }
+]

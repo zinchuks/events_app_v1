@@ -1,0 +1,6 @@
+packages:
+  - apps/*
+
+# Reviewed lifecycle script required by the admin bundler.
+onlyBuiltDependencies:
+  - esbuild

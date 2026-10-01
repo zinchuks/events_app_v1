@@ -1,6 +1,65 @@
-# Середовище та фактичні команди S0
+# Запуск і перевірки Event Radar
 
-У корені ще немає runnable product. `apps/mobile`, admin/worker shell, env examples, product lockfiles та CI — наступний S1. Ці команди виконувалися тільки у тимчасових checkouts.
+## Поточна основа S1
+
+Версії: Node **22.23.3**, pnpm **10.34.6**, Python **3.13.3**, uv **0.12.21**. Node/pnpm закріплено `.nvmrc`, engines та packageManager; Python minor — `.python-version` / pyproject, exact CI runtime 3.13.3. Використовуйте свій version manager; системні Node 20/23 цього комп'ютера не є runtime проєкту.
+
+З кореня, після встановлення цих версій:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm check
+pnpm dev:web
+```
+
+Web Expo відкривається за URL із термінала (типово localhost:8081). Екран має heading «Події поруч. Враження попереду.»; «Про застосунок» перемикає опис. `pnpm dev:admin` в окремому терміналі: http://127.0.0.1:5173, shell «Джерела подій», без доступу до DB. Зупинка серверів — Ctrl-C. Фактично web перевірено на localhost:8087 у Chrome, viewport 390×844, toggle обох станів; [screenshot](evidence/s1/mobile-web.png). Admin також відкрито у Chrome.
+
+```sh
+pnpm build:admin
+pnpm --filter @event-radar/mobile deps:check
+pnpm --filter @event-radar/mobile run doctor
+CI=1 pnpm export:mobile
+APP_VARIANT=staging pnpm --filter @event-radar/mobile run config
+pnpm audit:deps
+```
+
+`run doctor` і `run config` пишіть з `run`: pnpm має однойменні власні команди. TypeScript/lint, 8 UI tests + 3 Node tests, env/secrets checks, admin build, Expo dependency check, 18/18 Expo Doctor checks та iOS/Android/web JS exports пройшли. Експорт JS/Hermes bundle **не є native compile або device run**. Registry audit: 0 critical/high, **1 moderate decode-uri-component**; high-only gate pass не означає відсутність усіх findings. [Audit JSON](evidence/s1/dependencies-audit.json).
+
+Worker, cwd `services/ingestion`:
+
+```sh
+uv sync --frozen
+uv run --frozen ruff check .
+uv run --frozen ruff format --check .
+uv run --frozen python -m ingestion --check
+APP_ENV=staging uv run --frozen python -m ingestion --check
+```
+
+Виконано: lint/format pass, CLI обох середовищ повернув `status=ready`, `adapters=0`, `backend_connected=false`. Немає live ingestion.
+
+### Конфігурація без секретів
+
+Копіювання `.env.example` у локальний `.env` потрібне, коли додаються реальні налаштування; для S1 запуску credentials не потрібні. `.env.staging.example` описує staging. Реальні `.env*` ігноруються Git, examples мають порожні credentials.
+
+| Компонент | Назви |
+| --- | --- |
+| Mobile | `APP_VARIANT=development` або `staging`, optional own `EAS_PROJECT_ID`, `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY` (у S1 не використовуються) |
+| Admin | `VITE_APP_ENV=development` або `staging`; `pnpm --filter @event-radar/admin dev:staging` |
+| Worker | `APP_ENV`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL` (DB credentials у S1 не використовуються) |
+
+Mobile варіанти мають різні provisional bundle/package IDs і schemes. `pnpm --filter @event-radar/mobile start:staging` запускає staging dev client. EAS development/staging profiles є, але own project/account/signing не налаштовані й builds не виконані. Серверні ключі ніколи не `EXPO_PUBLIC`, `VITE_*` чи mobile `extra`. Pattern-based secret scan пройшов; це обмежена перевірка, не повний security audit.
+
+### Native / CI / S2 prerequisites
+
+`pnpm --filter @event-radar/mobile ios` / `android` вимагають працездатного native toolchain. iOS unverified: Xcode 26.6 є, але license не прийнято, `simctl` і CocoaPods заблоковані. Власник має сам переглянути/прийняти угоду, потім simulator/CocoaPods/build. Android unverified: adb/SDK не знайдено; потрібні SDK/JDK/emulator або own EAS + device. Не приймати ліцензії чи створювати акаунти автоматично.
+
+`.github/workflows/checks.yml` відтворює code checks/build/exports/audit та worker checks. Локальні команди виконані; GitHub Actions у remote не запускався, remote відсутній. Для S2 потрібен working Docker daemon для Supabase CLI або окремий development project; зараз daemon unavailable. Auth/RLS/privacy/i18n не реалізовано в S1.
+
+Тимчасові audit tools цієї сесії: `/private/tmp/event-radar-s1-tools/node_modules/.bin` (Node/pnpm), `/private/tmp/event-radar-s1-python-tools/bin/uv`, pnpm store `/private/tmp/event-radar-s0/pnpm-store`, uv cache `/private/tmp/event-radar-s1-uv-cache`. Це не переносні prerequisites: у звичайному checkout встановіть pinned tools і використовуйте власні caches. Якщо повторюєте саме цю сесію: prepend tools path до PATH; `pnpm install --frozen-lockfile --store-dir /private/tmp/event-radar-s0/pnpm-store`; вкладений `expo install` потребує того ж `npm_config_store_dir`.
+
+## Архів перевірок S0
+
+Нижче — історичні команди кандидатів, до імпорту S1; їх versions/findings не є станом поточного product lock. Checkouts лишаються поза продуктом.
 
 ## Перевірене середовище
 
