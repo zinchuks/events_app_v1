@@ -1,0 +1,9 @@
+a1242ff5e6a154d872c4a04b90c378609219e27b 2026-04-14T19:21:26-04:00 Unify exclusion system into single exclusion_reason() function
+10feae46616b26542292aa193e493eacd11d8578 2026-04-14T18:12:55-04:00 docs: clarify deployment architecture in README
+7dfc9e5425f60ea9cdde184fbcd82db62ec22b41 2026-04-14T18:07:47-04:00 fix: round 2 review fixes
+787f2341793a13edec9e22bfd322a77d09f774bb 2026-04-14T17:54:51-04:00 fix: add retry to newsletter extraction, pin dependency versions
+26c35761c8bcc0a18de25f8f629607610e847bdd 2026-04-14T17:52:19-04:00 fix: require city in config for newsletter scraping
+d014ba206b2b3f068572ce3975a8934e981568cc 2026-04-14T17:50:41-04:00 minor: docstring, type annotation, and comment additions
+5c785893a80128567527d462bd6279f081240d6a 2026-04-14T17:45:49-04:00 cleanup: code quality improvements and polish
+94562e1e81552ff247e4ad3f2008bfb00f81a33f 2026-04-14T17:40:27-04:00 fix: review fixes — bugs, config cleanup, and unit tests
+c0c0142c79db32a848405357df41a06e11a21d1b 2026-04-14T17:15:37-04:00 init: event discovery pipeline

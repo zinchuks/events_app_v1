@@ -1,0 +1,16 @@
+# Local secrets, generated artifacts and temporary third-party checkouts
+.env
+.env.*
+!.env.example
+!.env.*.example
+node_modules/
+.expo/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+candidate-checkouts/
+.audit-tmp/

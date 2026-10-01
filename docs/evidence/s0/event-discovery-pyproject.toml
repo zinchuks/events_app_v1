@@ -1,0 +1,6 @@
+[project]
+name = "event-discovery"
+version = "0.1.0"
+description = "AI-powered local event discovery pipeline"
+requires-python = ">=3.10"
+license = "MIT"

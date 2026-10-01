@@ -1,0 +1,20 @@
+888b9e131bdab4354c2bff7ea1fb744667269b10 2026-09-14T23:25:11+02:00 chore: drop .vscode and Renovate, pin Node 22, list what a new app should delete
+42aa9e905a255199680a97a63614a6b76153e0b1 2026-09-11T15:51:58+02:00 Ultracite toolchain, audit fixes and the refactor they required (#2)
+a88b2adec083e8392d124b10093f4f4999e21a07 2026-09-11T15:50:34+02:00 fix(ci): type process.env without the gitignored expo-env.d.ts, and let Deno skip package.json
+0f7d38ea050a08d1220deae096e6cb31182b7caa 2026-09-11T15:45:51+02:00 Merge origin/main (squash of PR #1) back into the branch
+73043ccf469f0477d0d177cdd379a1b9faf677f5 2026-09-11T15:39:59+02:00 fix: three defects found on the first simulator run of this branch
+38fadc771bbc27ce0bffab5a3810eb93ee13d94b 2026-09-11T00:55:19+02:00 refactor: bring src in line with the Ultracite rule set
+94f9d84d5344dfa4a0326c092e4de87c528950dd 2026-09-11T00:55:18+02:00 chore(tooling): move to Ultracite oxlint + oxfmt with Expo and RN rules
+227acde441995af7a1ced86d8e3555d83eb3462b 2026-09-11T00:54:35+02:00 refactor: delete six unimported components and the old lint config
+2e58f460c2221d945464ddd08a21d2d669fc55e9 2026-09-10T23:52:08+02:00 docs: record why two packages intentionally run ahead of SDK 57
+ada4d6527d183ca7cd9b19f8c9bae64849c13b3c 2026-09-10T23:52:07+02:00 chore(deps): sweep SDK 57 drift and bump RevenueCat and PostHog
+0e156f36cf285083fc5fe26cbfc8223ca7e92908 2026-09-10T23:47:05+02:00 chore(ci): pin actions/checkout to v7
+656beb65382b814d108dfb2728e09d091987ad77 2026-09-10T18:00:44+02:00 docs: correct the perf playbook where it contradicts the code
+2762ecccae7084a0a89f2ca2b49135901b86768f 2026-09-10T18:00:35+02:00 chore: close the blind spots that let these defects accumulate
+e862d157c6039bb8dde9498af88c32a06706f3f4 2026-09-10T18:00:22+02:00 fix(a11y): label the seven unannounced onboarding controls
+5bb7151d22c20ceb79b478066c6ae979bab74c79 2026-09-10T18:00:14+02:00 fix: six correctness defects found by a repo-wide audit
+31bbcf5a93856d8a4f85c57e4a556f4363311ad1 2026-07-26T15:55:20+02:00 feat: backport production learnings from a shipped app (#1)
+c44f3ef42d771feaa70377b34b015b7ce3311d5c 2026-07-26T15:48:43+02:00 feat: backport production learnings from a shipped app
+2f02582dc6183d231500ebfc4554ad033f07d5b5 2026-07-21T16:19:49+02:00 Fix template audit issues: sync docs to real stack, a11y, cleanup
+9b73e3df90a9f4e87163a1e4a53ee7d948e6a36c 2026-07-21T15:53:27+02:00 Add rls_auto_enable safety net for backend parity with pact
+ae9f192f2c0798b8c1903add6d65754722dfeeec 2026-07-21T15:49:14+02:00 Upgrade auth to best version to match pact

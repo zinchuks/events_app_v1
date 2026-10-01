@@ -1,0 +1,80 @@
+[
+  {
+    "repository": "obytes",
+    "url": "https://github.com/obytes/react-native-template-obytes.git",
+    "sha": "fd9b358ed11913d2a49fd9ffa6582fe03ba130e7",
+    "shallow": true,
+    "files_sha256": {
+      "package.json": "40997a423a1ca8109f3e8c024cc4d7523c74e77b74ef9a6209a43336df79104b",
+      "pnpm-lock.yaml": "6c8919b93dcd00660985dd7a80e2fc42d2745337ea1bf138c68c593b1b17d27a",
+      "LICENSE": "a4dc06d42560c8c2f1bab82f588312497d6d876b73d8092283e7e7e7a64ecb42"
+    }
+  },
+  {
+    "repository": "community-calendar",
+    "url": "https://github.com/judell/community-calendar.git",
+    "sha": "9a6d60ff53b6ff900b39d9fafef3d2d5176599ec",
+    "shallow": true,
+    "files_sha256": {
+      "requirements.txt": "bfe2023a3a8e838783ef10a89fb74889d0e2184e91d8dba437274ab8218a1ae4",
+      "LICENSE": "b408aa852a47d5a53edd823921178e474b4a1085d119f81717a577174b8d600a"
+    }
+  },
+  {
+    "repository": "event-discovery",
+    "url": "https://github.com/epithe/event-discovery.git",
+    "sha": "a1242ff5e6a154d872c4a04b90c378609219e27b",
+    "shallow": true,
+    "files_sha256": {
+      "requirements.txt": "69dc0ecc0c1fa2c8073fe07a2111b0687c64f027db39729d792082ce7895a1fb",
+      "pyproject.toml": "31322cb23c852dfde093341e7d9c678c83b2f8a1b3171d0f5a9ae72ac55bbf91",
+      "LICENSE": "d38f6e1e6be59139a81882d8955940da93f544c5ff7341fcd7cd4a0b0b8b6879"
+    }
+  },
+  {
+    "repository": "expo-app-template",
+    "url": "https://github.com/Simonstorms/expo-app-template.git",
+    "sha": "888b9e131bdab4354c2bff7ea1fb744667269b10",
+    "shallow": true,
+    "files_sha256": {
+      "package.json": "b76e29ba2a47b1809cf48be0bf8c185d63cbfda97b890dd10af5ded99fbd0c2b",
+      "bun.lock": "52e8432e398b353f53775b871d5978285df3131f9644f9ab0b6e12a48bf9b154",
+      "LICENSE": "5efb2c6a378703aa4a66ea8e9a0623a6c1edd5e54f0b1a716f723608532db844"
+    }
+  },
+  {
+    "repository": "maplibre-react-native",
+    "url": "https://github.com/maplibre/maplibre-react-native.git",
+    "sha": "697e54d151f34acb39e80d62cf1512e4bfb53a90",
+    "shallow": true,
+    "files_sha256": {
+      "package.json": "7d053632a5b21ee05c25f68bcf4910c9dbf1a9eddc249c70f97577037fee8599",
+      "package/package.json": "5d3cc8e6f32b4018b006b6ef0bdff64f9bb3b7920663c91728335a4d725cb881",
+      "yarn.lock": "2fcfe54dceaa1e82b6435b85254d7089ab600b67a5019290d6a2e45ccc9203d0",
+      "LICENSE.md": "92149854b2081d6ddbb5bd57ab35dbc384b7c835c78562c9eacfcb7941896a2f"
+    }
+  },
+  {
+    "repository": "crawlee",
+    "url": "https://github.com/apify/crawlee.git",
+    "sha": "afd494622c96f486e58f147d76e0bbcc406761c5",
+    "shallow": true,
+    "files_sha256": {
+      "package.json": "0a7b6dcd5a1a630fc95a7902e94aa1134e8d6228c16fa6f1600b0c7b9482a15e",
+      "pnpm-lock.yaml": "60ec8a99a3db48583e9f9dfa69614885074c9b64d14fd051e7b6700f04ae6df7",
+      "LICENSE.md": "37c9b417332af22e146d381766f284649483fb6ece17ca566584bf6adcf89135"
+    }
+  },
+  {
+    "repository": "supabase",
+    "url": "https://github.com/supabase/supabase.git",
+    "sha": "7b08726d3a086227046dc8a66b3e90b42f22dcda",
+    "shallow": true,
+    "files_sha256": {
+      "package.json": "66f6f997c9b5d084ba54f09e5be7e5ebee6341ca4428200a6278dff2ade155f6",
+      "pnpm-lock.yaml": "57c4ad10ce26060b4f12ffd98b542c6b59a3fbbe9f133672672554133ae91218",
+      "LICENSE": "c29468abcd629e248c2f76848155c386b733872bcabcc4cf65ef1e7c61431042",
+      "examples/user-management/expo-push-notifications/package.json": "d7dd5822210d15a0ecae5753ea4b169e4d7dc51b497b70a8061ec3b6fb1138c8"
+    }
+  }
+]

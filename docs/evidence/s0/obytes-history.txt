@@ -1,0 +1,20 @@
+fd9b358ed11913d2a49fd9ffa6582fe03ba130e7 2026-06-02T14:59:42+01:00 Merge pull request #531 from obytes/codex/fix-splash-screen-hide
+8f6b739453485afc580601a4c8fc962dc02a280d 2026-06-02T13:02:02+01:00 fix: hide splash screen from root layout
+98991ed936aa144bb9446bc68c35c6a9c64ff449 2026-02-24T01:50:05Z fix(docs): Update UniWind link to the correct repository (#513)
+a1c845e88dce5f6812487af535c87be7d6b9888e 2026-02-04T18:10:35+01:00 Merge pull request #510 from obytes/docs/upgrade-starlight-0.37
+50d457b220a185112591b73a9d3d7fd4d803e1f4 2026-02-04T18:08:27+01:00 docs: upgrade Starlight to 0.37 and Astro to 5.17
+a2734c6b323777f5afa926b653a3fa96ed127f32 2026-01-28T11:08:28+01:00 fix: fix github action
+d9fc18f95d912fb746417afab25845561479179b 2026-01-28T10:43:19+01:00 Merge pull request #508 from ihoey/patch-1
+5d65b32b5cd67af214e86ede20a0b5fdcd475fe2 2026-01-28T10:42:51+01:00 Merge pull request #506 from obytes/create-pull-request/patch-1769535951
+c893cb7156b2b3e2f5db47b550708e9265e75e3e 2026-01-28T16:51:22+08:00 fix: correct env file reference from env.js to env.ts
+a8ded50fdb41e75ec2e919ae2410bcdc2fdad0c8 2026-01-27T18:46:44+01:00 9.0.0
+33402c9db19329b0f4c338ad1e358aa0a6b3802b 2026-01-27T17:45:51Z Compress Images
+175e39c3a266df2e5a294ef9636cd415395e0f57 2026-01-27T18:45:25+01:00 Merge pull request #503 from obytes/v10
+f21f48afc2f522ddf28ec5f204aa1959605565ec 2026-01-27T18:42:04+01:00 fix: fix expo doctor
+6c9a02566cf2f05db872316373114f424e49bb72 2026-01-27T18:41:41+01:00 fix: fix warnings
+3b455f34d90b8c0c3f330c9e2191d4a7fec09a44 2026-01-27T18:33:58+01:00 chore: remove version script from package.json
+33ebb531db28842fb49f48f8b7634ece86e8cd59 2026-01-27T18:32:59+01:00 chore: remove unused files
+653f9e8b31acb48761c6f9a7fff294391578da2f 2026-01-27T18:32:12+01:00 feat: add project documentation and development workflow guidelines
+7167c3f73925d94703b5881c4f77c2b3cd92790c 2026-01-26T16:46:17+01:00 feat: docs updates
+93c14cea4e69c83e5e300c119aaffc9ce3f1dc8b 2026-01-22T19:02:02+01:00 feat: update env vars loading to use default expo logic + eas secret
+97590fb17be9b5de7caf089de664b5853181b1a5 2026-01-22T17:49:39+01:00 feat: update docs

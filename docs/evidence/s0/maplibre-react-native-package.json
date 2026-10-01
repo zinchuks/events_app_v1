@@ -1,0 +1,33 @@
+{
+  "name": "monorepo",
+  "private": true,
+  "workspaces": [
+    "docs",
+    "examples/*",
+    "package",
+    "scripts"
+  ],
+  "source": "package/src/index.ts",
+  "scripts": {
+    "codegen": "yarn scripts codegen",
+    "format": "yarn format:prettier && yarn package format:clang-format && yarn package format:ktlint",
+    "format:prettier": "prettier --write '**/*.{ts,tsx,js,json,md,css,yml,yaml}'",
+    "lint": "yarn all-workspaces lint",
+    "lint:tsc": "yarn all-workspaces lint:tsc",
+    "lint:eslint": "yarn all-workspaces lint:eslint",
+    "lint:eslint:fix": "yarn all-workspaces lint:eslint:fix",
+    "test": "yarn package test",
+    "docs": "yarn workspace docs",
+    "all-workspaces": "yarn workspaces foreach --all --exclude monorepo --parallel --interlaced run",
+    "examples:shared": "yarn workspace @maplibre-react-native/examples",
+    "examples:react-native": "yarn workspace react-native-app",
+    "examples:expo": "yarn workspace expo-app",
+    "package": "yarn workspace @maplibre/maplibre-react-native",
+    "scripts": "yarn workspace scripts"
+  },
+  "packageManager": "yarn@4.10.3",
+  "devDependencies": {
+    "@castlabs/prettier-tsdoc-plugin": "0.5.8",
+    "prettier": "3.8.3"
+  }
+}

@@ -1,0 +1,248 @@
+[
+  {
+    "name": "beautifulsoup4",
+    "version": "4.11.1",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "Jinja2",
+    "version": "3.1.2",
+    "license": "BSD-3-Clause",
+    "license_expression": null
+  },
+  {
+    "name": "anthropic",
+    "version": "1.11.0",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "click",
+    "version": "8.5.0",
+    "license": null,
+    "license_expression": "BSD-3-Clause"
+  },
+  {
+    "name": "pytz",
+    "version": "2022.1",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "packaging",
+    "version": "26.3",
+    "license": null,
+    "license_expression": "Apache-2.0 OR BSD-2-Clause"
+  },
+  {
+    "name": "iniconfig",
+    "version": "2.3.0",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "Pygments",
+    "version": "2.21.0",
+    "license": null,
+    "license_expression": "BSD-2-Clause"
+  },
+  {
+    "name": "tzdata",
+    "version": "2026.4",
+    "license": "Apache-2.0",
+    "license_expression": null
+  },
+  {
+    "name": "pip",
+    "version": "25.1.1",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "jiter",
+    "version": "0.17.0",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "pydantic_core",
+    "version": "2.46.5",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "webencodings",
+    "version": "0.6.1",
+    "license": null,
+    "license_expression": null
+  },
+  {
+    "name": "docstring_parser",
+    "version": "0.18.0",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "feedparser",
+    "version": "6.0.12",
+    "license": "BSD-2-Clause",
+    "license_expression": null
+  },
+  {
+    "name": "icalendar",
+    "version": "6.3.2",
+    "license": null,
+    "license_expression": "BSD-2-Clause"
+  },
+  {
+    "name": "recurring-ical-events",
+    "version": "3.8.2",
+    "license": null,
+    "license_expression": "LGPL-3.0-or-later"
+  },
+  {
+    "name": "pytest",
+    "version": "9.1.1",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "h11",
+    "version": "0.16.0",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "pydantic",
+    "version": "2.13.5",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "sniffio",
+    "version": "1.3.1",
+    "license": "MIT OR Apache-2.0",
+    "license_expression": null
+  },
+  {
+    "name": "x-wr-timezone",
+    "version": "2.0.1",
+    "license": "LGPL-3.0-or-later",
+    "license_expression": null
+  },
+  {
+    "name": "python-dateutil",
+    "version": "2.9.0.post0",
+    "license": "Dual License",
+    "license_expression": null
+  },
+  {
+    "name": "soupsieve",
+    "version": "2.10",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "html5lib",
+    "version": "1.1",
+    "license": "MIT License",
+    "license_expression": null
+  },
+  {
+    "name": "certifi",
+    "version": "2026.7.22",
+    "license": "MPL-2.0",
+    "license_expression": null
+  },
+  {
+    "name": "requests",
+    "version": "2.27.1",
+    "license": "Apache 2.0",
+    "license_expression": null
+  },
+  {
+    "name": "annotated-types",
+    "version": "0.8.0",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "urllib3",
+    "version": "1.26.9",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "MarkupSafe",
+    "version": "3.0.3",
+    "license": null,
+    "license_expression": "BSD-3-Clause"
+  },
+  {
+    "name": "typing-inspection",
+    "version": "0.4.4",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "pluggy",
+    "version": "1.6.0",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "charset-normalizer",
+    "version": "2.0.12",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "typing_extensions",
+    "version": "4.16.0",
+    "license": null,
+    "license_expression": "PSF-2.0"
+  },
+  {
+    "name": "httpx2",
+    "version": "2.13.1",
+    "license": null,
+    "license_expression": "BSD-3-Clause"
+  },
+  {
+    "name": "sgmllib3k",
+    "version": "1.0.0",
+    "license": "BSD License",
+    "license_expression": null
+  },
+  {
+    "name": "truststore",
+    "version": "0.10.4",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "httpcore2",
+    "version": "2.13.1",
+    "license": null,
+    "license_expression": "BSD-3-Clause"
+  },
+  {
+    "name": "anyio",
+    "version": "4.15.1",
+    "license": null,
+    "license_expression": "MIT"
+  },
+  {
+    "name": "six",
+    "version": "1.17.0",
+    "license": "MIT",
+    "license_expression": null
+  },
+  {
+    "name": "idna",
+    "version": "3.20",
+    "license": null,
+    "license_expression": "BSD-3-Clause"
+  }
+]

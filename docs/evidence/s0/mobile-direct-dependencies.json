@@ -1,0 +1,1226 @@
+{
+  "obytes": [
+    {
+      "name": "@expo-google-fonts/inter",
+      "kind": "dependencies",
+      "declared": "^0.4.2",
+      "installed": "0.4.2",
+      "license": "MIT AND OFL-1.1",
+      "engines": {}
+    },
+    {
+      "name": "@expo/metro-runtime",
+      "kind": "dependencies",
+      "declared": "^6.1.2",
+      "installed": "6.1.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@gorhom/bottom-sheet",
+      "kind": "dependencies",
+      "declared": "^5.2.8",
+      "installed": "5.2.8",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@shopify/flash-list",
+      "kind": "dependencies",
+      "declared": "2.0.2",
+      "installed": "2.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@tanstack/react-form",
+      "kind": "dependencies",
+      "declared": "^1.27.7",
+      "installed": "1.27.7",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@tanstack/react-query",
+      "kind": "dependencies",
+      "declared": "^5.90.19",
+      "installed": "5.90.19",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@tanstack/zod-form-adapter",
+      "kind": "dependencies",
+      "declared": "^0.42.1",
+      "installed": "0.42.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "app-icon-badge",
+      "kind": "dependencies",
+      "declared": "^0.1.2",
+      "installed": "0.1.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "axios",
+      "kind": "dependencies",
+      "declared": "^1.13.2",
+      "installed": "1.13.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo",
+      "kind": "dependencies",
+      "declared": "~54.0.32",
+      "installed": "54.0.32",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-constants",
+      "kind": "dependencies",
+      "declared": "~18.0.13",
+      "installed": "18.0.13",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-crypto",
+      "kind": "dependencies",
+      "declared": "^15.0.8",
+      "installed": "15.0.8",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-dev-client",
+      "kind": "dependencies",
+      "declared": "~6.0.20",
+      "installed": "6.0.20",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-font",
+      "kind": "dependencies",
+      "declared": "~14.0.11",
+      "installed": "14.0.11",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-image",
+      "kind": "dependencies",
+      "declared": "~3.0.11",
+      "installed": "3.0.11",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-linking",
+      "kind": "dependencies",
+      "declared": "~8.0.11",
+      "installed": "8.0.11",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-localization",
+      "kind": "dependencies",
+      "declared": "~17.0.8",
+      "installed": "17.0.8",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-router",
+      "kind": "dependencies",
+      "declared": "~6.0.22",
+      "installed": "6.0.22",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-splash-screen",
+      "kind": "dependencies",
+      "declared": "~31.0.13",
+      "installed": "31.0.13",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-status-bar",
+      "kind": "dependencies",
+      "declared": "~3.0.9",
+      "installed": "3.0.9",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-system-ui",
+      "kind": "dependencies",
+      "declared": "~6.0.9",
+      "installed": "6.0.9",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "i18next",
+      "kind": "dependencies",
+      "declared": "^25.8.0",
+      "installed": "25.8.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "lodash.memoize",
+      "kind": "dependencies",
+      "declared": "^4.1.2",
+      "installed": "4.1.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "moti",
+      "kind": "dependencies",
+      "declared": "^0.30.0",
+      "installed": "0.30.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react",
+      "kind": "dependencies",
+      "declared": "19.1.0",
+      "installed": "19.1.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    {
+      "name": "react-dom",
+      "kind": "dependencies",
+      "declared": "19.1.0",
+      "installed": "19.1.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-error-boundary",
+      "kind": "dependencies",
+      "declared": "^6.1.0",
+      "installed": "6.1.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-i18next",
+      "kind": "dependencies",
+      "declared": "^16.5.3",
+      "installed": "16.5.3",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native",
+      "kind": "dependencies",
+      "declared": "0.81.5",
+      "installed": "0.81.5",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 20.19.4"
+      }
+    },
+    {
+      "name": "react-native-edge-to-edge",
+      "kind": "dependencies",
+      "declared": "^1.7.0",
+      "installed": "1.7.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-flash-message",
+      "kind": "dependencies",
+      "declared": "^0.4.2",
+      "installed": "0.4.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-gesture-handler",
+      "kind": "dependencies",
+      "declared": "~2.28.0",
+      "installed": "2.28.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-keyboard-controller",
+      "kind": "dependencies",
+      "declared": "^1.18.5",
+      "installed": "1.18.5",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-mmkv",
+      "kind": "dependencies",
+      "declared": "~4.1.1",
+      "installed": "4.1.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-nitro-modules",
+      "kind": "dependencies",
+      "declared": "^0.33.2",
+      "installed": "0.33.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-reanimated",
+      "kind": "dependencies",
+      "declared": "~4.1.6",
+      "installed": "4.1.6",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-restart",
+      "kind": "dependencies",
+      "declared": "0.0.27",
+      "installed": "0.0.27",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-safe-area-context",
+      "kind": "dependencies",
+      "declared": "5.6.2",
+      "installed": "5.6.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-screens",
+      "kind": "dependencies",
+      "declared": "^4.16.0",
+      "installed": "4.16.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-svg",
+      "kind": "dependencies",
+      "declared": "~15.12.1",
+      "installed": "15.12.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-url-polyfill",
+      "kind": "dependencies",
+      "declared": "^3.0.0",
+      "installed": "3.0.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-web",
+      "kind": "dependencies",
+      "declared": "~0.21.2",
+      "installed": "0.21.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-worklets",
+      "kind": "dependencies",
+      "declared": "^0.7.2",
+      "installed": "0.7.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-query-kit",
+      "kind": "dependencies",
+      "declared": "^3.3.2",
+      "installed": "3.3.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "tailwind-merge",
+      "kind": "dependencies",
+      "declared": "^3.4.0",
+      "installed": "3.4.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "tailwind-variants",
+      "kind": "dependencies",
+      "declared": "^3.2.2",
+      "installed": "3.2.2",
+      "license": "MIT",
+      "engines": {
+        "node": ">=16.x",
+        "pnpm": ">=7.x"
+      }
+    },
+    {
+      "name": "uniwind",
+      "kind": "dependencies",
+      "declared": "^1.2.4",
+      "installed": "1.2.4",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "zod",
+      "kind": "dependencies",
+      "declared": "^4.3.5",
+      "installed": "4.3.5",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "zustand",
+      "kind": "dependencies",
+      "declared": "^5.0.10",
+      "installed": "5.0.10",
+      "license": "MIT",
+      "engines": {
+        "node": ">=12.20.0"
+      }
+    },
+    {
+      "name": "@antfu/eslint-config",
+      "kind": "devDependencies",
+      "declared": "^7.2.0",
+      "installed": "7.2.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@babel/core",
+      "kind": "devDependencies",
+      "declared": "^7.28.6",
+      "installed": "7.28.6",
+      "license": "MIT",
+      "engines": {
+        "node": ">=6.9.0"
+      }
+    },
+    {
+      "name": "@commitlint/cli",
+      "kind": "devDependencies",
+      "declared": "^20.3.1",
+      "installed": "20.3.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=v18"
+      }
+    },
+    {
+      "name": "@commitlint/config-conventional",
+      "kind": "devDependencies",
+      "declared": "^20.3.1",
+      "installed": "20.3.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=v18"
+      }
+    },
+    {
+      "name": "@dev-plugins/react-query",
+      "kind": "devDependencies",
+      "declared": "^0.4.0",
+      "installed": "0.4.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@eslint-react/eslint-plugin",
+      "kind": "devDependencies",
+      "declared": "^2.7.2",
+      "installed": "2.7.2",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.19.0"
+      }
+    },
+    {
+      "name": "@expo/config",
+      "kind": "devDependencies",
+      "declared": "~12.0.13",
+      "installed": "12.0.13",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@tailwindcss/cli",
+      "kind": "devDependencies",
+      "declared": "^4.0.0",
+      "installed": "4.0.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@testing-library/react-native",
+      "kind": "devDependencies",
+      "declared": "^13.3.3",
+      "installed": "13.3.3",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    {
+      "name": "@types/i18n-js",
+      "kind": "devDependencies",
+      "declared": "^4.0.1",
+      "installed": "4.0.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@types/invariant",
+      "kind": "devDependencies",
+      "declared": "^2.2.37",
+      "installed": "2.2.37",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@types/jest",
+      "kind": "devDependencies",
+      "declared": "^29.5.14",
+      "installed": "29.5.14",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@types/lodash.memoize",
+      "kind": "devDependencies",
+      "declared": "^4.1.9",
+      "installed": "4.1.9",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@types/react",
+      "kind": "devDependencies",
+      "declared": "~19.1.17",
+      "installed": "19.1.17",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "babel-plugin-module-resolver",
+      "kind": "devDependencies",
+      "declared": "^5.0.2",
+      "installed": "5.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "cross-env",
+      "kind": "devDependencies",
+      "declared": "^10.1.0",
+      "installed": "10.1.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20"
+      }
+    },
+    {
+      "name": "dotenv",
+      "kind": "devDependencies",
+      "declared": "^17.2.3",
+      "installed": "17.2.3",
+      "license": "BSD-2-Clause",
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    {
+      "name": "eslint",
+      "kind": "devDependencies",
+      "declared": "^9.39.2",
+      "installed": "9.39.2",
+      "license": "MIT",
+      "engines": {
+        "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+      }
+    },
+    {
+      "name": "eslint-import-resolver-typescript",
+      "kind": "devDependencies",
+      "declared": "^4.4.4",
+      "installed": "4.4.4",
+      "license": "ISC",
+      "engines": {
+        "node": "^16.17.0 || >=18.6.0"
+      }
+    },
+    {
+      "name": "eslint-plugin-better-tailwindcss",
+      "kind": "devDependencies",
+      "declared": "^4.0.1",
+      "installed": "4.0.1",
+      "license": "MIT",
+      "engines": {
+        "node": "^20.19.0 || ^22.12.0 || >=23.0.0"
+      }
+    },
+    {
+      "name": "eslint-plugin-i18n-json",
+      "kind": "devDependencies",
+      "declared": "^4.0.1",
+      "installed": "4.0.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=6.0.0"
+      }
+    },
+    {
+      "name": "eslint-plugin-import",
+      "kind": "devDependencies",
+      "declared": "^2.32.0",
+      "installed": "2.32.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    {
+      "name": "eslint-plugin-react-compiler",
+      "kind": "devDependencies",
+      "declared": "19.1.0-rc.2",
+      "installed": "19.1.0-rc.2",
+      "license": "MIT",
+      "engines": {
+        "node": "^14.17.0 || ^16.0.0 || >= 18.0.0"
+      }
+    },
+    {
+      "name": "eslint-plugin-react-hooks",
+      "kind": "devDependencies",
+      "declared": "^7.0.1",
+      "installed": "7.0.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    {
+      "name": "eslint-plugin-react-refresh",
+      "kind": "devDependencies",
+      "declared": "^0.4.26",
+      "installed": "0.4.26",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "eslint-plugin-testing-library",
+      "kind": "devDependencies",
+      "declared": "^7.15.4",
+      "installed": "7.15.4",
+      "license": "MIT",
+      "engines": {
+        "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+      }
+    },
+    {
+      "name": "eslint-plugin-unicorn",
+      "kind": "devDependencies",
+      "declared": "^62.0.0",
+      "installed": "62.0.0",
+      "license": "MIT",
+      "engines": {
+        "node": "^20.10.0 || >=21.0.0"
+      }
+    },
+    {
+      "name": "husky",
+      "kind": "devDependencies",
+      "declared": "^9.1.7",
+      "installed": "9.1.7",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    {
+      "name": "jest",
+      "kind": "devDependencies",
+      "declared": "^29.7.0",
+      "installed": "29.7.0",
+      "license": "MIT",
+      "engines": {
+        "node": "^14.15.0 || ^16.10.0 || >=18.0.0"
+      }
+    },
+    {
+      "name": "jest-expo",
+      "kind": "devDependencies",
+      "declared": "~54.0.16",
+      "installed": "54.0.16",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "jest-junit",
+      "kind": "devDependencies",
+      "declared": "^16.0.0",
+      "installed": "16.0.0",
+      "license": "Apache-2.0",
+      "engines": {
+        "node": ">=10.12.0"
+      }
+    },
+    {
+      "name": "lint-staged",
+      "kind": "devDependencies",
+      "declared": "^16.2.7",
+      "installed": "16.2.7",
+      "license": "MIT",
+      "engines": {
+        "node": ">=20.17"
+      }
+    },
+    {
+      "name": "np",
+      "kind": "devDependencies",
+      "declared": "^10.3.0",
+      "installed": "10.3.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18",
+        "npm": ">=9",
+        "git": ">=2.11.0",
+        "yarn": ">=1.7.0",
+        "pnpm": ">=8",
+        "bun": ">=1"
+      }
+    },
+    {
+      "name": "tailwindcss",
+      "kind": "devDependencies",
+      "declared": "4.1.18",
+      "installed": "4.1.18",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "tsx",
+      "kind": "devDependencies",
+      "declared": "^4.21.0",
+      "installed": "4.21.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "name": "typescript",
+      "kind": "devDependencies",
+      "declared": "^5.9.3",
+      "installed": "5.9.3",
+      "license": "Apache-2.0",
+      "engines": {
+        "node": ">=14.17"
+      }
+    }
+  ],
+  "expo-app-template": [
+    {
+      "name": "@posthog/react-native-plugin",
+      "kind": "dependencies",
+      "declared": "^2.6.0",
+      "installed": "2.6.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@react-native-async-storage/async-storage",
+      "kind": "dependencies",
+      "declared": "^3.1.1",
+      "installed": "3.1.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@react-native-picker/picker",
+      "kind": "dependencies",
+      "declared": "2.11.4",
+      "installed": "2.11.4",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "@supabase/supabase-js",
+      "kind": "dependencies",
+      "declared": "^2.110.7",
+      "installed": "2.110.8",
+      "license": "MIT",
+      "engines": {
+        "node": ">=22.0.0"
+      }
+    },
+    {
+      "name": "@tanstack/react-query",
+      "kind": "dependencies",
+      "declared": "^5.101.2",
+      "installed": "5.101.4",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo",
+      "kind": "dependencies",
+      "declared": "~57.0.21",
+      "installed": "57.0.21",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-apple-authentication",
+      "kind": "dependencies",
+      "declared": "~57.0.1",
+      "installed": "57.0.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-application",
+      "kind": "dependencies",
+      "declared": "~57.0.2",
+      "installed": "57.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-constants",
+      "kind": "dependencies",
+      "declared": "~57.0.17",
+      "installed": "57.0.17",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-crypto",
+      "kind": "dependencies",
+      "declared": "~57.0.2",
+      "installed": "57.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-dev-client",
+      "kind": "dependencies",
+      "declared": "~57.0.18",
+      "installed": "57.0.18",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-device",
+      "kind": "dependencies",
+      "declared": "~57.0.1",
+      "installed": "57.0.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-file-system",
+      "kind": "dependencies",
+      "declared": "~57.0.6",
+      "installed": "57.0.6",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-font",
+      "kind": "dependencies",
+      "declared": "~57.0.3",
+      "installed": "57.0.3",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-glass-effect",
+      "kind": "dependencies",
+      "declared": "~57.0.2",
+      "installed": "57.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-haptics",
+      "kind": "dependencies",
+      "declared": "~57.0.2",
+      "installed": "57.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-linear-gradient",
+      "kind": "dependencies",
+      "declared": "~57.0.1",
+      "installed": "57.0.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-linking",
+      "kind": "dependencies",
+      "declared": "~57.0.9",
+      "installed": "57.0.9",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-localization",
+      "kind": "dependencies",
+      "declared": "~57.0.1",
+      "installed": "57.0.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-notifications",
+      "kind": "dependencies",
+      "declared": "~57.0.17",
+      "installed": "57.0.17",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-router",
+      "kind": "dependencies",
+      "declared": "~57.0.20",
+      "installed": "57.0.20",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-secure-store",
+      "kind": "dependencies",
+      "declared": "~57.0.3",
+      "installed": "57.0.3",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-splash-screen",
+      "kind": "dependencies",
+      "declared": "~57.0.8",
+      "installed": "57.0.8",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-status-bar",
+      "kind": "dependencies",
+      "declared": "~57.0.1",
+      "installed": "57.0.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-symbols",
+      "kind": "dependencies",
+      "declared": "~57.0.2",
+      "installed": "57.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-system-ui",
+      "kind": "dependencies",
+      "declared": "~57.0.3",
+      "installed": "57.0.3",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-updates",
+      "kind": "dependencies",
+      "declared": "~57.0.21",
+      "installed": "57.0.21",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "expo-web-browser",
+      "kind": "dependencies",
+      "declared": "~57.0.1",
+      "installed": "57.0.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "posthog-react-native",
+      "kind": "dependencies",
+      "declared": "^4.68.7",
+      "installed": "4.68.7",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react",
+      "kind": "dependencies",
+      "declared": "^19.2.7",
+      "installed": "19.2.8",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    {
+      "name": "react-dom",
+      "kind": "dependencies",
+      "declared": "^19.2.7",
+      "installed": "19.2.8",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native",
+      "kind": "dependencies",
+      "declared": "0.86.3",
+      "installed": "0.86.3",
+      "license": "MIT",
+      "engines": {
+        "node": "^20.19.4 || ^22.13.0 || ^24.3.0 || >= 25.0.0"
+      }
+    },
+    {
+      "name": "react-native-gesture-handler",
+      "kind": "dependencies",
+      "declared": "^3.1.0",
+      "installed": "3.1.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-purchases",
+      "kind": "dependencies",
+      "declared": "^10.9.1",
+      "installed": "10.9.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-purchases-ui",
+      "kind": "dependencies",
+      "declared": "^10.9.1",
+      "installed": "10.9.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-reanimated",
+      "kind": "dependencies",
+      "declared": "^4.5.2",
+      "installed": "4.5.3",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-safe-area-context",
+      "kind": "dependencies",
+      "declared": "^5.8.0",
+      "installed": "5.8.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-screens",
+      "kind": "dependencies",
+      "declared": "^4.26.2",
+      "installed": "4.26.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-svg",
+      "kind": "dependencies",
+      "declared": "^15.15.5",
+      "installed": "15.15.5",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-url-polyfill",
+      "kind": "dependencies",
+      "declared": "^4.0.0",
+      "installed": "4.0.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-web",
+      "kind": "dependencies",
+      "declared": "~0.21.0",
+      "installed": "0.21.2",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "react-native-worklets",
+      "kind": "dependencies",
+      "declared": "0.10.1",
+      "installed": "0.10.1",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "zustand",
+      "kind": "dependencies",
+      "declared": "^5.0.14",
+      "installed": "5.0.14",
+      "license": "MIT",
+      "engines": {
+        "node": ">=12.20.0"
+      }
+    },
+    {
+      "name": "@types/react",
+      "kind": "devDependencies",
+      "declared": "~19.2.2",
+      "installed": "19.2.17",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "eslint-plugin-expo",
+      "kind": "devDependencies",
+      "declared": "^1.1.0",
+      "installed": "1.1.0",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18.0.0"
+      }
+    },
+    {
+      "name": "eslint-plugin-react-hooks",
+      "kind": "devDependencies",
+      "declared": "^7.1.1",
+      "installed": "7.1.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      }
+    },
+    {
+      "name": "eslint-plugin-react-native",
+      "kind": "devDependencies",
+      "declared": "^5.0.0",
+      "installed": "5.0.0",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "eslint-plugin-react-native-a11y",
+      "kind": "devDependencies",
+      "declared": "^3.5.1",
+      "installed": "3.5.1",
+      "license": "MIT",
+      "engines": {
+        "node": ">=12.0"
+      }
+    },
+    {
+      "name": "expo-atlas",
+      "kind": "devDependencies",
+      "declared": "^0.4.0",
+      "installed": "0.4.3",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "knip",
+      "kind": "devDependencies",
+      "declared": "^6.35.1",
+      "installed": "6.35.1",
+      "license": "ISC",
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    {
+      "name": "lefthook",
+      "kind": "devDependencies",
+      "declared": "^2.1.12",
+      "installed": "2.1.12",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "oxfmt",
+      "kind": "devDependencies",
+      "declared": "0.67.0",
+      "installed": "0.67.0",
+      "license": "MIT",
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    {
+      "name": "oxlint",
+      "kind": "devDependencies",
+      "declared": "1.82.0",
+      "installed": "1.82.0",
+      "license": "MIT",
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    {
+      "name": "oxlint-plugin-react-doctor",
+      "kind": "devDependencies",
+      "declared": "^0.9.13",
+      "installed": "0.9.13",
+      "license": "SEE LICENSE IN LICENSE",
+      "engines": {
+        "node": "^20.19.0 || >=22.13.0"
+      }
+    },
+    {
+      "name": "oxlint-tsgolint",
+      "kind": "devDependencies",
+      "declared": "7.0.2001",
+      "installed": "7.0.2001",
+      "license": "MIT",
+      "engines": {}
+    },
+    {
+      "name": "typescript",
+      "kind": "devDependencies",
+      "declared": "~6.0.3",
+      "installed": "6.0.3",
+      "license": "Apache-2.0",
+      "engines": {
+        "node": ">=14.17"
+      }
+    },
+    {
+      "name": "ultracite",
+      "kind": "devDependencies",
+      "declared": "7.11.1",
+      "installed": "7.11.1",
+      "license": "MIT",
+      "engines": {}
+    }
+  ]
+}
