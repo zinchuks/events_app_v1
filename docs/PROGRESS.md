@@ -28,7 +28,7 @@
 - Обидва mobile dependency checks **failed drift**, обидва registry audits мають findings. Obytes critical `shell-quote` і `tar` — обов'язковий remediation gate S1, а не прихований pass.
 - Обрано **adapt Obytes**; **selective Python adaptation community-calendar**. Whole-repo merges, arbitrary scraper shell commands і personal integrations відхилені. Деталі в ARCHITECTURE/DECISIONS.
 - Створено required docs, короткий AGENTS.md, THIRD_PARTY/DECISIONS, evidence й license snapshots та .gitignore. Product source/CI/env/locks не створювалися.
-- Локальний Git init на `main`; remote не створено, push не виконувався. Checkpoint commit ще не створено; його можна зробити лише з пов'язаними S0 файлами, за правилами AGENTS.md.
+- Локальний Git init на `main`; remote не створено, push не виконувався. Checkpoint S0: `0ba9120c055edbe67da340cbac99f5a24dfe1f96`. Подальший документаційний commit записує цей SHA та результати фінальної перевірки; власний SHA фінального HEAD доступний через `git log -1`.
 
 ## Блокери / неперевірене, з next action
 
@@ -45,3 +45,5 @@
 Команди й exit/results див. SETUP та evidence/s0; mocks не використовували як real-integration proof. License review — code/direct package metadata, не повний distribution/legal clearance усіх transitive/native assets.
 
 Рекомендований наступний крок: окреме завдання **S1**, почати із pinned mobile import, own IDs, dependency/runtime remediation та фактичного стартового екрана. Native acceptance лишити unverified до реального запуску. S1 не починався у цій задачі.
+
+Фінальна перевірка: усі локальні Markdown links існують; evidence JSON валідні; SHA семи кандидатів узгоджені; license snapshots збігаються з upstream byte-for-byte; product paths S1 відсутні. `git diff --cached --check` пройшов (upstream license whitespace збережено окремим attribute). Remote list порожній.

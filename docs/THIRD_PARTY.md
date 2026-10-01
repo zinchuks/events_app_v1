@@ -9,7 +9,7 @@
 | epithe/event-discovery, MIT, ©2026 Em | `licenses/event-discovery/LICENSE` | Нічого; reference лише |
 | Simonstorms, MIT, ©2026 Simon Gneuß | `licenses/expo-app-template/LICENSE` | Нічого; mobile не обрано |
 | MapLibre contributors ©2022 / Mapbox ©2015–2020, MIT | `licenses/maplibre-react-native/LICENSE.md` | Пізніше package integration, native/tile/data notices окремо |
-| Apify Crawlee, Apache-2.0 | `licenses/crawlee/LICENSE` | Нічого на старті |
+| Apify Crawlee, Apache-2.0 | `licenses/crawlee/LICENSE.md` | Нічого на старті |
 | Supabase, Apache-2.0 | `licenses/supabase/LICENSE` | Push transport reference; precise example files лише якщо скопійовано в S3/S7 |
 | Expo Google Fonts Inter / font authors | `licenses/inter/LICENSE`, `licenses/inter/LICENSE_FONT` | Obytes font dependency має MIT AND OFL-1.1; якщо font переноситься, зберегти обидва notices |
 
