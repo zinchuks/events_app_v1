@@ -55,4 +55,6 @@
 
 Наступний етап — **S2**, лише за новим завданням. Потрібен працюючий Docker/Supabase або development project, щоб створювати й реально тестувати DB/RLS. Native tooling можна налагоджувати незалежно. Для own EAS builds пізніше потрібні project/account/signing/device. Жодні акаунти чи ключі не вигадано.
 
-Історична фінальна перевірка S0: links/JSON/SHA/license snapshots узгоджені; product paths тоді відсутні. Upstream license whitespace збережено окремим attribute. Поточний S1 checkpoint і фінальна Git перевірка записуються після review; push не виконується.
+Історична фінальна перевірка S0: links/JSON/SHA/license snapshots узгоджені; product paths тоді відсутні. Upstream license whitespace збережено окремим attribute.
+
+S1 checkpoint: `7e577d816bd8d4999e7ef2ce68bd4fb30a23e479`. Фінальна перевірка: staged diff check pass, S1 JSON/import paths/local Markdown links pass, Obytes license збігається byte-for-byte. Working tree після checkpoint чисте; remote list порожній, push не виконувався. Цей окремий documentation commit записує SHA checkpoint; поточний HEAD див. `git log -1`. QA dev servers зупинено, запуск описано у SETUP.
