@@ -112,3 +112,5 @@ S1 checkpoint: `7e577d816bd8d4999e7ef2ce68bd4fb30a23e479`. Фінальна пе
 - DB не скидали, existing accounts/live data preserved. SQL fixtures rolled back, only own `s4-*@example.test` API users cleaned. Existing origin unchanged; no push. Local web/Supabase left running.
 
 Докази й межі — [S4_ACCEPTANCE.md](S4_ACCEPTANCE.md), [results.json](evidence/s4/results.json), [spatial-filters.log](evidence/s4/spatial-filters.log), [integration.log](evidence/s4/integration.log). S4 статус **implemented**, не fully verified on iOS/Android. Native prerequisites залишаються: Xcode license owner action, Android SDK/JDK або own EAS builds/device. Full-world boundaries/tiles/geocoder не підключені. Наступний етап S5 — лише за новим завданням; S6 sources/AI, S7 schedules, S9 billing ще pending.
+
+S4 implementation checkpoint: **`9b7e55661acdc4e72f36922d9bba021cda1a88af`**. Окремий documentation commit записує цей SHA; actual HEAD — `git log -1`. Фінальний staged whitespace check pass, fixtures remaining0, real events930 preserved, existing origin unchanged, no push.

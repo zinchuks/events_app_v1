@@ -95,5 +95,6 @@
   "fixture_cleanup": {
     "own_random_api_users_remaining": 0,
     "real_events_preserved": 930
-  }
+  },
+  "implementation_checkpoint": "9b7e55661acdc4e72f36922d9bba021cda1a88af"
 }
