@@ -274,6 +274,8 @@ export type Database = {
       }
       events: {
         Row: {
+          age_max: number | null
+          age_min: number | null
           canonical_url: string
           category_code: string | null
           checked_at: string
@@ -294,6 +296,8 @@ export type Database = {
           version: number
         }
         Insert: {
+          age_max?: number | null
+          age_min?: number | null
           canonical_url: string
           category_code?: string | null
           checked_at: string
@@ -314,6 +318,8 @@ export type Database = {
           version?: number
         }
         Update: {
+          age_max?: number | null
+          age_min?: number | null
           canonical_url?: string
           category_code?: string | null
           checked_at?: string
@@ -523,25 +529,34 @@ export type Database = {
       }
       rule_areas: {
         Row: {
+          center: unknown | null
           id: string
           kind: string
           parameters: Json
+          polygon: unknown | null
+          radius_meters: number | null
           rule_id: string
           territory_id: string | null
           user_id: string
         }
         Insert: {
+          center?: unknown | null
           id?: string
           kind: string
           parameters?: Json
+          polygon?: unknown | null
+          radius_meters?: number | null
           rule_id: string
           territory_id?: string | null
           user_id: string
         }
         Update: {
+          center?: unknown | null
           id?: string
           kind?: string
           parameters?: Json
+          polygon?: unknown | null
+          radius_meters?: number | null
           rule_id?: string
           territory_id?: string | null
           user_id?: string
@@ -820,6 +835,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      build_rule_digest: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       build_s3_digest: {
         Args: { selected_rule: string }
         Returns: string
@@ -846,6 +865,22 @@ export type Database = {
         Args: { batch: Json; fetched_at: string }
         Returns: number
       }
+      list_rule_events: {
+        Args: { page_offset?: number; selected_rule?: string }
+        Returns: {
+          category_code: string
+          checked_at: string
+          event_id: string
+          id: string
+          local_date: string
+          matched_rules: string[]
+          start_at: string
+          time_kind: string
+          timezone: string
+          title: string
+          venue: string
+        }[]
+      }
       list_s3_events: {
         Args: { category_codes?: string[]; page_offset?: number }
         Returns: {
@@ -865,9 +900,31 @@ export type Database = {
         Args: { device_platform: string; expo_token: string }
         Returns: undefined
       }
+      s4_area_matches: {
+        Args: {
+          a: Database["public"]["Tables"]["rule_areas"]["Row"]
+          e: Database["public"]["Tables"]["events"]["Row"]
+        }
+        Returns: boolean
+      }
+      s4_matches: {
+        Args: { selected_rule?: string }
+        Returns: {
+          occurrence_id: string
+          rule_id: string
+        }[]
+      }
       save_s3_rule: {
         Args: { category_codes: string[] }
         Returns: string
+      }
+      save_s4_rule: {
+        Args: { rule_document: Json; selected_rule?: string }
+        Returns: string
+      }
+      set_s4_rule_enabled: {
+        Args: { rule_enabled: boolean; selected_rule: string }
+        Returns: undefined
       }
       valid_timezone: {
         Args: { value: string }

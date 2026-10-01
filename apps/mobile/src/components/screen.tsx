@@ -12,6 +12,7 @@ export function Screen({ children, title, home = false }: PropsWithChildren<{ ti
   {!home && <Button variant="link" label={t('back')} onPress={() => router.canGoBack() ? router.back() : router.replace('/')} />}
   <Text accessibilityRole="header" style={ui.heading}>{title}</Text>
   <View style={ui.row}><Button size="sm" variant="outline" label={t('browse')} onPress={() => router.replace('/')} /><Button size="sm" variant="outline" label={t('savedEvents')} onPress={() => router.push('/saved')} /><Button size="sm" variant="outline" label={t('inbox')} onPress={() => router.push('/inbox')} /></View>
+  <View style={ui.row}><Button size="sm" variant="outline" label={t('rules')} onPress={() => router.push('/rules')} /><Button size="sm" variant="outline" label={t('ruleMatches')} onPress={() => router.push('/matches')} /></View>
   {home && <LanguagePicker />}
   {children}
  </ScrollView></SafeAreaView>;

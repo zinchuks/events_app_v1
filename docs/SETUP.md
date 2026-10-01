@@ -254,3 +254,37 @@ pnpm notify:s3:receipts
 ```
 
 Expo access token, якщо ввімкнено enhanced push security, передавати лише server environment `EXPO_ACCESS_TOKEN`, без values у tracked env/командах/логах. Receipt зазвичай перевіряється пізніше; ticket/receipt не доводить показ на екрані телефону. Потрібен screenshot/log фактичного receive та відкриття потрібної приватної добірки. Opt-out перед dispatch враховується, DeviceNotRegistered видаляє binding. Timeout/failed/stuck Expo jobs не ресендяться автоматично — review до S7. Поточний runner loopback-only, managed deployment не виконано.
+
+## S4 — territories, independent rules and manual union
+
+Local app: http://localhost:8087/rules. Existing account remains signed in. Two saved music rules (Madrid and ES/UA) and a deduplicated89-item manual selection were left for review. That count is a QA snapshot, not permanent future coverage. Older S3 quick Madrid selection remains separate for compatibility.
+
+1. Open «Правила» → «Редагувати правило» or «Нове правило». Add several countries/regions/cities and categories. Pick disconnected Kyiv/Paris/Toronto to see explicit no coverage; no invented events.
+2. Choose «Радіус» or «Полігон». Tap the minimal Spain boundary canvas or enter coordinates; polygon3–100 distinct vertices, radius0.001–500km. Zoom/recenter/undo/edit work without GPS. Elsewhere grid only. Save validates geometry; self-intersection/antimeridian is rejected with explanation.
+3. Set future days or inclusive dates/timezone; optional budget+explicit currency/language/age, with unknown policies. Madrid prices/languages/ages/coordinates currently unknown: exclude unknown values with an active filter to get an honest empty result. Empty filter fields mean no filter.
+4. Open «Події за правилами» → see one card per occurrence and matching rule names → «Зберегти спільну добірку». Current two music rules give89items, repeat opens same digest. No S4 push job/schedule is created.
+5. Pause/resume a rule, refresh results, reload; edit settings restored. Deletion requires product confirmation; saved digest/event records remain. Do not delete an actual user's rule as a disposable test.
+
+Actual commands (root, pinned PATH as above):
+
+```sh
+supabase migration up --local
+supabase gen types typescript --local --schema public > apps/mobile/src/lib/database.types.ts
+pnpm test:s4
+pnpm test:s3
+pnpm test:s2
+docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s4_invariants.sql
+pnpm check
+pnpm export:mobile
+pnpm check:client-bundles
+pnpm build:admin
+pnpm --filter @event-radar/mobile deps:check
+pnpm --filter @event-radar/mobile run doctor
+pnpm audit:deps
+```
+
+`test:s4` requires live Madrid import and creates/cleans only its own random `s4-*@example.test` users. Geometry/filter SQL checks use entirely transaction-only synthetic events/users and ROLLBACK; invisible to other sessions. S4 migrations11–17 apply forward without resetting user data. Existing local stack must NOT be reset. Types regenerated and compared byte-for-byte. Frozen install uses the pinned pnpm store documented above.
+
+Proof: [S4_ACCEPTANCE](S4_ACCEPTANCE.md), [results](evidence/s4/results.json). 73 actual API /49 SQL assertions, S2 108/S3 84 regressions,14Jest+7Node checks, Doctor18/18, exports/keys/types pass. `pnpm audit --json` records1existing moderate decode-uri-component (exit1),0high/critical; do not report that nonzero full audit as clean. CI contains SQL fixtures; remote Actions not executed.
+
+Native S4 touch/render/build unverified; Xcode licence owner action and Android SDK/JDK or own EAS builds/device still required. Browser viewport is not a native build. S3 physical push remains blocked/browser-only. S5 tile/geocoder/native MapLibre choice, S6 more sources, S7 automatic delivery and S9 tier limits have not been implemented here.

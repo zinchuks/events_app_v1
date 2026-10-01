@@ -28,3 +28,9 @@ Mobile direct-dependency metadata і Python installed metadata збережен�
 ## S3 notices
 
 Registry Expo Notifications **0.32.17** та Expo Device **8.0.10**: MIT за встановленими package metadata; repository https://github.com/expo/expo, packages/expo-notifications та packages/expo-device. Package bytes/integrity у pnpm-lock, code не vendored. SDK54 API references у ARCHITECTURE; власні SQL/UI/transport/adapter написані тут. Native/transitive distribution notice bundle до release ще потрібний. Madrid content: Ayuntamiento de Madrid, CC BY 4.0, normalization/category/date/entity-decoding changes, source/license links у mobile та SOURCES. Community-calendar code у S3 не копіювали: обраний selective workflow використано з оригінальним stdlib API adapter, тому нових upstream imported modules немає.
+
+## S4 notices
+
+Registry `react-native-svg` **15.12.1**, MIT; [preserved licence](../licenses/react-native-svg/LICENSE), package integrity in pnpm-lock, Expo54 compatibility checked. Package code not vendored/modified. Original coordinate editor/SQL/fixtures/messages written here; no MapLibre code integrated at S4. Native/transitive distribution review remains before release.
+
+Spain geographic data: **geoBoundaries / Instituto Geográfico Nacional**, CC BY4.0, represented2017, revision9469f09, individual-country simplified ESP ADM0/ADM1. Retained [licence](../licenses/geoboundaries/CC-BY-4.0.txt) and [NOTICE](../licenses/geoboundaries/NOTICE.md), exact URLs/hash and changes in [evidence](evidence/s4/boundaries.json). Copied coordinates in migrations012/014 and `apps/mobile/src/lib/spain-boundaries.json`; metadata stripped in mobile, Polygon→MultiPolygon in SQL, coordinates unchanged. App/editor attribution + licence link; no provider logo/image imported. Country/city label seed is original curated data, not copied boundary content. Other gbOpen layers were not assumed to share Spain's licence.

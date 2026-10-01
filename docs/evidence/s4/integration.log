@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 test:s4 /Users/serhiizinchuk/my_projects/events_app
+> node scripts/test-s4-integration.mjs
+
+{"checks":73,"actual_integration":"local Auth/PostgREST/RLS","real_catalog":"imported Ayuntamiento de Madrid","push_sends":0,"native":"unverified"}

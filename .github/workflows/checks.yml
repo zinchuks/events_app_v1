@@ -70,6 +70,7 @@ jobs:
       - run: supabase gen types typescript --local --schema public > /tmp/event-radar-types.ts
       - run: diff -u apps/mobile/src/lib/database.types.ts /tmp/event-radar-types.ts
       - run: pnpm test:s2
+      - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s4_invariants.sql
       - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s3_invariants.sql
       - run: pnpm local:env
       - run: pnpm export:mobile

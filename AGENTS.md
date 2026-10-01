@@ -1,7 +1,7 @@
 # Правила Event Radar
 
 - Перед роботою читати [MVP_PLAN.md](MVP_PLAN.md), [CODEX_PROMPTS.md](CODEX_PROMPTS.md), [docs/PROGRESS.md](docs/PROGRESS.md); для архітектурних змін — [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-- Виконувати лише замовлений етап. S0–S3 мають реалізовані результати; S3 real device push blocked. Не починати S4 без нового завдання. Рутинні рішення приймати самостійно, значущі записувати в docs/DECISIONS.md.
+- Виконувати лише замовлений етап. S0–S4 мають реалізовані результати; S3 real device push blocked, S4 native unverified. Не починати S5 без нового завдання. Рутинні рішення приймати самостійно, значущі записувати в docs/DECISIONS.md.
 - Не перезаписувати чужі зміни. NEVER run `git push` (including force push) without explicit user confirmation before every push. Не створювати remote і не публікувати без окремого завдання.
 - Тимчасові сторонні checkouts тримати поза продуктом. Фіксувати SHA, licenses, запозичення в docs/THIRD_PARTY.md; права на код не означають права на дані подій.
 - Не вигадувати факти, доступ, native builds чи доставку push. `implemented` ≠ `verified`; fixtures не є real integration. Блокери й результати записувати в docs/PROGRESS.md.
@@ -14,3 +14,5 @@
 - S3 local workflow реалізовано; device acceptance не завершено. `pnpm ingest:madrid:local` — лише local/manual/single runner; Python adapter tests: `services/ingestion/.venv/bin/python -m unittest discover -s services/ingestion -t services/ingestion`. Не reset DB із користувацькими даними.
 
 - S3: `pnpm test:s3` після live import; `pnpm notify:s3:fixture` ніколи не надсилає push; `pnpm notify:s3:expo` лише за configured own native device. SQL rollback invariants: `docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s3_invariants.sql`. Фактичні commands/proof — docs/SETUP.md і docs/evidence/s3.
+
+- S4: `pnpm test:s4` після live Madrid import; `docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s4_invariants.sql` — transaction fixtures + ROLLBACK. Writes S4 settings/areas only via atomic RPC; pause через `set_s4_rule_enabled`. Matching не вигадує координати/ціну/мову, antimeridian polygons explicitly rejected. Native proof і Free/Plus limits не заявлені. Acceptance — docs/S4_ACCEPTANCE.md.

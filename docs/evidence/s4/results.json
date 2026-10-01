@@ -1,0 +1,99 @@
+{
+  "stage": "S4",
+  "date": "2026-10-01",
+  "status": "implemented",
+  "verified_surfaces": [
+    "local Postgres/PostGIS",
+    "actual local Auth/PostgREST/RLS",
+    "Chrome web 390x844"
+  ],
+  "counts": {
+    "countries_curated": 24,
+    "spanish_admin_boundaries": 19,
+    "cities_curated": 5,
+    "live_event_sources": 1,
+    "user_example_rules": 2,
+    "deduplicated_music_digest": 89
+  },
+  "checks": {
+    "s4_actual_api": 73,
+    "s4_transaction_sql_assertions": 49,
+    "s2_actual_regression": 108,
+    "s3_actual_regression": 84,
+    "jest": 14,
+    "node": 7,
+    "typecheck_lint_env_known_pattern_scan": "pass",
+    "admin_build": "pass",
+    "ios_android_web_JS_exports": "pass; not native build",
+    "frozen_install": "pass",
+    "expo_dependency_check": "pass",
+    "expo_doctor": "18/18",
+    "generated_types_vs_DB": "pass",
+    "client_bundle_server_key_scan": "pass: 56 files",
+    "browser_final_console_errors": 0,
+    "browser_languages": [
+      "uk",
+      "en",
+      "es"
+    ],
+    "browser_checks": [
+      "two owner rules",
+      "multiple country selection",
+      "pause/resume final RPC",
+      "edit restored fields",
+      "union one card and both rule names",
+      "manual digest89 / repeat same ID / reload",
+      "map tap / coordinate entry / undo",
+      "server self-intersection rejection",
+      "missing private digest state"
+    ],
+    "ci_sql_checks": "added; remote execution unverified"
+  },
+  "dependency_audit": {
+    "critical": 0,
+    "high": 0,
+    "moderate": 1,
+    "full_json_command_exit": 1,
+    "finding": "existing decode-uri-component"
+  },
+  "data_proof": {
+    "live": "existing imported Ayuntamiento de Madrid catalog",
+    "known_price_language_age_coordinates": "SQL transaction fixtures only; not supplied by the live adapter",
+    "geography": "actual licensed Spain ADM0/ADM1 + synthetic test event positions",
+    "sql_isolation": "BEGIN/ROLLBACK; fixtures invisible to other transactions"
+  },
+  "limits_and_blockers": [
+    "iOS/Android native SVG/pointer/build/run unverified: Xcode licence owner gate / Android SDK absent / own EAS device setup absent",
+    "S3 real development push unverified; user browser-only",
+    "Spain simplified2017 boundaries only; other countries/cities have identity/hierarchy but no geometry",
+    "Country catalog24 curated labels, not entire globe",
+    "No tiles/geocoder/full MapLibre / S5 onboarding",
+    "S4 digests manual; no S4 notification job, scheduler, quiet hours or S7 retries",
+    "S4 technical RPC limit20 saved rules/20 areas is not S9 entitlement enforcement",
+    "source freshness48h required for new manual digest; imports manual",
+    "5000-item digest guard; mobile pages1000",
+    "Geometry radius visual approximation; server authoritative geodesic selection",
+    "One live event source; S6 3sources/2countries still pending",
+    "External SMTP/Gmail delivery not configured"
+  ],
+  "changes": [
+    "migrations11-17",
+    "validated atomic S4 settings/areas, owner read/delete and pause RPC",
+    "private union matching/digests",
+    "original coordinate point editor using Expo-compatible SVG",
+    "pinned licensed geographic snapshots",
+    "uk/en/es and regression coverage/docs"
+  ],
+  "runtime_left_running": {
+    "web": "http://localhost:8087",
+    "supabase": "local existing stack preserved"
+  },
+  "data_reset": false,
+  "remote_modified": false,
+  "git_push": false,
+  "next_stage": "S5 pending; only new task authorization",
+  "fixture_cleanup": {
+    "own_random_api_users_remaining": 0,
+    "real_events_preserved": 930
+  }
+}

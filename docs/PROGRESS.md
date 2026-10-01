@@ -1,6 +1,6 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-01, Europe/Madrid. Поточна задача: **S3** за новим запитом користувача; браузерний сценарій перевірено, real device push blocked. S4 не починався. Результати аудитів — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md).
+Оновлено 2026-10-01, Europe/Madrid. Поточна задача: **S4** за новим запитом користувача. S3 browser workflow перевірений, real device push blocked. S4 реалізовано за новим запитом «продовжуй»; browser/PostGIS acceptance перевірені, native unverified. S5 не починався. Результати аудитів — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md).
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
@@ -8,7 +8,7 @@
 | S1 | **implemented** | Mobile/admin/worker основа, env/runtime/locks/CI; browser startup/toggle, code checks, exports pass. Native builds і remote CI unverified |
 | S2 | **implemented** | Local PostGIS/migrations/19 RLS tables, email Auth/privacy/uk-en-es; 108 real integration checks + browser QA pass. Native/storage/external SMTP/remote CI unverified |
 | S3 | **implemented; real push blocked** | Madrid → atomic DB → city/category rule → detail/save → private digest → local transport fixture verified. Device delivery/native build unverified |
-| S4 | pending | Territories/radius/polygon/rules; boundary provider не обраний |
+| S4 | **implemented** | Owner CRUD/пауза, multiple territories/radius/polygon/filters, union without duplicates. 73 actual API + 49 rollback SQL checks, browser QA pass; native unverified |
 | S5 | pending | Mobile UX/maps; native MapLibre і map infrastructure unverified |
 | S6 | pending | 3 live sources / 2 countries, dedup/AI/translation; provider/rights gates попереду |
 | S7 | pending | Durable schedules/jobs, timezone/DST, receipts/retries |
@@ -97,3 +97,18 @@ S1 checkpoint: `7e577d816bd8d4999e7ef2ce68bd4fb30a23e479`. Фінальна пе
 - CI додано Python adapter та transaction invariant checks; live-source test має окрему manual команду, CI не залежить від доступності міської афіші. Remote CI execution unverified; push не виконувався. Наявні акаунти/дані збережено, reset не виконувався, own test accounts прибрано.
 
 Докази — [results.json](evidence/s3/results.json), [integration.log](evidence/s3/integration.log), [digest-mobile-web.png](evidence/s3/digest-mobile-web.png). Команди та ручна перевірка — SETUP. Статус S3 **не verified повністю**, доки одна реальна подія/добірка не доставлена physical-device development push. Наступний доступний етап S4 потребує нового завдання; автоматичні графіки/quiet hours/full durable retries лишаються S7.
+
+## S4 — території та незалежні правила, 2026-10-01
+
+- Новий запит «продовжуй» авторизував наступний доступний S4. S3 real device push blocker збережено; S5 та наступні етапи не розпочиналися.
+- 24 original curated ISO country labels, 19 real Spanish ADM1 territories, 5 cities (Madrid, Barcelona, Kyiv, Paris, Toronto). Іспанія ADM0 й усі її ADM1 мають pinned licensed simplified boundaries geoBoundaries / Instituto Geográfico Nacional, CC BY 4.0, represented 2017. Це не кадастрові/актуальні офіційні межі всього світу й не нові джерела подій. Інші country/city geometries unknown; hierarchy/identity не підмінено centers/radii.
+- `save_s4_rule` атомарно перевіряє/зберігає owner rule + 1–20 areas. Нові/редаговані правила, pause/resume RPC, owner delete/cascade; S4 direct settings/area writes закриті RLS, legacy S2/S3 owner contracts збережені. Technical development guard: ≤20 saved S4 rules через RPC, не Free/Plus entitlement; тарифні обмеження належать S9.
+- Radius: WGS84 geography/ST_DWithin, 1m–500km; 1 micrometre numerical tolerance на межі (PostGIS ST_Distance rounds output). Polygon: 3–100 distinct ordered vertices, server closes ring, no zero-area/self-intersection; antimeridian crossings explicitly rejected. `ST_Covers` includes boundary points. Unknown coordinates ніколи не match radius/polygon; country/admin/city можуть використовувати verified territory hierarchy, country code або actual loaded boundary.
+- Categories OR, areas OR; filter groups AND. Explicit currency/budget без FX; event-language exact code matching незалежне від interface/translation; unknown language/price/age policy; age interval overlap, incomplete provider age range treated unknown. Empty groups disable that filter. Inclusive custom dates або rolling 1–366 days, IANA rule timezone; known UTC й date-only збережено, undated excluded.
+- Owner-only combined result pages30 містять matched rule IDs, одна card/occurrence. Manual union digest дедуплікований/idempotent/concurrent-safe; IDs/versions/times/settings/freshness прочитані в одному MVCC snapshot. Source stale >48h blocks new digest; max5000 items, client pages1000. S4 не створює push jobs/розклад. Historic membership зберігається після rule deletion, деталі актуальні.
+- Browser UI uk/en/es: rules/list/editor/matches, coordinate entry + tap-to-add polygon/radius map, simplified Spain outlines, zoom/move/undo/geometry editing; без GPS чи tile network. Elsewhere лише координатна сітка. Це мінімальна залежність S4; full MapLibre/feed map/geocoder/onboarding — S5. Native map/pointer behavior unverified.
+- Actual browser account: збережено два музичних S4 rules (Madrid і ES/UA), union **89 music occurrences**, repeat opens same digest. Pause/resume final RPC, restored editor values, session/reload, uk/en/es, invalid self-intersection message, map click/coordinate entry, missing private digest state перевірені. Нові rules/digest залишені користувачу; unrelated S3 preferences не перезаписували. Clean final QA tab: **0 console errors**, viewport390×844, screenshots attached.
+- `pnpm check`: 14 Jest + 7 Node tests; `pnpm test:s4`: **73** actual local Auth/PostgREST/RLS checks on imported live Madrid catalog; rollback SQL: **49** PostGIS/filter assertions with explicit transaction-only fixtures. Known price/language/age/coordinates semantics мають synthetic SQL proof, реальні Madrid values unknown. S2 **108**, S3 **84** regressions pass; three JS exports, client key scan56 files, generated types vs DB, admin build, frozen install, Expo dependency check/Doctor18/18 pass. Registry audit: 0 critical/high, 1 existing moderate. CI SQL coverage added; remote execution unverified.
+- DB не скидали, existing accounts/live data preserved. SQL fixtures rolled back, only own `s4-*@example.test` API users cleaned. Existing origin unchanged; no push. Local web/Supabase left running.
+
+Докази й межі — [S4_ACCEPTANCE.md](S4_ACCEPTANCE.md), [results.json](evidence/s4/results.json), [spatial-filters.log](evidence/s4/spatial-filters.log), [integration.log](evidence/s4/integration.log). S4 статус **implemented**, не fully verified on iOS/Android. Native prerequisites залишаються: Xcode license owner action, Android SDK/JDK або own EAS builds/device. Full-world boundaries/tiles/geocoder не підключені. Наступний етап S5 — лише за новим завданням; S6 sources/AI, S7 schedules, S9 billing ще pending.
