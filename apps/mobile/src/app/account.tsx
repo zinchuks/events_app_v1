@@ -69,6 +69,7 @@ export default function AccountScreen() {
     <Button label={t('back')} variant="link" onPress={() => router.canGoBack() ? router.back() : router.replace('/')} />
     <Text accessibilityRole="header" style={styles.title}>{t('account')}</Text>
     <LanguagePicker />
+    {__DEV__ && process.env.EXPO_PUBLIC_SUPABASE_URL?.includes('127.0.0.1') && <Text style={styles.message}>{t('localMail')}</Text>}
     {loading ? <Text>{t('loading')}</Text> : !client ? <Text>{t('notConfigured')}</Text> : failed ? <View><Text accessibilityRole="alert">{t('sessionFailed')}</Text><Button label={t('retry')} onPress={retry} /></View> : <>
       {session && mode !== 'change' ? <>
         <Text>{t('signedIn')}: {session.user.email}</Text>

@@ -20,7 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: { bundleIdentifier: id, supportsTablet: true },
     android: { package: id },
     web: { bundler: 'metro', output: 'single' },
-    plugins: ['expo-router', 'expo-splash-screen', 'expo-secure-store'],
+    plugins: ['expo-router', 'expo-splash-screen', 'expo-secure-store', 'expo-notifications'],
     extra: { appVariant: variant, ...(projectId ? { eas: { projectId } } : {}) }
   };
 };

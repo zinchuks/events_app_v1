@@ -1,13 +1,13 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-01, Europe/Madrid. Поточна задача: **S2**, без переходу до S3. Результати аудитів — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md).
+Оновлено 2026-10-01, Europe/Madrid. Поточна задача: **S3** за новим запитом користувача; браузерний сценарій перевірено, real device push blocked. S4 не починався. Результати аудитів — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md).
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
 | S0 | **verified** | Перевірено код/licenses/SHA/manifests/recent Git семи кандидатів; виконано basic checks Obytes і community-calendar, додатково Simonstorms/event-discovery; обрано одну mobile основу й ingestion спосіб; документи та blockers зафіксовані |
 | S1 | **implemented** | Mobile/admin/worker основа, env/runtime/locks/CI; browser startup/toggle, code checks, exports pass. Native builds і remote CI unverified |
 | S2 | **implemented** | Local PostGIS/migrations/19 RLS tables, email Auth/privacy/uk-en-es; 108 real integration checks + browser QA pass. Native/storage/external SMTP/remote CI unverified |
-| S3 | pending | Один дозволений live source → DB/mobile/digest/push; device/credentials unverified |
+| S3 | **implemented; real push blocked** | Madrid → atomic DB → city/category rule → detail/save → private digest → local transport fixture verified. Device delivery/native build unverified |
 | S4 | pending | Territories/radius/polygon/rules; boundary provider не обраний |
 | S5 | pending | Mobile UX/maps; native MapLibre і map infrastructure unverified |
 | S6 | pending | 3 live sources / 2 countries, dedup/AI/translation; provider/rights gates попереду |
@@ -40,7 +40,7 @@
 | Product dependencies | S1 critical/high = 0; moderate decode-uri-component через Expo Router/query-string = 1 | Сумісний upstream update/retest перед release; JSON finding збережено, high-only gate його не приховує |
 | Supabase DB / RLS | local verified: Docker 29.8.1, Postgres 17.4/PostGIS 3.3.7, 19/19 RLS tables, 108 real Auth/API checks | Managed staging/production deployment не виконано; S3 може використовувати local DB |
 | Push/billing/AI/maps/external auth | unverified; accounts/keys/device evidence не надано | Налаштовувати за етапами S2/S3/S5/S6/S9, не блокувати незалежний S1 |
-| Real data | 0 product imports; Madrid payload unverified, Barcelona 403, Toronto resource metadata unverified | Fetch/schema/rights review першого Madrid source у S3; 3 sources/2 countries у S6 |
+| Real data | S3: 930 real Madrid records; 868 мають exact locality MADRID. Один live source, subset single-day/non-recurring. Barcelona/Toronto unverified | S6: ще два джерела й друга країна, серії/переклад; не обіцяти повну афішу |
 
 Команди й exit/results див. SETUP та evidence/s0; mocks не використовували як real-integration proof. License review — code/direct package metadata, не повний distribution/legal clearance усіх transitive/native assets.
 
@@ -72,3 +72,28 @@
 Історична фінальна перевірка S0: links/JSON/SHA/license snapshots узгоджені; product paths тоді відсутні. Upstream license whitespace збережено окремим attribute.
 
 S1 checkpoint: `7e577d816bd8d4999e7ef2ce68bd4fb30a23e479`. Фінальна перевірка: staged diff check pass, S1 JSON/import paths/local Markdown links pass, Obytes license збігається byte-for-byte. Working tree після checkpoint чисте; remote list порожній, push не виконувався. Цей окремий documentation commit записує SHA checkpoint; поточний HEAD див. `git log -1`. QA dev servers зупинено, запуск описано у SETUP.
+
+## Локальний вхід і live афіша (новий запит, 2026-10-01)
+
+- Авторизований акаунт створено/підтверджено стандартним signup OTP через локальний Mailpit; password sign-in API перевірено. Наявні чужі дані збережено, reset не виконувався. Пароль/OTP/session не записані в repo/evidence.
+- Причина відсутності Gmail листа: local Mailpit capture, SMTP не підключений. Користувач обрав поки локальний вхід. У dev формі показано чесне пояснення й адресу Mailpit. SMTP delivery залишається unverified.
+- Madrid official JSON отримано: 1385 записів; консервативний adapter імпортує 930 single-day non-recurring records. Multi-day/recurrence/неоднозначний DST пропускаються. Ціну, мову, координати, кінцевий час не вгадуємо. Raw payload у DB не зберігаємо; hash/provenance є.
+- Два live імпорти, після другого 930 events / 930 occurrences: дублікатів не додано. Local-only runner, service key тільки в пам’яті; ручний refresh, без cron/production concurrency гарантій. Немає digest/push/rules/AI/перекладу, повний S3 не завершено.
+- Головний екран читає до 30 майбутніх occurrences через public read-only API, показує оригінальні описи/час Europe/Madrid, venue/checked_at, attribution/license та кнопки оригіналу. Список реально перевірено в Chrome.
+- `pnpm check`: pass (12 Jest + 3 Node), Python Ruff pass, 4 adapter tests pass (DST gap/fold, date-only, series/range skip). Native run лишається unverified.
+- Browser login attempt заблокований modal попередженням 1Password про localhost; browser CDP timeout, native Computer Use permission відсутній. API login успішний; завершений UI login цим запуском не підтверджено. Потрібно закрити попередження менеджера паролів і натиснути «Увійти».
+- Web `http://localhost:8087`, admin `http://127.0.0.1:5173`, Supabase/Mailpit запущені й залишені для користувача. Push не виконувався.
+
+## S3 — браузерний наскрізний сценарій, 2026-10-01
+
+- Користувач явно замовив завершення S3 й обрав «поки лише браузер». Правило: один підтверджений Madrid city record (без вигаданих boundaries/центрів), кілька категорій OR, місто AND категорії, fixed horizon 30 days у Europe/Madrid. Інші міста/radius/polygons/повний CRUD S4 не реалізовували.
+- Provider taxonomy → explicit category mapping, невідомі типи → other; city membership лише exact official `address.area.locality=MADRID`. 930 imported records / 930 occurrences, 868 city-scoped. Ціни/мови/coordinates/end time лишаються unknown. HTML entities decoded як форматування; текст не перекладається.
+- Server-only bounded batch RPC + advisory lock: весь імпорт atomic. Repeated unchanged batch зберігає IDs/version; raw hash або derived title/category/time changes invalidate version. Невдалий batch rollback перевірено. PostgREST RPC-specific 120s timeout для server batch (звичайний API timeout не змінювали).
+- Public catalog paginated 30 records, known/date-only chronological ordering; mobile detail/source/last_checked/original link, owner saved events, uk/en/es. Private simple-rule RPC та atomic digest/items/job; owner validation і policy-restricted writes. Concurrent/repeated creation returns same digest за однаковим набором/версіями/часом/категоріями у поточний день. Стара добірка зберігає membership, detail читає current event; immutable content snapshot/S8 history не заявляємо.
+- Local fixture lease/claim/recovery/deterministic delivery row + journal verified, sends=0. Native Expo registration/opt-in/out, token transfer, validated digest deep link, manual Expo sender/tickets/receipts implemented. Actual native/device/EAS/APNs/FCM/network delivery blocked: user currently browser-only. Expo contract tests є explicit fakes, не real delivery proof. Expo timeout/ambiguous response не повторюється автоматично; failed/stuck claimed jobs потребують ручного review до S7.
+- Реальний браузерний вхід у наданий акаунт pass; music categories → **89-event digest**, detail і save першої музичної події, reload/session/save persistence, inbox, повторний build same loaded URL pass. Account лишено logged in, початкову Ukrainian locale відновлено. Музичне правило/добірка/одна збережена подія залишені для користувача. Попередній 1Password blocker обходити не довелося: звичайне посимвольне введення дозволило завершити вхід.
+- Browser 390×844 visual QA pass, uk/en/es pass. Порожній raw string child React Native Web виправлено; clean final page home→digest→detail→inbox має **0 errors**. Native screenshots не отримано.
+- `pnpm check` pass: 12 Jest + 7 Node (4 transport fake contract tests); 5 Python adapter tests/Ruff pass; real S3 **84** local API checks pass; S2 **108** regression checks pass. SQL rollback test confirms unchanged version, derived/time versioning, complete failed-batch rollback. Frozen install/Expo Doctor18/18/JS exports/bundle server-key scan pass. Audit 0 critical/high, 1 moderate decode-uri-component.
+- CI додано Python adapter та transaction invariant checks; live-source test має окрему manual команду, CI не залежить від доступності міської афіші. Remote CI execution unverified; push не виконувався. Наявні акаунти/дані збережено, reset не виконувався, own test accounts прибрано.
+
+Докази — [results.json](evidence/s3/results.json), [integration.log](evidence/s3/integration.log), [digest-mobile-web.png](evidence/s3/digest-mobile-web.png). Команди та ручна перевірка — SETUP. Статус S3 **не verified повністю**, доки одна реальна подія/добірка не доставлена physical-device development push. Наступний доступний етап S4 потребує нового завдання; автоматичні графіки/quiet hours/full durable retries лишаються S7.

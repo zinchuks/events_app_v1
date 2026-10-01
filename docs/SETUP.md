@@ -200,3 +200,57 @@ git remote -v
 ```
 
 Це перевірка змін/стану Git, не product test. Product commands додати лише після фактичного виконання в S1. Source/account blockers — [SOURCES.md](SOURCES.md).
+
+## Локальна афіша й вхід
+
+Запущено web http://localhost:8087 і admin http://127.0.0.1:5173. Email capture: http://localhost:54324, листи не доставляються в Gmail. Авторизований акаунт підтверджено, використовуйте email та власний наданий пароль у «Акаунт → Увійти», повторна реєстрація не потрібна. Якщо 1Password показує попередження щодо localhost, закрийте/підтвердьте його особисто й завершіть вхід.
+
+Команди з кореня (Supabase має працювати; Python venv із S1):
+
+```sh
+export PATH=/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH
+pnpm ingest:madrid:local
+pnpm --filter @event-radar/mobile exec expo start --web --offline --port 8087
+pnpm dev:admin
+services/ingestion/.venv/bin/ruff check services/ingestion/ingestion
+services/ingestion/.venv/bin/python -m unittest discover -s services/ingestion -t services/ingestion
+pnpm check
+```
+
+Для точного web запуску на 8087: `pnpm --filter @event-radar/mobile exec expo start --web --offline --port 8087`. Runner імпорту обмежений local loopback й отримує server key від CLI в пам’яті. Не запускати його паралельно; цей попередній runner у S3 замінений atomic server RPC; production scheduling/retries лишаються S7. Поточний каталог має сторінки по 30 майбутніх подій, ручне оновлення читання DB. Імпорт не створює розкладу автоматично. Не запускати `supabase db reset`: тепер є користувацькі акаунти та live дані.
+
+## S3 — правило, добірка й transport fixture
+
+Відкрийте http://localhost:8087. Ваш акаунт лишено signed in; якщо браузер не зберіг сесію, увійдіть через Акаунт із власним наданим паролем. Пароль у документах не зберігається.
+
+1. На головній виберіть категорії для Madrid й натисніть «Зберегти правило й створити добірку». Період — найближчі 30 днів. Збережено музичний приклад на 89 подій на момент QA.
+2. Відкрийте «Детальніше» → «Зберегти подію». Перевірте «Збережені» та reload; початкова sample подія вже збережена.
+3. Відкрийте «Добірки» → добірку. Повторіть створення без змін: відкривається той самий запис. Зміна набору/версії/часу або дня може створити новий.
+4. У браузері «Увімкнути push» пояснює вимогу dev-збірки; не обіцяє delivery. Локальний fixture має окремий журнал і не надсилає push.
+
+```sh
+export PATH=/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH
+supabase migration up --local
+pnpm ingest:madrid:local
+pnpm test:s3
+pnpm notify:s3:fixture
+pnpm test:s2
+pnpm check
+services/ingestion/.venv/bin/python -m unittest discover -s services/ingestion -t services/ingestion
+docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s3_invariants.sql
+```
+
+`test:s3` потребує попереднього live import. Створює/очищує лише власні random `s3-*@example.test` accounts; synthetic push tokens ніколи не відправляє Expo. SQL test завжди робить ROLLBACK, synthetic probes невидимі іншим sessions. `ingest:madrid:local` — allowlisted fetch + one atomic server RPC; ключ у пам’яті. Не застосовуйте db reset до цього stack.
+
+### Development push — blocked до фізичного пристрою
+
+Користувач обрав browser-only QA. Код підготовлено, delivery не перевірено. Наступні передумови: власний Expo project UUID (`EAS_PROJECT_ID`), APNs/FCM signing credentials, physical iOS/Android device, встановлена dev build. Expo Go/web не є proof цього сценарію. Для телефону local API URL `127.0.0.1` потрібно замінити reachable dev/staging endpoint (або свій LAN host); поточний web env не є готовим device setup. Не підставляти чужий Expo projectId і не приймати Xcode угоду за власника.
+
+У dev build: увійти → Добірки → Увімкнути push (permission prompt) → створити нову добірку. Потім manual server transport:
+
+```sh
+pnpm notify:s3:expo
+pnpm notify:s3:receipts
+```
+
+Expo access token, якщо ввімкнено enhanced push security, передавати лише server environment `EXPO_ACCESS_TOKEN`, без values у tracked env/командах/логах. Receipt зазвичай перевіряється пізніше; ticket/receipt не доводить показ на екрані телефону. Потрібен screenshot/log фактичного receive та відкриття потрібної приватної добірки. Opt-out перед dispatch враховується, DeviceNotRegistered видаляє binding. Timeout/failed/stuck Expo jobs не ресендяться автоматично — review до S7. Поточний runner loopback-only, managed deployment не виконано.

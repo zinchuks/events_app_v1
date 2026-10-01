@@ -1,0 +1,96 @@
+
+> event-radar@0.1.0 check /Users/serhiizinchuk/my_projects/events_app
+> pnpm typecheck && pnpm lint && pnpm test && pnpm check:env && pnpm check:secrets
+
+
+> event-radar@0.1.0 typecheck /Users/serhiizinchuk/my_projects/events_app
+> pnpm -r typecheck
+
+Scope: 2 of 3 workspace projects
+apps/admin typecheck$ tsc --noEmit
+apps/mobile typecheck$ tsc --noEmit
+apps/admin typecheck: Done
+apps/mobile typecheck: Done
+
+> event-radar@0.1.0 lint /Users/serhiizinchuk/my_projects/events_app
+> eslint apps scripts
+
+
+> event-radar@0.1.0 test /Users/serhiizinchuk/my_projects/events_app
+> pnpm --filter @event-radar/mobile test && node --test scripts/*.test.mjs
+
+
+> @event-radar/mobile@0.1.0 test /Users/serhiizinchuk/my_projects/events_app/apps/mobile
+> jest --runInBand --watch=false --watchman=false
+
+PASS src/components/ui/button.test.tsx
+PASS src/lib/messages.test.ts
+PASS src/lib/chunked-storage.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       12 passed, 12 total
+Snapshots:   0 total
+Time:        0.763 s, estimated 1 s
+Ran all test suites.
+TAP version 13
+# Subtest: Expo Metro reads a real router PNG through patched image-size
+ok 1 - Expo Metro reads a real router PNG through patched image-size
+  ---
+  duration_ms: 3.80025
+  type: 'test'
+  ...
+# Subtest: Expo ticket acceptance is recorded without claiming device delivery
+ok 2 - Expo ticket acceptance is recorded without claiming device delivery
+  ---
+  duration_ms: 0.890375
+  type: 'test'
+  ...
+# Subtest: Opt-out prevents network transmission of pending Expo jobs
+ok 3 - Opt-out prevents network transmission of pending Expo jobs
+  ---
+  duration_ms: 0.112125
+  type: 'test'
+  ...
+# Subtest: Ambiguous network failure is failed and is not automatically resent
+ok 4 - Ambiguous network failure is failed and is not automatically resent
+  ---
+  duration_ms: 0.31975
+  type: 'test'
+  ...
+# Subtest: DeviceNotRegistered removes its binding and records rejection
+ok 5 - DeviceNotRegistered removes its binding and records rejection
+  ---
+  duration_ms: 0.235833
+  type: 'test'
+  ...
+# Subtest: unknown environment fails instead of silently using development
+ok 6 - unknown environment fails instead of silently using development
+  ---
+  duration_ms: 0.617833
+  type: 'test'
+  ...
+# Subtest: development and staging can coexist without IDs or deep links colliding
+ok 7 - development and staging can coexist without IDs or deep links colliding
+  ---
+  duration_ms: 0.097
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 58.631
+
+> event-radar@0.1.0 check:env /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-env.mjs
+
+Environment examples and separate development/staging IDs are valid.
+
+> event-radar@0.1.0 check:secrets /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-secrets.mjs
+
+Tracked/unignored files contain no known token/private-key patterns or public server-key names.

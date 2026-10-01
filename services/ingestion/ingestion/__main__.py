@@ -19,8 +19,8 @@ def main() -> int:
                     "service": "ingestion",
                     "environment": environment,
                     "status": "ready",
-                    "adapters": 0,
-                    "backend_connected": False,
+                    "adapters": ["madrid_single_day"],
+                    "backend_checked": False,
                 }
             )
         )

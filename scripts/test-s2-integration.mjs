@@ -102,7 +102,7 @@ try {
   denied(await a.from('source_records').select('*'));
   denied(await a.from('events').update({ title: 'unauthorized' }).eq('id', eventId));
   assert.equal(ok(await anonymous.from('events').select('*').eq('id', eventId)).length, 1);
-  const territories = ok(await anonymous.from('territories').select('*'));
+  const territories = ok(await anonymous.from('territories').select('*').eq('is_demo', true));
   assert.equal(territories.length, 4); assert.ok(territories.every(t => t.is_demo && t.provenance));
   assert.equal(ok(await anonymous.from('categories').select('*')).length, 11);
   denied(await anonymous.rpc('delete_my_account'));

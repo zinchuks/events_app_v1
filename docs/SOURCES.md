@@ -1,6 +1,6 @@
 # Джерела даних та зовнішній доступ
 
-Стан S0 на 2026-10-01: **0 інтегрованих та наскрізно перевірених product sources**. Це shortlist, а не реальна афіша. Вимога S6 — щонайменше три живі джерела у двох країнах — ще pending. Upstream city feeds/tests не є дозволом на комерційне використання контенту.
+Історичний стан S0 на 2026-10-01: **0 інтегрованих та наскрізно перевірених product sources**. Це shortlist, а не реальна афіша. Вимога S6 — щонайменше три живі джерела у двох країнах — ще pending. Upstream city feeds/tests не є дозволом на комерційне використання контенту.
 
 ## Shortlist
 
@@ -43,3 +43,14 @@ Ticketmaster/Meetup/Eventbrite/upstream scrapers — references, не затве
 # Demo-території S2
 
 `supabase/seed.sql` створює 4 synthetic records: ES/UA і приблизні центри Madrid/Kyiv. IDs мають префікс `demo:`, `is_demo=true`, provenance записує ручне походження. Це власні тестові fixtures без скопійованих boundary datasets, без polygons і без заяви реального покриття. Demo marker показаний у mobile. Events/source feed у seed відсутні; тимчасова synthetic event інтеграційного тесту видаляється після тесту й не рахується live source.
+
+## Madrid live subset — 2026-10-01
+
+Офіційний ресурс: https://datos.madrid.es/egob/catalogo/300107-0-agenda-actividades-eventos.json.
+Повторно прочитано dataset metadata й https://datos.madrid.es/pages/condiciones-de-uso: CC BY 4.0, attribution Ayuntamiento de Madrid. Commercial reuse/cache/адаптація дозволені; images не копіюємо. Дані нормалізовано (дати UTC/Europe/Madrid), тексти оригінальні, перекладу немає. Attribution і license link показані в UI.
+
+1385 live records отримано, 930 single-day non-recurring імпортовано двічі без збільшення count. Це часткове покриття, не вся афіша Madrid. Multi-day й recurring records пропущено; відсутність запису не означає cancellation. Price/language/category/геометрія залишаються unknown, кінцевий час не виводиться з sentinel 23:59. Raw payload не зберігається в DB, є hash та checked_at. Metadata daily cadence не означає запущений scheduler: імпорт поки ручний. Непідключені країни/міста не мають live feed. Docker/local DB тепер працює (S2); історична інвентаризація S0 вище зберігає стан того аудиту.
+
+### Оновлення S3
+
+930 real imports, 868 мають exact `address.area.locality=MADRID`; city catalog/rule використовують лише їх. Інші 62 зберігають unknown territory й не маскуються під місто джерела. Explicit provider taxonomy mapped to product categories; unmapped → other. Entity decoding/date conversion/category mapping — нормалізація, не AI translation. Все ще один source/одна країна; вимога 3 sources/2 countries S6 pending. Нова implementation має atomic server batch/source lock, source hashes/derived versioning і повний rollback; попередні multi-call limitations вище історичні. Daily polling metadata не означає запущений cron, runner manual. Зображення не копіюємо, не вигадуємо координати/price/language/end.

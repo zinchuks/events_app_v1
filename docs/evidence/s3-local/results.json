@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-01",
+  "scope": "authorized local account and live event feed; partial S3",
+  "source": "https://datos.madrid.es/egob/catalogo/300107-0-agenda-actividades-eventos.json",
+  "payload_records": 1385,
+  "imported_events": 930,
+  "occurrences_after_second_import": 930,
+  "repeat_import": "pass, count unchanged",
+  "local_password_signin_api": "pass",
+  "otp": "standard signup verification via local Mailpit; no admin confirmation bypass",
+  "gmail_delivery": "not configured; user elected local login",
+  "browser_live_feed": "verified via DOM and screenshot tool",
+  "browser_login": "unverified: 1Password modal blocked CDP; native computer permission unavailable",
+  "checks": {
+    "pnpm_check": "pass, 15 tests",
+    "ruff": "pass",
+    "python_adapter_tests": "4 pass"
+  },
+  "limitations": [
+    "native iOS/Android unverified",
+    "single-day non-recurring subset",
+    "manual local import only",
+    "no digest/push/matching/translation",
+    "no production concurrency/transaction guarantee"
+  ]
+}

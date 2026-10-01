@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-01",
+  "timezone": "Europe/Madrid",
+  "stage": "S3",
+  "status": "implemented; real development push blocked",
+  "live_source": "Ayuntamiento de Madrid / CC BY 4.0",
+  "imported_events": 930,
+  "occurrences": 930,
+  "exact_MADRID_locality_events": 868,
+  "normalization": "single-day, non-recurring, explicit provider taxonomy, date-only preserved, IANA timezone, unknown price/language/coordinates/end",
+  "verification": {
+    "frozen_install": "pass",
+    "pnpm_check": "pass: 12 Jest + 7 Node; transport contract tests explicit fakes",
+    "python_adapter_tests": "5 pass",
+    "ruff": "pass",
+    "s3_real_local_API_checks": 84,
+    "s2_auth_RLS_regression_checks": 108,
+    "SQL_transaction_invariants": "pass: no duplicate/version bump on repeat, derived title/time bump with unchanged raw hash, full failed-batch rollback",
+    "expo_doctor": "18/18 pass",
+    "exports": "iOS/Android/web JS pass; not native builds",
+    "client_key_boundary": "56 exported files scanned; server key absent",
+    "dependency_audit": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 1
+    },
+    "browser": "real authorized local account login, music filter, 89-event private digest, detail/source/save, saved reload, inbox, repeat-loaded digest URL same, uk/en/es, 390x844 visual QA, final console errors=0",
+    "local_transport_fixture": "processed actual user digest jobs; no external sends; deterministic journal and lease recovery tested"
+  },
+  "limits": [
+    "physical iOS/Android device and native build unverified; user selected browser-only",
+    "own EAS/APNs/FCM credentials not provided",
+    "real Expo send/receipt/receive not exercised",
+    "SMTP not configured; Mailpit only per user preference",
+    "manual workflow; automatic schedules/quiet hours/full retries S7 pending",
+    "S4 multi-territory/radius/polygons and S5 maps/full UX not started",
+    "one source/one country; translation/more sources S6 pending",
+    "remote CI not executed; no push"
+  ],
+  "user_data": "Existing data preserved; no DB reset; own random API fixtures cleaned. Music rule/digests and one saved event retained for user. No passwords/OTP/server credentials in evidence."
+}

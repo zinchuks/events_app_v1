@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 notify:s3:fixture /Users/serhiizinchuk/my_projects/events_app
+> node scripts/dispatch-s3-local.mjs fixture
+
+{"transport":"fixture","processed":1,"real_device_delivery":"unverified"}

@@ -25,3 +25,9 @@
 - Native storage — bounded SecureStore chunks, queue + manifest swap; web localStorage. Unit tests перевіряють Unicode, failed writes та concurrent logout; device/keychain acceptance не заявлено.
 - Profiles locale з allowlisted signup metadata, translation locale незалежна; all UI uk/en/es. Imported geo data на S2 не потрібні: explicit original synthetic country/city fixtures, без boundaries і fake live coverage.
 - Browser QA виявив світлий текст dark variants на світлому фоні; Uniwind theme явно light. Застарілий async startup result не перезаписує нову auth session після logout/login.
+
+## S3 — один manual наскрізний сценарій
+
+За запитом користувача завершено доступний browser workflow без S4/S5. Для first source обрано original stdlib Madrid adapter замість імпорту legacy scraper dependencies: офіційний JSON доступний, модель simple/typed, legacy lxml gate не потрібний. Scope лише single-day/non-recurring, exact locality, explicit taxonomy, unknown facts preserved. Local Node server orchestration зберігає Python normalization та робить atomic DB RPC; один stack без додаткового service deployment.
+
+Ручна добірка з fixed30-day horizon показує корисний end-to-end S3; production schedule/quiet hours/retries не додаємо до S7. Fixture transport явно відрізняється від real Expo delivery. Користувач обрав browser-only; S3 лишається implemented із blocked device acceptance, наступні етапи не стартували. Expo dispatcher не повторює ambiguous failed sends автоматично; це свідоме обмеження development runner.

@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 test:s3 /Users/serhiizinchuk/my_projects/events_app
+> node scripts/test-s3-integration.mjs
+
+{"checks":84,"real_source":"Ayuntamiento de Madrid","real_occurrence":"02f377f8-3b61-44dc-aade-24e0c5557a18","fixture_transport":"DB only; sends=0","push_delivery":"blocked: browser-only"}

@@ -37,6 +37,8 @@ export type Database = {
       }
       deliveries: {
         Row: {
+          device_token_id: string | null
+          error_code: string | null
           id: string
           job_id: string
           receipt_id: string | null
@@ -44,6 +46,8 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          device_token_id?: string | null
+          error_code?: string | null
           id?: string
           job_id: string
           receipt_id?: string | null
@@ -51,6 +55,8 @@ export type Database = {
           user_id: string
         }
         Update: {
+          device_token_id?: string | null
+          error_code?: string | null
           id?: string
           job_id?: string
           receipt_id?: string | null
@@ -58,6 +64,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "deliveries_device_token_id_fkey"
+            columns: ["device_token_id"]
+            isOneToOne: false
+            referencedRelation: "device_tokens"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "deliveries_job_id_user_id_fkey"
             columns: ["job_id", "user_id"]
@@ -150,22 +163,41 @@ export type Database = {
         Row: {
           business_key: string
           created_at: string
+          horizon_end: string | null
+          horizon_start: string | null
           id: string
+          rule_id: string | null
+          rule_name: string | null
           user_id: string
         }
         Insert: {
           business_key: string
           created_at?: string
+          horizon_end?: string | null
+          horizon_start?: string | null
           id?: string
+          rule_id?: string | null
+          rule_name?: string | null
           user_id: string
         }
         Update: {
           business_key?: string
           created_at?: string
+          horizon_end?: string | null
+          horizon_start?: string | null
           id?: string
+          rule_id?: string | null
+          rule_name?: string | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "digests_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "rules"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "digests_user_id_fkey"
             columns: ["user_id"]
@@ -371,31 +403,44 @@ export type Database = {
         Row: {
           attempts: number
           business_key: string
+          digest_id: string | null
           id: string
           lease_until: string | null
           run_at: string
           status: string
+          transport: string
           user_id: string
         }
         Insert: {
           attempts?: number
           business_key: string
+          digest_id?: string | null
           id?: string
           lease_until?: string | null
           run_at: string
           status?: string
+          transport?: string
           user_id: string
         }
         Update: {
           attempts?: number
           business_key?: string
+          digest_id?: string | null
           id?: string
           lease_until?: string | null
           run_at?: string
           status?: string
+          transport?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "jobs_digest_owner"
+            columns: ["digest_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "digests"
+            referencedColumns: ["id", "user_id"]
+          },
           {
             foreignKeyName: "notification_jobs_user_id_fkey"
             columns: ["user_id"]
@@ -455,6 +500,7 @@ export type Database = {
           id: string
           locale: string
           notification_timezone: string
+          push_enabled: boolean
           translation_locale: string
         }
         Insert: {
@@ -462,6 +508,7 @@ export type Database = {
           id: string
           locale?: string
           notification_timezone?: string
+          push_enabled?: boolean
           translation_locale?: string
         }
         Update: {
@@ -469,6 +516,7 @@ export type Database = {
           id?: string
           locale?: string
           notification_timezone?: string
+          push_enabled?: boolean
           translation_locale?: string
         }
         Relationships: []
@@ -772,9 +820,54 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      build_s3_digest: {
+        Args: { selected_rule: string }
+        Returns: string
+      }
+      claim_s3_notification: {
+        Args: { job_transport: string; selected_job?: string }
+        Returns: {
+          attempts: number
+          business_key: string
+          digest_id: string | null
+          id: string
+          lease_until: string | null
+          run_at: string
+          status: string
+          transport: string
+          user_id: string
+        }[]
+      }
       delete_my_account: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      ingest_madrid: {
+        Args: { batch: Json; fetched_at: string }
+        Returns: number
+      }
+      list_s3_events: {
+        Args: { category_codes?: string[]; page_offset?: number }
+        Returns: {
+          category_code: string
+          checked_at: string
+          event_id: string
+          id: string
+          local_date: string
+          start_at: string
+          time_kind: string
+          timezone: string
+          title: string
+          venue: string
+        }[]
+      }
+      register_push_device: {
+        Args: { device_platform: string; expo_token: string }
+        Returns: undefined
+      }
+      save_s3_rule: {
+        Args: { category_codes: string[] }
+        Returns: string
       }
       valid_timezone: {
         Args: { value: string }

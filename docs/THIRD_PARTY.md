@@ -24,3 +24,7 @@ Mobile direct-dependency metadata і Python installed metadata збережен�
 # Dependency notices S2
 
 Додано registry packages: Supabase JS 2.117.2 (MIT, [license snapshot](../licenses/supabase-js/LICENSE)), react-native-url-polyfill 4.0.0 (MIT, [snapshot](../licenses/react-native-url-polyfill/LICENSE)), Expo SecureStore 15.0.8 (MIT за installed package metadata, Expo ecosystem). Код packages не vendored; versions/hashes у pnpm-lock. Generated DB types походять із власної локальної schema, не чужого app. Auth storage/refresh реалізація звірена з official Supabase guide (посилання в ARCHITECTURE); own UI/translations/SQL/fixtures написані тут. Native SecureStore package build та повний distribution notices bundle ще не перевірені; це не завершений license clearance всіх transitive/native packages.
+
+## S3 notices
+
+Registry Expo Notifications **0.32.17** та Expo Device **8.0.10**: MIT за встановленими package metadata; repository https://github.com/expo/expo, packages/expo-notifications та packages/expo-device. Package bytes/integrity у pnpm-lock, code не vendored. SDK54 API references у ARCHITECTURE; власні SQL/UI/transport/adapter написані тут. Native/transitive distribution notice bundle до release ще потрібний. Madrid content: Ayuntamiento de Madrid, CC BY 4.0, normalization/category/date/entity-decoding changes, source/license links у mobile та SOURCES. Community-calendar code у S3 не копіювали: обраний selective workflow використано з оригінальним stdlib API adapter, тому нових upstream imported modules немає.
