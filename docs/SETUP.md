@@ -40,7 +40,7 @@ RLS увімкнено на **19/19** public tables. PostGIS/seed constraints р
 
 Browser QA: uk/en/es mobile й admin, real login, locale/translation/timezone save, reload with session, delete confirmation + cancel, logout + reload with no session, demo markers. RPC deletion/recovery перевірені actual API integration; native auth/storage, external SMTP і remote CI — unverified. Світла Uniwind theme усуває невидимі outline labels на dark system settings.
 
-Додано CI `database-auth` job із local Supabase/real integration/type generation boundary/exports. GitHub Actions не запускався: remote відсутній. Supabase можна залишити працювати для ручної перевірки; зупинка `supabase stop` зберігає local backup. Не застосовуйте `--no-backup` до потрібних local даних. QA Metro/admin servers зупиняються Ctrl-C; final state — у PROGRESS.
+Додано CI `database-auth` job із local Supabase/real integration/type generation boundary/exports. GitHub Actions agent не запускав і не перевіряв. Наприкінці з’явився origin поза діями agent; remote збережено без змін, push agent не виконував. Supabase можна залишити працювати для ручної перевірки; зупинка `supabase stop` зберігає local backup. Не застосовуйте `--no-backup` до потрібних local даних. QA Metro/admin servers зупиняються Ctrl-C; final state — у PROGRESS.
 
 ## Основа S1 — історичні перевірки та інструменти
 
