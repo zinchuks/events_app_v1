@@ -65,6 +65,10 @@
     "S4/S7 full rule JSON/domain constraints pending"
   ],
   "cleanup": "Own integration/browser fixtures removed; unrelated remaining local account preserved; no further reset",
-  "git": "Ready for local checkpoint; no remote/push",
+  "git": {
+    "checkpoint": "d87c16dce40139e2b9543fdfefcf18c1bde7a892",
+    "remote": false,
+    "push": false
+  },
   "services": "Local Supabase retained running; QA Metro/admin stopped"
 }

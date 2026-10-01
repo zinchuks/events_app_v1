@@ -63,7 +63,9 @@
 - Browser: real login, uk/en/es, profile save, session + settings restore after reload, delete-confirmation/cancel, logout/reload, admin translation startup pass. External SMTP, managed staging, iOS/Android auth/storage і remote CI execution лишаються unverified.
 - Keys тільки в ignored local env/temporary tools. Actual client exports не містять local server-role key. CI додано local DB/Auth job; remote/push не створено. Dependency audit 1 moderate decode-uri-component лишається.
 
-Докази S2 — [results.json](evidence/s2/results.json), [integration.log](evidence/s2/integration.log), [auth screen](evidence/s2/mobile-auth.png). Checkpoint SHA записується після final review. S2 має статус implemented через відсутність native acceptance; local DB/Auth/browser частина перевірена. QA Metro/admin servers зупинено; Docker/local Supabase залишено працювати. Own fixtures прибрано; unrelated local data не чіпали.
+Докази S2 — [results.json](evidence/s2/results.json), [integration.log](evidence/s2/integration.log), [auth screen](evidence/s2/mobile-auth.png). Checkpoint **`d87c16dce40139e2b9543fdfefcf18c1bde7a892`**. S2 має статус implemented через відсутність native acceptance; local DB/Auth/browser частина перевірена. QA Metro/admin servers зупинено; Docker/local Supabase залишено працювати. Own fixtures прибрано; unrelated local data не чіпали.
+
+Фінальний S2 review: frozen lock/types vs DB/code/tests/exports/integration pass, Markdown links/evidence JSON valid, staged diff check pass. Generated types збережено byte-for-byte з CLI (лише blank-at-EOF attribute); product whitespace checks лишаються. Working tree чисте після checkpoint, remote list порожній, push не виконувався. Окремий documentation commit записує SHA checkpoint; actual HEAD — `git log -1`.
 
 Наступний етап — **S3**, лише за новим завданням: потрібні fetch/schema/rights review першого live source та actual ingest/DB/mobile/digest workflow. Push потребує own Expo credentials і device; local DB більше не blocker. Native tooling/SMTP/staging налаштовуються незалежно. S3 adapters/matching/digest/push не реалізовано у S2.
 
