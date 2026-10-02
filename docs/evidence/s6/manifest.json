@@ -1,0 +1,116 @@
+{
+  "stage": "S6 independent source checkpoint; AI blocked",
+  "date": "2026-10-02",
+  "files": [
+    {
+      "file": "admin.log",
+      "bytes": 575,
+      "sha256": "641113f74dee43d294b04f4401988713c2783d01d445fd78b211c8bf569c5072"
+    },
+    {
+      "file": "audit.log",
+      "bytes": 2509,
+      "sha256": "8d9289547b24bd2e30e7eae13b470d1c29c29132431c4edcca58e4ea70461107"
+    },
+    {
+      "file": "bundles.log",
+      "bytes": 202,
+      "sha256": "9bfaabbed41ef7bcaedb69bac1ceed9d1d2de1e55443ebbd596eb9f92470a2e5"
+    },
+    {
+      "file": "check.log",
+      "bytes": 3254,
+      "sha256": "bfaccabe77b0f7765f5e3c693992f2dd1a318ee4733f4edeab53d0de2b91d008"
+    },
+    {
+      "file": "export.log",
+      "bytes": 4493,
+      "sha256": "a9fb4ffd5dd6cbf89600eb7e8739137af3de2645d1da4141abbe386dd2f27fb5"
+    },
+    {
+      "file": "lint-final.log",
+      "bytes": 93,
+      "sha256": "38aaf7d6bae008146a1fe679fc2bccfbf5f63ad7bd2fa5b9e287c755b90d05e4"
+    },
+    {
+      "file": "live-import-final.log",
+      "bytes": 447,
+      "sha256": "312bc06c6277ba6b64a8460f1aa4a444eb2de92bbcf307d50315ff2efb304b69"
+    },
+    {
+      "file": "map-real-helsinki.jpg",
+      "bytes": 37898,
+      "sha256": "49f579721930639b0d6bae09797b11b53d2f9ce32323fbbaca45c5c0240a0ff0"
+    },
+    {
+      "file": "python-lint.log",
+      "bytes": 45,
+      "sha256": "899431ded41f52f0e596057b046dea82d3c0e3557b51b29f591e62f24ab0c713"
+    },
+    {
+      "file": "python-tests.log",
+      "bytes": 123,
+      "sha256": "d4e55328fcd452311fc4afab8bd488cf5f0453c7edbc1cbe948500c86d931c46"
+    },
+    {
+      "file": "s2.log",
+      "bytes": 557,
+      "sha256": "141473dd3ab7e9cd489ba0de0917bda136cef3942e71dc93a3406430d270ff12"
+    },
+    {
+      "file": "s3.log",
+      "bytes": 302,
+      "sha256": "e7a2a35e32b033a8ade464a81edd866e88fc3c47f9167e6a0f97c0832044ded9"
+    },
+    {
+      "file": "s4.log",
+      "bytes": 262,
+      "sha256": "3df32312a12ea42330cfd9fc80f7549859e6930d2ddd6cb6a9caf003bfb93fee"
+    },
+    {
+      "file": "s5.log",
+      "bytes": 263,
+      "sha256": "132de4288053af0333ae7a16d87adc9abb7d0833e5d988989e92438690c0dc5a"
+    },
+    {
+      "file": "s6.log",
+      "bytes": 1514,
+      "sha256": "223fea5cf5ad1a92b472e40fdbe8b0f418cef8a991c3fc191817be10304f86c9"
+    },
+    {
+      "file": "source-review.json",
+      "bytes": 1526,
+      "sha256": "764f0111955bef23b5c4234af35b67fb50033b0ef63e9c674c92a03c3eda0092"
+    },
+    {
+      "file": "sources-mobile-web.jpg",
+      "bytes": 41543,
+      "sha256": "edb70ed42d7a94ceda3a71704feeca064df198572ce12403ef140bd90883a771"
+    },
+    {
+      "file": "sql.log",
+      "bytes": 286,
+      "sha256": "f0fd887fd93e999207319f19992729806ab5b63657ab1cf8ea9605de6987e16e"
+    },
+    {
+      "file": "timing-fixed.log",
+      "bytes": 194,
+      "sha256": "c1b3698e9b51642424e5f5b1dfc8ebf1352b75eea99aaf0c588daa79e6d8d989"
+    },
+    {
+      "file": "timing-nojit.log",
+      "bytes": 209,
+      "sha256": "6a50a0ee6dd14f44ba4ac5b7e4f344ef92fbe052062184551aff97ffb6900840"
+    },
+    {
+      "file": "timing.log",
+      "bytes": 172,
+      "sha256": "ea1cd0ec745ab02b4dac91f284a30f9467b11ab1b5a7cde2b7c6e0d0e9520697"
+    },
+    {
+      "file": "translation-mobile-web.jpg",
+      "bytes": 38830,
+      "sha256": "d3d1e1b87bf35d31a341907ea287840d0b7b857817438cbbec631f749549189d"
+    }
+  ]
+}

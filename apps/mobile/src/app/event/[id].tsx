@@ -8,22 +8,33 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth-context';
 import { useLanguage } from '@/lib/i18n';
 import { eventSelect, occurrenceTime } from '@/lib/events';
+import { isLocale,locales,type Locale } from '@/lib/messages';
 function query() { return supabase!.from('occurrences').select(eventSelect); }
 type Item = QueryData<ReturnType<typeof query>>[number];
+type Translation = { title: string; description: string; summary: string|null; provider: string };
 export default function EventScreen() {
  const { id } = useLocalSearchParams<{ id: string }>(); const { t, locale } = useLanguage(); const { session } = useAuth();
  const owner = useRef(session?.user.id); owner.current = session?.user.id;
  const [item, setItem] = useState<Item | null>(null); const [saved, setSaved] = useState(false); const [busy, setBusy] = useState(false);
  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading'); const [message, setMessage] = useState('');
- useEffect(() => { let active = true; setSaved(false); setMessage(''); setState('loading');
+ const [translation,setTranslation]=useState<Translation|null>(null);
+ const [translationLocale,setTranslationLocale]=useState<Locale>(locale);
+ const languageChoice=useRef(0);
+ useEffect(() => { let active = true; languageChoice.current=0; setSaved(false); setMessage(''); setTranslation(null); setState('loading');
   async function load() {
    if (!supabase) { setState('error'); return; }
    const result = await query().eq('id', id).maybeSingle(); if (!active) return;
    if (result.error || !result.data) { setState('error'); return; } setItem(result.data); setState('ready');
+   // Independent account preference; detail-page choice never changes the profile.
+   const choice=languageChoice.current;const profile=session?await supabase.from('profiles').select('translation_locale').eq('id',session.user.id).maybeSingle():null;
+   if(active&&languageChoice.current===choice)setTranslationLocale(isLocale(profile?.data?.translation_locale)?profile.data.translation_locale:locale);
    if (session) { const result = await supabase.from('saved_events').select('occurrence_id').eq('user_id', session.user.id).eq('occurrence_id', id).maybeSingle(); if (active) { if (result.error) setMessage(t('error')); else setSaved(Boolean(result.data)); } }
   }
   void load(); return () => { active = false; };
  }, [id, session?.user.id, locale]);
+ useEffect(()=>{let active=true;setTranslation(null);if(item&&supabase)void supabase.rpc('s6_translation',{selected_event:item.event_id,selected_locale:translationLocale}).then(translated=>{
+  if(active&&!translated.error&&translated.data&&typeof translated.data==='object'&&!Array.isArray(translated.data)&&typeof translated.data.title==='string'&&typeof translated.data.description==='string'&&typeof translated.data.provider==='string')setTranslation(translated.data as Translation);
+ });return()=>{active=false;};},[item?.event_id,translationLocale]);
  async function toggle() {
   if (!supabase || !session || busy) return;
   const caller = session.user.id;
@@ -36,6 +47,9 @@ export default function EventScreen() {
  return <Screen title={t('eventDetails')}>
   {state === 'loading' ? <Text>{t('loading')}</Text> : state === 'error' || !item?.events ? <Text accessibilityRole="alert">{t('eventUnavailable')}</Text> : <View style={ui.card}>
    <Text style={ui.badge}>{occurrenceTime(item, locale, t('timeUnknown'))}</Text><Text accessibilityRole="header" style={ui.heading}>{item.events.title}</Text>
+   <Text style={ui.muted}>{t('translation')}</Text><View style={ui.row}>{locales.map(lang=><Button key={lang} label={lang==='uk'?'Українська':lang==='en'?'English':'Español'} size="sm" variant={translationLocale===lang?'default':'outline'} accessibilityState={{selected:translationLocale===lang}} onPress={()=>{languageChoice.current++;setTranslationLocale(lang);}}/>)}</View>
+   {!translation&&<Text style={ui.muted}>{t('translationUnavailable')}</Text>}
+   {translation&&<View style={ui.card}><Text style={ui.badge}>{t(translation.provider.startsWith('source:')?'sourceTranslation':'aiTranslation')}</Text><Text style={ui.title}>{translation.title}</Text>{translation.summary&&<><Text style={ui.muted}>{t('shortDescription')}</Text><Text style={ui.text}>{translation.summary}</Text></>}<Text style={ui.text}>{translation.description}</Text></View>}
    {(item.status !== 'scheduled' || item.events.status !== 'scheduled') && <Text accessibilityRole="alert">{t('notScheduled')}</Text>}
    {item.events.venue && <Text style={ui.text}>{item.events.venue}</Text>}
    <Text style={ui.muted}>{t('originalDescription')}</Text><Text style={ui.text}>{item.events.description || t('noDescription')}</Text>

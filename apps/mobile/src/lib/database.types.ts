@@ -207,6 +207,45 @@ export type Database = {
           },
         ]
       }
+      duplicate_candidates: {
+        Row: {
+          created_at: string
+          left_occurrence: string
+          reason: string
+          right_occurrence: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          left_occurrence: string
+          reason?: string
+          right_occurrence: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          left_occurrence?: string
+          reason?: string
+          right_occurrence?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "duplicate_candidates_left_occurrence_fkey"
+            columns: ["left_occurrence"]
+            isOneToOne: false
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "duplicate_candidates_right_occurrence_fkey"
+            columns: ["right_occurrence"]
+            isOneToOne: false
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       entitlements: {
         Row: {
           expires_at: string | null
@@ -662,6 +701,41 @@ export type Database = {
           },
         ]
       }
+      source_poll_state: {
+        Row: {
+          failures: number
+          last_error_code: string | null
+          lease_until: string | null
+          next_poll_at: string
+          source_id: string
+          token: string | null
+        }
+        Insert: {
+          failures?: number
+          last_error_code?: string | null
+          lease_until?: string | null
+          next_poll_at?: string
+          source_id: string
+          token?: string | null
+        }
+        Update: {
+          failures?: number
+          last_error_code?: string | null
+          lease_until?: string | null
+          next_poll_at?: string
+          source_id?: string
+          token?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "source_poll_state_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: true
+            referencedRelation: "sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       source_records: {
         Row: {
           canonical_url: string
@@ -670,6 +744,7 @@ export type Database = {
           id: string
           payload_hash: string
           raw_payload: Json | null
+          series_key: string | null
           source_id: string
         }
         Insert: {
@@ -679,6 +754,7 @@ export type Database = {
           id?: string
           payload_hash: string
           raw_payload?: Json | null
+          series_key?: string | null
           source_id: string
         }
         Update: {
@@ -688,6 +764,7 @@ export type Database = {
           id?: string
           payload_hash?: string
           raw_payload?: Json | null
+          series_key?: string | null
           source_id?: string
         }
         Relationships: [
@@ -706,6 +783,9 @@ export type Database = {
           allow_cache: boolean
           allow_images: boolean
           allow_translate: boolean
+          code: string | null
+          coverage_note: string | null
+          freshness_seconds: number
           id: string
           is_demo: boolean
           last_success_at: string | null
@@ -720,6 +800,9 @@ export type Database = {
           allow_cache?: boolean
           allow_images?: boolean
           allow_translate?: boolean
+          code?: string | null
+          coverage_note?: string | null
+          freshness_seconds?: number
           id?: string
           is_demo?: boolean
           last_success_at?: string | null
@@ -734,6 +817,9 @@ export type Database = {
           allow_cache?: boolean
           allow_images?: boolean
           allow_translate?: boolean
+          code?: string | null
+          coverage_note?: string | null
+          freshness_seconds?: number
           id?: string
           is_demo?: boolean
           last_success_at?: string | null
@@ -792,6 +878,18 @@ export type Database = {
           },
         ]
       }
+      timezone_names: {
+        Row: {
+          name: string
+        }
+        Insert: {
+          name: string
+        }
+        Update: {
+          name?: string
+        }
+        Relationships: []
+      }
       translations: {
         Row: {
           description: string | null
@@ -799,6 +897,7 @@ export type Database = {
           locale: string
           provider: string
           status: string
+          summary: string | null
           title: string | null
           version: number
         }
@@ -808,6 +907,7 @@ export type Database = {
           locale: string
           provider: string
           status: string
+          summary?: string | null
           title?: string | null
           version: number
         }
@@ -817,6 +917,7 @@ export type Database = {
           locale?: string
           provider?: string
           status?: string
+          summary?: string | null
           title?: string | null
           version?: number
         }
@@ -857,12 +958,30 @@ export type Database = {
           user_id: string
         }[]
       }
+      claim_s6_source: {
+        Args: { force_poll?: boolean; source_code: string }
+        Returns: string
+      }
       delete_my_account: {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      fail_s6_source: {
+        Args: { claim_token: string; error_code: string; source_code: string }
+        Returns: undefined
+      }
       ingest_madrid: {
         Args: { batch: Json; fetched_at: string }
+        Returns: number
+      }
+      ingest_s6_source: {
+        Args: {
+          batch: Json
+          claim_token: string
+          fetched_at: string
+          metrics: Json
+          source_code: string
+        }
         Returns: number
       }
       list_rule_events: {
@@ -925,6 +1044,14 @@ export type Database = {
       }
       s5_event_coordinates: {
         Args: { occurrence: string }
+        Returns: Json
+      }
+      s6_source_coverage: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      s6_translation: {
+        Args: { selected_event: string; selected_locale: string }
         Returns: Json
       }
       save_s3_rule: {

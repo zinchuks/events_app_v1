@@ -1,0 +1,38 @@
+{
+  "reviewed_on": "2026-10-02",
+  "raw_payloads": [
+    {
+      "temporary_name": "toronto.data",
+      "bytes": 5758,
+      "sha256": "345dda44f3002938dd0ecb752c1928ec60fc530bdf4a676007c11b2616b52c9e",
+      "raw_committed": false
+    },
+    {
+      "temporary_name": "helsinki_root.data",
+      "bytes": 3664,
+      "sha256": "332a7b3ef33fcd431a993c37acf8b3e87da6ab3391001709708917efd1e4e6fc",
+      "raw_committed": false
+    },
+    {
+      "temporary_name": "helsinki.data",
+      "bytes": 25966,
+      "sha256": "2316438f59ae91a11607b162c6ebfeac6543cc546caee9b5edf1af9d33788210",
+      "raw_committed": false
+    },
+    {
+      "temporary_name": "madrid.data",
+      "bytes": 3211349,
+      "sha256": "bdb705509774678b204dd718aa6059027a50281a7b9254befbff607ba805ef6e",
+      "raw_committed": false
+    }
+  ],
+  "toronto_resource_bytes": 223030906,
+  "toronto_ckan_license_id": "notspecified",
+  "toronto_license_evidence": "https://open.toronto.ca/dataset/festivals-events/ links https://open.toronto.ca/open-data-licence/",
+  "helsinki_licensing_template": "https://raw.githubusercontent.com/City-of-Helsinki/linkedevents/master/helevents/templates/rest_framework/root.html",
+  "fixture": "services/ingestion/ingestion/fixtures/s6-extraction.json",
+  "manual_quality": "Madrid3EUR and explicit point; Toronto future separate dates/free/GPS; Helsinki UTC range-price unknown/native English",
+  "ai_provider": "pending user provider/model/budget; no configured server key",
+  "ai_requests": 0,
+  "native": "unverified"
+}

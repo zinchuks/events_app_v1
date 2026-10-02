@@ -1,0 +1,21 @@
+
+> event-radar@0.1.0 audit:deps /Users/serhiizinchuk/my_projects/events_app
+> pnpm audit --audit-level=high
+
+┌─────────────────────┬────────────────────────────────────────────────────────┐
+│ high                │ node-forge RSA PKCS#1 v1.5 signature verification      │
+│                     │ accepts extra nested DigestAlgorithm elements          │
+├─────────────────────┼────────────────────────────────────────────────────────┤
+│ Package             │ node-forge                                             │
+├─────────────────────┼────────────────────────────────────────────────────────┤
+│ Vulnerable versions │ <=1.4.0                                                │
+├─────────────────────┼────────────────────────────────────────────────────────┤
+│ Patched versions    │ <0.0.0                                                 │
+├─────────────────────┼────────────────────────────────────────────────────────┤
+│ Paths               │ apps__mobile>expo>@expo/cli>node-forge                 │
+├─────────────────────┼────────────────────────────────────────────────────────┤
+│ More info           │ https://github.com/advisories/GHSA-86w9-cpqp-85rv      │
+└─────────────────────┴────────────────────────────────────────────────────────┘
+2 vulnerabilities found
+Severity: 1 moderate | 1 high
+ ELIFECYCLE  Command failed with exit code 1.

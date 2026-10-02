@@ -1,0 +1,12 @@
+Timing is on.
+BEGIN
+Time: 4.369 ms
+Time: 152.592 ms
+ ingest_s6_source 
+------------------
+             1182
+(1 row)
+
+Time: 89279.656 ms (01:29.280)
+ROLLBACK
+Time: 2.560 ms

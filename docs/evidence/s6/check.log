@@ -1,0 +1,104 @@
+
+> event-radar@0.1.0 check /Users/serhiizinchuk/my_projects/events_app
+> pnpm typecheck && pnpm lint && pnpm test && pnpm check:env && pnpm check:secrets
+
+
+> event-radar@0.1.0 typecheck /Users/serhiizinchuk/my_projects/events_app
+> pnpm -r typecheck
+
+Scope: 2 of 3 workspace projects
+apps/admin typecheck$ tsc --noEmit
+apps/mobile typecheck$ tsc --noEmit
+apps/admin typecheck: Done
+apps/mobile typecheck: Done
+
+> event-radar@0.1.0 lint /Users/serhiizinchuk/my_projects/events_app
+> eslint apps scripts
+
+
+> event-radar@0.1.0 test /Users/serhiizinchuk/my_projects/events_app
+> pnpm --filter @event-radar/mobile test && node --test scripts/*.test.mjs
+
+
+> @event-radar/mobile@0.1.0 test /Users/serhiizinchuk/my_projects/events_app/apps/mobile
+> jest --runInBand --watch=false --watchman=false
+
+PASS src/components/ui/button.test.tsx
+PASS src/lib/messages.test.ts
+PASS src/lib/chunked-storage.test.ts
+PASS src/lib/rules.test.ts
+PASS src/lib/discovery.test.ts
+
+Test Suites: 5 passed, 5 total
+Tests:       16 passed, 16 total
+Snapshots:   0 total
+Time:        0.823 s, estimated 2 s
+Ran all test suites.
+TAP version 13
+# Subtest: patched MapLibre ESM transforms to Metro script syntax and ships its same-origin module worker
+ok 1 - patched MapLibre ESM transforms to Metro script syntax and ships its same-origin module worker
+  ---
+  duration_ms: 1181.623125
+  type: 'test'
+  ...
+# Subtest: Expo Metro reads a real router PNG through patched image-size
+ok 2 - Expo Metro reads a real router PNG through patched image-size
+  ---
+  duration_ms: 3.853125
+  type: 'test'
+  ...
+# Subtest: Expo ticket acceptance is recorded without claiming device delivery
+ok 3 - Expo ticket acceptance is recorded without claiming device delivery
+  ---
+  duration_ms: 0.876542
+  type: 'test'
+  ...
+# Subtest: Opt-out prevents network transmission of pending Expo jobs
+ok 4 - Opt-out prevents network transmission of pending Expo jobs
+  ---
+  duration_ms: 0.116291
+  type: 'test'
+  ...
+# Subtest: Ambiguous network failure is failed and is not automatically resent
+ok 5 - Ambiguous network failure is failed and is not automatically resent
+  ---
+  duration_ms: 0.321833
+  type: 'test'
+  ...
+# Subtest: DeviceNotRegistered removes its binding and records rejection
+ok 6 - DeviceNotRegistered removes its binding and records rejection
+  ---
+  duration_ms: 0.241792
+  type: 'test'
+  ...
+# Subtest: unknown environment fails instead of silently using development
+ok 7 - unknown environment fails instead of silently using development
+  ---
+  duration_ms: 0.596917
+  type: 'test'
+  ...
+# Subtest: development and staging can coexist without IDs or deep links colliding
+ok 8 - development and staging can coexist without IDs or deep links colliding
+  ---
+  duration_ms: 0.09625
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1248.472375
+
+> event-radar@0.1.0 check:env /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-env.mjs
+
+Environment examples and separate development/staging IDs are valid.
+
+> event-radar@0.1.0 check:secrets /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-secrets.mjs
+
+Tracked/unignored files contain no known token/private-key patterns or public server-key names.

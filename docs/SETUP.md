@@ -317,3 +317,35 @@ MapLibre requires a rebuilt development client, **not Expo Go** ([official Expo 
 MapLibre6.11.2 uses same-origin `/vendor/maplibre/6.11.2/maplibre-gl-worker.mjs` + shared module. `pnpm export:mobile` prepares/copies these assets into web dist; serve web at configured EXPO_BASE_URL. If starting Expo directly with `exec`, run `node scripts/prepare-map-assets.mjs` first. Generated third-party code is ignored by Git/ESLint; package bytes remain covered by frozen lockfile, licence and export key scan. Never restore vulnerable5.24.0 to bypass Metro; Babel web import-meta transformation and explicit worker URL fix6.x compatibility.
 
 Security check 2026-10-02: `pnpm audit --json` / `pnpm audit:deps` fail because **1 high node-forge** (Expo CLI, no fixed published version) and existing1moderate decode-uri-component. Do not disable the CI audit gate. [Advisory](https://github.com/advisories/GHSA-86w9-cpqp-85rv), full snapshot evidence/s5/dependencies-audit.json. This prevents a clean security/release claim; routine local checks remain usable.
+
+## S6 local source workflow — 2026-10-02
+
+Current runnable UI: http://localhost:8087 (Metro), Supabase API54321/DB54322, Studio54323/Mailpit54324. User credentials are not recorded here. Before reuse, read [S6_ACCEPTANCE.md](S6_ACCEPTANCE.md); this is local/manual polling, not a deployed production scheduler.
+
+```sh
+supabase start
+supabase migration up --local
+pnpm local:env
+pnpm ingest:s6:local
+pnpm ingest:s6:local madrid --force
+pnpm test:s6
+docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s6_invariants.sql
+services/ingestion/.venv/bin/ruff check services/ingestion
+services/ingestion/.venv/bin/ruff format --check services/ingestion
+services/ingestion/.venv/bin/python -m unittest discover -s services/ingestion -t services/ingestion
+pnpm check
+pnpm export:mobile
+pnpm check:client-bundles
+pnpm build:admin
+pnpm audit:deps
+```
+
+Actual local commands use Node22.23.3/pnpm10.34.6 from `/private/tmp/event-radar-s1-tools/node_modules/.bin` prepended to PATH, Python3.13.3 in the existing ingestion `.venv`; `uv`/`rg` are unavailable here. Canonical frozen `uv sync` remains the setup path for a fresh tool-equipped environment. No `supabase db reset`: this local stack contains user account/rules/saved data. Supabase/localhost/network commands need sandbox escalation in this IDE.
+
+Default CLI checks due state and does not refetch a leased/not-due source. Optional `--force` bypasses cadence/backoff for manual QA, never an active lease. Source codes are exactly madrid/toronto/helsinki. Cadence Madrid/Toronto24h, Helsinki6h; TTL48h/48h/12h; lease4min; explicit failure backoff starts5min and caps24h. Unexpected empty/malformed/truncated batches fail without updating source health. Source-native version/locale cache is read-only from mobile, source labels/licences preserved. Worker takes server key only in memory from local Supabase CLI; no key in CLI args, evidence or mobile env.
+
+AI is not configured. Need provider, actual model ID, daily amount/currency, then verify pricing/access and configure the provider's server key under the chosen adapter's documented env names. Never send keys in chat or place them in EXPO_PUBLIC/VITE env. No default/invented model or budget, no paid requests made. The source-native English UI is already usable independently.
+
+On DB tzdata upgrade refresh `public.timezone_names` in a reviewed migration and rerun accepted-name parity/DST checks. Do not cache UTC offsets: only accepted names are indexed. Audit remains failed1 high node-forge (no fix)+1 moderate; gate not disabled. iOS/Android native/push/external SMTP/remote CI are still unverified.
+
+S6 operational compatibility: `pnpm ingest:madrid:local` now delegates to the S6 Madrid runner with `--force`, preventing the old adapter from overwriting normalized facts/cache hashes. Legacy SQL RPC remains service-only for S3 rollback regressions; it is not the current operational import path.

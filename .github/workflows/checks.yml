@@ -73,6 +73,7 @@ jobs:
       - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s4_invariants.sql
       - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s3_invariants.sql
       - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s5_invariants.sql
+      - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s6_invariants.sql
       - run: pnpm local:env
       - run: pnpm export:mobile
       - run: pnpm check:client-bundles

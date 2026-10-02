@@ -1,0 +1,267 @@
+{
+  "observed_date": "2026-10-02",
+  "normalization_clock": "2026-10-02T00:00:00+00:00",
+  "notice": "Licensed public data; minimal extraction fixture. Attribution: licenses/event-sources/NOTICE.md. Images/contacts excluded.",
+  "samples": [
+    {
+      "source": "madrid",
+      "raw": {
+        "id": "50430455",
+        "title": "1927. Lorca y la culminación del teatro poético",
+        "description": "",
+        "link": "http://www.madrid.es/sites/v/index.jsp?vgnextchannel=ca9671ee4a9eb410VgnVCM100000171f5a0aRCRD&vgnextoid=9621c7fc21dc0a10VgnVCM200000f921e388RCRD",
+        "dtstart": "2027-01-27 18:00:00.0",
+        "dtend": "2027-01-27 23:59:00.0",
+        "time": "18:00",
+        "free": 0,
+        "price": "3 euros",
+        "address": {
+          "district": {
+            "@id": "https://datos.madrid.es/egob/kos/Provincia/Madrid/Municipio/Madrid/Distrito/Centro"
+          },
+          "area": {
+            "@id": "https://datos.madrid.es/egob/kos/Provincia/Madrid/Municipio/Madrid/Distrito/Centro/Barrio/Cortes",
+            "locality": "MADRID",
+            "postal-code": "28012",
+            "street-address": "CALLE PRINCIPE 25"
+          }
+        },
+        "location": {
+          "latitude": 40.414828532240946,
+          "longitude": -3.700164949543688
+        },
+        "event-location": "Teatro Español",
+        "@type": "https://datos.madrid.es/egob/kos/actividades/ConferenciasColoquios"
+      },
+      "expected": {
+        "external_id": "50430455",
+        "category_code": "learning",
+        "title": "1927. Lorca y la culminación del teatro poético",
+        "description": null,
+        "url": "http://www.madrid.es/sites/v/index.jsp?vgnextchannel=ca9671ee4a9eb410VgnVCM100000171f5a0aRCRD&vgnextoid=9621c7fc21dc0a10VgnVCM200000f921e388RCRD",
+        "venue": "Teatro Español",
+        "location": [
+          -3.700164949543688,
+          40.414828532240946
+        ],
+        "territory": "madrid:municipio:Madrid",
+        "price": 3.0,
+        "currency": "EUR",
+        "occurrences": [
+          {
+            "external_id": "50430455",
+            "timezone": "Europe/Madrid",
+            "time_kind": "known",
+            "start_at": "2027-01-27T17:00:00+00:00"
+          }
+        ],
+        "hash": "9bb60ec7e4e2e69d7530cfec1604a8337c9cbc6a1b9f3f62d2a78fea27b8e2f5"
+      }
+    },
+    {
+      "source": "toronto",
+      "raw": {
+        "id": "ac1af0b0-ad1e-43fb-b746-1917abb3a458",
+        "calendar_id": "4a75ca32-c2b0-4baa-a0ee-703cd9e53b03",
+        "calendar_date": "2026-11-19T10:00:00-05:00",
+        "calendar_date_group": "2026-11-19",
+        "calendar_time_of_day": "Day Event",
+        "event_status": "Approved",
+        "event_name": "'Tis the Season Children's Art Exhibition",
+        "event_description": "Created by students from local schools, the works in this exhibition speak to the seasonal changes from autumn to winter, like snowfalls and long periods of darkness, and the cultural traditions they help shape.\n\nCelebrate the exhibition during the Community Open House with friends, family and neighbours. Enjoy live entertainment, activities, crafts and cultural displays. Vote for your favourite artwork in the 'Tis the Season People's Choice Awards. ",
+        "event_category": [
+          "Arts/Exhibits",
+          "Artisan",
+          "Family/Children"
+        ],
+        "event_locations": [
+          {
+            "location_name": "Assembly Hall Gallery",
+            "location_address": "1 Colonel Samuel Smith Park Dr, Etobicoke, ON, M8V 4B6",
+            "location_gps": "[{\"gps_lat\":43.59766044,\"gps_lng\":-79.515824559}]"
+          }
+        ],
+        "free_event": "Yes"
+      },
+      "expected": {
+        "external_id": "ac1af0b0-ad1e-43fb-b746-1917abb3a458",
+        "series_key": "4a75ca32-c2b0-4baa-a0ee-703cd9e53b03",
+        "title": "'Tis the Season Children's Art Exhibition",
+        "description": "Created by students from local schools, the works in this exhibition speak to the seasonal changes from autumn to winter, like snowfalls and long periods of darkness, and the cultural traditions they help shape.\n\nCelebrate the exhibition during the Community Open House with friends, family and neighbours. Enjoy live entertainment, activities, crafts and cultural displays. Vote for your favourite artwork in the 'Tis the Season People's Choice Awards.",
+        "category_code": "culture",
+        "venue": "Assembly Hall Gallery",
+        "territory": "catalog:city:CA:Toronto",
+        "location": [
+          -79.515824559,
+          43.59766044
+        ],
+        "url": "https://open.toronto.ca/dataset/festivals-events/",
+        "price": 0,
+        "currency": "CAD",
+        "occurrences": [
+          {
+            "external_id": "ac1af0b0-ad1e-43fb-b746-1917abb3a458",
+            "timezone": "America/Toronto",
+            "time_kind": "known",
+            "start_at": "2026-11-19T15:00:00+00:00"
+          }
+        ],
+        "hash": "37320764f4c2650b8d63001fca08b6aff77982687e43aeb2bc5c3eeaf7497ccf"
+      }
+    },
+    {
+      "source": "helsinki",
+      "raw": {
+        "id": "helsinki:agqprkpno4",
+        "name": {
+          "fi": "Rhapsody in Blue & Dvořák – urut orkesterina",
+          "sv": "Rhapsody in Blue & Dvořák – Orgeln som orkester",
+          "en": "Rhapsody in Blue & Dvořák – The Organ as Orchestra"
+        },
+        "description": {
+          "fi": "<p>George Gershwinin Rhapsody in Blue ja Antonín Dvořákin Sellokonsertto esitetään ainutlaatuisina versioina, joissa Musiikkitalon urut säestävät nämä legendaariset konsertot yhden miehen voimin.</p><p>Tämä uniikki toteutus yhdistää kaksi huippusolistia ja urkujen valtavan sointimaailman tavalla, jota ei ole aiemmin Suomessa kuultu.</p><p>Solisteina maailmalla mainetta niittänyt pianisti Irina Zahharenkova ja Turun sellokilpailun 2026 voittaja sellisti Artturi Aalto. Urkurina Aleksanteri Wallius.</p><p>Ohjelma</p><p>Thierry Escaich (s. 1965): Poèmes<br>– Eaux natales<br>– Vers l’espérance</p><p>Aleksanteri Wallius, urut</p><p>George Gershwin (1898–1937):<br>– Rhapsody in Blue</p><p>Irina Zahharenkova, piano<br>Aleksanteri Wallius, urut</p><p>– Väliaika –</p><p>Antonín Dvořák (1841–1904):<br>– Sellokonsertto h-molli</p><p>Artturi Aalto, sello<br>Aleksanteri Wallius, urut</p><p>&nbsp;</p><p>Musiikkitalo</p><p>27.10.2026</p><p>19.00-20.50</p><p>Liput 24-54€</p><p>&nbsp;</p>",
+          "sv": "<p>För första gången i Finland! George Gershwins Rhapsody in Blue och Antonín Dvořáks cellokonsert framförs i unika versioner där orgeln i Musikhuset ackompanjerar dessa legendariska verk – framförda av en enda musiker.</p><p>Denna unika produktion förenar två framstående solister och orgelns mäktiga klangvärld på ett sätt som aldrig tidigare hörts i Finland.</p><p>Solister är den internationellt hyllade pianisten Irina Zahharenkova och cellisten Artturi Aalto, vinnare av Åbo cellotävling 2026. Organist är Aleksanteri Wallius.</p><p>&nbsp;</p><p>Thierry Escaich (f. 1965): Poèmes<br>– Eaux natales<br>– Vers l’espérance</p><p>Aleksanteri Wallius, orgel</p><p>George Gershwin (1898–1937):<br>– Rhapsody in Blue</p><p>Irina Zahharenkova, piano<br>Aleksanteri Wallius, orgel</p><p>— Paus —</p><p>Antonín Dvořák (1841–1904):<br>– Cellokonsert i h-moll</p><p>Artturi Aalto, cello<br>Aleksanteri Wallius, orgel</p><p>&nbsp;</p><p>Musikhuset</p><p>27.10.2026</p><p>19.00-20.50</p><p>Biljetter 24-54€</p>",
+          "en": "<p>For the first time in Finland! George Gershwin’s Rhapsody in Blue and Antonín Dvořák’s Cello Concerto are presented with the grand organ of Musiikkitalo.</p><p>George Gershwin’s Rhapsody in Blue and Antonín Dvořák’s Cello Concerto are presented in unique versions, where the grand organ of the Musiikkitalo accompanies these legendary concert works – performed by a single musician.</p><p>This exceptional concept brings together two outstanding soloists and the vast sonic palette of the organ in a way never before heard in Finland.</p><p>The soloists are internationally acclaimed pianist Irina Zahharenkova and cellist Artturi Aalto, winner of the Turku Cello Competition 2026. The organist is Aleksanteri Wallius.</p><p><br><br>Programme</p><p>Thierry Escaich (b. 1965): Poèmes<br>– Eaux natales<br>– Vers l’espérance</p><p>Aleksanteri Wallius, organ</p><p>George Gershwin (1898–1937):<br>– Rhapsody in Blue</p><p>Irina Zahharenkova, piano<br>Aleksanteri Wallius, organ</p><p>— Intermission —</p><p>Antonín Dvořák (1841–1904):<br>– Cello Concerto in B minor</p><p>Artturi Aalto, cello<br>Aleksanteri Wallius, organ</p><p>&nbsp;</p><p>Musiikkitalo</p><p>27.10.2026</p><p>19.00-20.50</p><p>Tickets 24-54€</p>"
+        },
+        "short_description": {
+          "fi": "Ensimmäistä kertaa Suomessa! Dvořákin Sellokonsertto ja Gershwinin Rhapsody in Blue kuullaan ainutlaatuisina sovituksina Musiikkitalon urkujen säestämänä.",
+          "sv": "För första gången i Finland! George Gershwins Rhapsody in Blue och Antonín Dvořáks cellokonsert framförs i unika versioner.",
+          "en": "For the first time in Finland! George Gershwin’s Rhapsody in Blue and Antonín Dvořák’s Cello Concerto are presented with the grand organ of Musiikkitalo."
+        },
+        "start_time": "2026-10-27T17:00:00Z",
+        "end_time": "2026-10-27T18:50:00Z",
+        "event_status": "EventScheduled",
+        "deleted": false,
+        "replaced_by": null,
+        "sub_events": [],
+        "super_event_type": null,
+        "super_event": null,
+        "location": {
+          "name": {
+            "fi": "Musiikkitalo",
+            "sv": "Musikhuset",
+            "en": "Musiikkitalo - Helsinki Music Centre"
+          },
+          "position": {
+            "type": "Point",
+            "coordinates": [
+              24.935074,
+              60.1737
+            ]
+          },
+          "divisions": [
+            {
+              "type": "muni",
+              "ocd_id": "ocd-division/country:fi/kunta:helsinki",
+              "municipality": null,
+              "name": {
+                "fi": "Helsinki",
+                "sv": "Helsingfors"
+              }
+            },
+            {
+              "type": "district",
+              "ocd_id": "ocd-division/country:fi/kunta:helsinki/peruspiiri:vironniemi",
+              "municipality": "Helsinki",
+              "name": {
+                "fi": "Vironniemi",
+                "sv": "Estnäs"
+              }
+            },
+            {
+              "type": "sub_district",
+              "ocd_id": "ocd-division/country:fi/kunta:helsinki/osa-alue:kluuvi",
+              "municipality": "Helsinki",
+              "name": {
+                "fi": "Kluuvi",
+                "sv": "Gloet"
+              }
+            },
+            {
+              "type": "neighborhood",
+              "ocd_id": "ocd-division/country:fi/kunta:helsinki/kaupunginosa:kluuvi",
+              "municipality": "Helsinki",
+              "name": {
+                "fi": "Kluuvi",
+                "sv": "Gloet"
+              }
+            }
+          ]
+        },
+        "keywords": [
+          {
+            "@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p11185/"
+          },
+          {
+            "@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p1808/"
+          },
+          {
+            "@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p360/"
+          }
+        ],
+        "offers": [
+          {
+            "is_free": false,
+            "offer_price_groups": [],
+            "price": {
+              "fi": "24-54€",
+              "sv": "24-54€",
+              "en": "24-54€"
+            },
+            "info_url": {
+              "fi": "https://musiikkitalo.fi/konsertit-ja-tapahtumat/rhapsody-in-blue-dvorak-urut-orkesterina-27-10-2026",
+              "sv": "https://musiikkitalo.fi/konsertit-ja-tapahtumat/rhapsody-in-blue-dvorak-urut-orkesterina-27-10-2026",
+              "en": "https://musiikkitalo.fi/konsertit-ja-tapahtumat/rhapsody-in-blue-dvorak-urut-orkesterina-27-10-2026"
+            },
+            "description": {
+              "fi": "",
+              "sv": "",
+              "en": ""
+            }
+          }
+        ],
+        "info_url": {
+          "fi": "https://musiikkitalo.fi/konsertit-ja-tapahtumat/rhapsody-in-blue-dvorak-urut-orkesterina-27-10-2026",
+          "sv": "https://musiikkitalo.fi/sv/konserter-och-evenemang/rhapsody-in-blue-dvorak-orgeln-som-orkester-27-10-2026",
+          "en": "https://musiikkitalo.fi/en/concerts-and-events/rhapsody-in-blue-dvorak-the-organ-as-orchestra-27-10-2026"
+        }
+      },
+      "expected": {
+        "external_id": "helsinki:agqprkpno4",
+        "series_key": null,
+        "title": "Rhapsody in Blue & Dvořák – urut orkesterina",
+        "status": "scheduled",
+        "original_language": "fi",
+        "description": "George Gershwinin Rhapsody in Blue ja Antonín Dvořákin Sellokonsertto esitetään ainutlaatuisina versioina, joissa Musiikkitalon urut säestävät nämä legendaariset konsertot yhden miehen voimin.\nTämä uniikki toteutus yhdistää kaksi huippusolistia ja urkujen valtavan sointimaailman tavalla, jota ei ole aiemmin Suomessa kuultu.\nSolisteina maailmalla mainetta niittänyt pianisti Irina Zahharenkova ja Turun sellokilpailun 2026 voittaja sellisti Artturi Aalto. Urkurina Aleksanteri Wallius.\nOhjelma\nThierry Escaich (s. 1965): Poèmes\n– Eaux natales\n– Vers l’espérance\nAleksanteri Wallius, urut\nGeorge Gershwin (1898–1937):\n– Rhapsody in Blue\nIrina Zahharenkova, piano\nAleksanteri Wallius, urut\n– Väliaika –\nAntonín Dvořák (1841–1904):\n– Sellokonsertto h-molli\nArtturi Aalto, sello\nAleksanteri Wallius, urut\n \nMusiikkitalo\n27.10.2026\n19.00-20.50\nLiput 24-54€",
+        "venue": "Musiikkitalo",
+        "url": "https://musiikkitalo.fi/konsertit-ja-tapahtumat/rhapsody-in-blue-dvorak-urut-orkesterina-27-10-2026",
+        "category_code": "other",
+        "territory": "catalog:city:FI:Helsinki",
+        "location": [
+          24.935074,
+          60.1737
+        ],
+        "price": null,
+        "currency": null,
+        "occurrences": [
+          {
+            "external_id": "helsinki:agqprkpno4",
+            "timezone": "Europe/Helsinki",
+            "time_kind": "known",
+            "start_at": "2026-10-27T17:00:00+00:00",
+            "end_at": "2026-10-27T18:50:00+00:00"
+          }
+        ],
+        "translations": [
+          {
+            "locale": "en",
+            "title": "Rhapsody in Blue & Dvořák – The Organ as Orchestra",
+            "description": "For the first time in Finland! George Gershwin’s Rhapsody in Blue and Antonín Dvořák’s Cello Concerto are presented with the grand organ of Musiikkitalo.\nGeorge Gershwin’s Rhapsody in Blue and Antonín Dvořák’s Cello Concerto are presented in unique versions, where the grand organ of the Musiikkitalo accompanies these legendary concert works – performed by a single musician.\nThis exceptional concept brings together two outstanding soloists and the vast sonic palette of the organ in a way never before heard in Finland.\nThe soloists are internationally acclaimed pianist Irina Zahharenkova and cellist Artturi Aalto, winner of the Turku Cello Competition 2026. The organist is Aleksanteri Wallius.\n\n\nProgramme\nThierry Escaich (b. 1965): Poèmes\n– Eaux natales\n– Vers l’espérance\nAleksanteri Wallius, organ\nGeorge Gershwin (1898–1937):\n– Rhapsody in Blue\nIrina Zahharenkova, piano\nAleksanteri Wallius, organ\n— Intermission —\nAntonín Dvořák (1841–1904):\n– Cello Concerto in B minor\nArtturi Aalto, cello\nAleksanteri Wallius, organ\n \nMusiikkitalo\n27.10.2026\n19.00-20.50\nTickets 24-54€",
+            "summary": "For the first time in Finland! George Gershwin’s Rhapsody in Blue and Antonín Dvořák’s Cello Concerto are presented with the grand organ of Musiikkitalo."
+          }
+        ],
+        "hash": "cfe517aab317332f19818f730637d6ed5ef44a8a5339a86fcf564100f2144b51"
+      }
+    }
+  ]
+}

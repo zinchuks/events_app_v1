@@ -1,6 +1,6 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-02, Europe/Madrid. Поточна задача: **S5** за новим запитом «продовжуй робити». S5 mobile experience реалізовано; browser/local DB перевірки пройшли; native acceptance unverified. S3 real device push blocked. Новий high advisory node-forge без patched version блокує clean security/release gate. S6–S12 не починалися. Аудити — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md). Нижче S0–S4 — історичні результати відповідних дат.
+Оновлено 2026-10-02, Europe/Madrid. Поточна задача: **S6** за новим запитом «продовжуй». S5 mobile experience реалізовано; browser/local DB перевірки пройшли; native acceptance unverified. S3 real device push blocked. Новий high advisory node-forge без patched version блокує clean security/release gate. S6: 3 sources/3 countries і source-native cache verified, AI blocked (provider/model/budget/server key); S7–S12 не починалися. Аудити — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md). Нижче S0–S4 — історичні результати відповідних дат.
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
@@ -10,7 +10,7 @@
 | S3 | **implemented; real push blocked** | Madrid → atomic DB → city/category rule → detail/save → private digest → local transport fixture verified. Device delivery/native build unverified |
 | S4 | **implemented** | Owner CRUD/пауза, multiple territories/radius/polygon/filters, union without duplicates. 73 actual API + 49 rollback SQL checks, browser QA pass; native unverified |
 | S5 | **implemented; native unverified** | 4-step onboarding, unified search/paged feed, actual OpenFreeMap/MapLibre web map + editor/offline fallback, saved/inbox/settings. 69 API + 24 SQL checks; native acceptance і clean security gate blocked |
-| S6 | pending | 3 live sources / 2 countries, dedup/AI/translation; provider/rights gates попереду |
+| S6 | **in_progress; AI blocked** | Madrid/ES + Toronto/CA + Helsinki/FI live imports; source registry/leases/backoff/TTL, safe review, real price/points, native-source English cache/browser verified. AI adapter/budget/access still blocked; [acceptance](S6_ACCEPTANCE.md) |
 | S7 | pending | Durable schedules/jobs, timezone/DST, receipts/retries |
 | S8 | pending | Changes/cancellations/reminders |
 | S9 | pending | Store sandbox purchases/restore/server entitlements; external setup unverified |
@@ -40,7 +40,7 @@
 | Product dependencies | S5 audit: 0 critical, **1 high node-forge** через Expo CLI (no patch), 1 moderate decode-uri-component | Await audited upstream fix/retest; CI audit gate залишається увімкненим і failed. Повний snapshot evidence/s5/dependencies-audit.json |
 | Supabase DB / RLS | local verified: Docker 29.8.1, Postgres 17.4/PostGIS 3.3.7, 19/19 RLS tables, 108 real Auth/API checks | Managed staging/production deployment не виконано; S3 може використовувати local DB |
 | Push/billing/AI/maps/external auth | unverified; accounts/keys/device evidence не надано | Налаштовувати за етапами S2/S3/S5/S6/S9, не блокувати незалежний S1 |
-| Real data | S3: 930 real Madrid records; 868 мають exact locality MADRID. Один live source, subset single-day/non-recurring. Barcelona/Toronto unverified | S6: ще два джерела й друга країна, серії/переклад; не обіцяти повну афішу |
+| Real data | S6: 3 real sources/3 countries; partial live cache1276 future sessions1202 mapped at12:13UTC. Barcelona403 still not approved | Coverage/safe TTL/source-specific caps documented; full city calendar never claimed |
 
 Команди й exit/results див. SETUP та evidence/s0; mocks не використовували як real-integration proof. License review — code/direct package metadata, не повний distribution/legal clearance усіх transitive/native assets.
 
@@ -125,3 +125,14 @@ S4 implementation checkpoint: **`9b7e55661acdc4e72f36922d9bba021cda1a88af`**. О
 - Security audit final:0critical,1high node-forge (no published patch),1moderate decode-uri-component; full audit exit1, CI high gate remains failed. New warning не приховано. Native acceptance та clean security gate prevent S5 verified/release claim.
 - Schedule settings are preferences only (`active=false`, `next_run_at=NULL`), no S7 jobs/DST/quiet hours. S6–S12 залишаються pending. Next independent stage: S6 only by new task, while native prerequisites/security remediation remain tracked.
 - Acceptance/manual steps — [S5_ACCEPTANCE.md](S5_ACCEPTANCE.md). Implementation checkpoint: `57c667d9ae6ad0e47e607e5b954732b3b4e7e102`. Окремий docs commit записує цей SHA; власний HEAD через `git log -1`. No push/remote changes.
+
+## S6 — independent source work completed; AI blocked, 2026-10-02
+
+- Madrid1182 normalized records; actual provider coordinates/free/exact paid amount now imported. Older adapter ignored these fields — source absence was never proven. Preserve Madrid IDs/user saved data.
+- Toronto bounded32MiB prefix:28 future sessions; Helsinki3×100 latest-modified records:59 in last batch,79 accumulated future records. Three official sources in ES/CA/FI; licensed public text only, no images/contact fields.
+- Atomic importer+source lease/due/backoff/TTL and metrics, exact normalized facts/version updates, private duplicate candidate queue without merges, explicit Helsinki cancellation. Unknown facts remain unknown; source-native ready/current translations/summary visible with original fallback and attribution.
+- Fixed real Madrid HTTP timeout: timezone-name checks cost75–89s per1182 records; indexed authoritative name inventory reduces SQL to0.442s, live end-to-end1.734s. Accepted names unchanged, timezone/DST arithmetic not replaced.
+- Verification:24 Python tests +ruff; pnpm check16 Jest/8 Node; actual local API/RLS checks S2=108/S3=84/S4=191/S5=69/S6=68; S6 SQL ROLLBACK invariants pass; final exports/key scan/admin pass. Browser390×844 source cards, English provider translation, actual Helsinki marker/clusters and no console errors. [Acceptance/proof](S6_ACCEPTANCE.md).
+- AI: user says access exists, but provider/model/daily amount+currency not received and no server key configured. No API model invented or requests/spend. Adapter/budget reservations/cache retries/outage/live smoke **not implemented or verified**. Source translation cache is not AI proof.
+- Native/SMTP/device push/remote CI remain unverified. Audit still fails1 high node-forge without fix +1 moderate; do not hide gate. S7–S12 remain pending.
+- Next required input to finish S6: provider, exact model ID, daily budget with currency; key only in local server env (never chat/client/git). Local source checkpoint recorded below after final diff/secret checks. No push.

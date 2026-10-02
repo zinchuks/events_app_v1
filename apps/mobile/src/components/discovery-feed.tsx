@@ -32,7 +32,7 @@ export function DiscoveryFeed(){
   <Field label={t('searchEvents')} value={search} onChange={v=>setSearch(v.slice(0,120))}/><Text style={ui.muted}>{t('s4Coverage')}</Text>
   {session&&ruleCount===0&&<Button label={t('startOnboarding')} onPress={()=>router.push('/onboarding')}/>}
   {!session&&<Button label={t('startOnboarding')} onPress={()=>router.push('/onboarding')}/>}
-  <View style={ui.row}><Button label={t('map')} variant="outline" onPress={()=>router.push({pathname:'/map',params:{mode,search:query}})}/>{session&&<Button label={t('rules')} variant="link" onPress={()=>router.push('/rules')}/>}</View></View>
+  <View style={ui.row}><Button label={t('map')} variant="outline" onPress={()=>router.push({pathname:'/map',params:{mode,search:query}})}/><Button label={t('sourcesHeading')} variant="link" onPress={()=>router.push('/sources')}/>{session&&<Button label={t('rules')} variant="link" onPress={()=>router.push('/rules')}/>}</View></View>
   {state==='loading'?<Text accessibilityLiveRegion="polite">{t('loading')}</Text>:state==='error'?<View style={ui.card}><Text accessibilityRole="alert">{t('error')}</Text><Button label={t('retry')} onPress={()=>setRevision(v=>v+1)}/></View>:<>
   <Text accessibilityLiveRegion="polite" style={ui.muted}>{t('resultsCount')}: {result.total}</Text>
   {result.items.length===0?<View style={ui.card}><Text style={ui.text}>{query?t('noSearchResults'):mode==='matches'?t('noRuleMatches'):t('noEvents')}</Text>{Boolean(query)&&<Button label={t('clearSearch')} variant="outline" onPress={()=>setSearch('')}/>}<Button label={t('startOnboarding')} onPress={()=>router.push('/onboarding')}/></View>:result.items.map(item=><EventCard key={item.id} item={item} names={names}/>)}
