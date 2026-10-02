@@ -156,3 +156,5 @@ S6 source implementation checkpoint: `0b1e3f03130ae83945b7f7c2bd0c5771da0bb121` 
 - [S6_AI.md](S6_AI.md), [evidence](evidence/s6/ai-foundation-results.json). Provider/exact model/daily amount+currency/server key still needed for actual adapter/pricing/access/manual translation QA/bounded live smoke. S6 in_progress, S7–S12 pending, no Git push.
 
 Previous local polling checkpoint: `e7cad73`; this continuation's HEAD is available with `git log -1`. Native/SMTP/physical push and prior dependency audit findings unchanged without new evidence.
+
+S6 disabled AI foundation implementation checkpoint: `bb223e6dd9a46e9f900c82c1d69e6878f861e125` (local only, no push). Окремий documentation commit записує цей SHA; поточний HEAD — `git log -1`. Actual provider integration залишається blocked.

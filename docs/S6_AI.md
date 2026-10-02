@@ -60,3 +60,5 @@ pnpm test:s2
 ## Що потрібно для завершення S6
 
 Провайдер, **exact доступний model ID**, денний бюджет і currency. Після отримання — official docs/pricing/access verification, один server-only adapter та server key поза chat/client/Git; довести request ceiling, actual locale/output/usage contract, bounded live smoke, malformed/outage/injection checks й ручну якість. Не вмикати цієї основи як нібито готовий AI без такого adapter/proof. S6 лишається in_progress; S7–S12 не починалися.
+
+Implementation checkpoint: `bb223e6dd9a46e9f900c82c1d69e6878f861e125`; local only/no push. Actual HEAD — `git log -1`.
