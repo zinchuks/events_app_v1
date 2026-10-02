@@ -105,5 +105,6 @@
       "sha256": "b3865e3cd6ff9b6217a61686cc834940c5ae4673ad675cf40fa958cc82433967",
       "bytes": 285
     }
-  }
+  },
+  "implementation_commit": "67a22e51b5a91d3591f8b684f6d9f67659c09179"
 }

@@ -37,6 +37,8 @@ HTTP requests sequential, one device per request, 15-second timeout. Корот�
 | Real Expo send/receipt/device deep link | **unverified / blocked**, user checks browser only; no configured physical development device evidence, no Expo HTTP requests from this work |
 | Hosted worker / remote CI | **unverified**; local process is running on this computer, DB survives process restart, production deployment/OS auto-start не налаштовано |
 
+Implementation checkpoint: `67a22e51b5a91d3591f8b684f6d9f67659c09179`.
+
 Proof: [verification.json](evidence/s7/verification.json), [logs](evidence/s7/), screenshots. No DB reset, remote mutation чи push.
 
 ## Запуск і ручна перевірка
