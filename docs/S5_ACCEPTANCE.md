@@ -45,3 +45,5 @@ Schedule UI persists validated manual/daily/weekdays/interval preferences only: 
 ## Remaining acceptance / next action
 
 Owner reviews/accepts Xcode licence; install Android SDK/JDK/emulator or configure own EAS development builds/signing. Rebuild MapLibre development client (not Expo Go), repeat onboarding/feed/map/saved/source/deep links and VoiceOver/TalkBack on both platforms, record device/OS/build. Security upstream remediation and full native distribution notices review before release. S6 is the next independent stage only with a new task; S5 is not MVP/release-ready.
+
+Implementation checkpoint: `57c667d9ae6ad0e47e607e5b954732b3b4e7e102`. Документаційний checkpoint фіксує цей SHA після commit. No push, existing remote unchanged.

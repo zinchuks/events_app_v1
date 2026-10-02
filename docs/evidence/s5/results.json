@@ -90,5 +90,6 @@
   },
   "evidence": "sanitized logs and JPEG screenshots in this directory; fixtures explicitly marked; no secrets",
   "next_stage": "S6 only by new task",
-  "git_push": false
+  "git_push": false,
+  "implementation_checkpoint": "57c667d9ae6ad0e47e607e5b954732b3b4e7e102"
 }
