@@ -136,3 +136,5 @@ S4 implementation checkpoint: **`9b7e55661acdc4e72f36922d9bba021cda1a88af`**. О
 - AI: user says access exists, but provider/model/daily amount+currency not received and no server key configured. No API model invented or requests/spend. Adapter/budget reservations/cache retries/outage/live smoke **not implemented or verified**. Source translation cache is not AI proof.
 - Native/SMTP/device push/remote CI remain unverified. Audit still fails1 high node-forge without fix +1 moderate; do not hide gate. S7–S12 remain pending.
 - Next required input to finish S6: provider, exact model ID, daily budget with currency; key only in local server env (never chat/client/git). Local source checkpoint recorded below after final diff/secret checks. No push.
+
+S6 source implementation checkpoint: `0b1e3f03130ae83945b7f7c2bd0c5771da0bb121` (local only). Наступний документаційний commit записує цей SHA; поточний final HEAD — `git log -1`. S6 AI лишається blocked, S7–S12 pending.
