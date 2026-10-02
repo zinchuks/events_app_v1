@@ -1,0 +1,94 @@
+{
+  "stage": "S5",
+  "date": "2026-10-02",
+  "status": "implemented; native unverified; security gate blocked",
+  "checks": {
+    "pnpm check": {
+      "exit": 0,
+      "jest": 16,
+      "node": 8
+    },
+    "pnpm test:s5": {
+      "exit": 0,
+      "assertions": 69,
+      "live_catalog_snapshot": 881,
+      "music_snapshot": 95
+    },
+    "s5 SQL rollback": {
+      "exit": 0,
+      "assertions": 24
+    },
+    "S2 regression": {
+      "exit": 0,
+      "assertions": 108
+    },
+    "S3 regression": {
+      "exit": 0,
+      "assertions": 84
+    },
+    "S4 regression": {
+      "exit": 0,
+      "assertions": 73
+    },
+    "export ios/android/web": {
+      "exit": 0,
+      "native_build": false
+    },
+    "admin build": {
+      "exit": 0
+    },
+    "Expo deps and Doctor": {
+      "exit": 0,
+      "doctor_checks": 18
+    },
+    "isolated prebuild --no-install all": {
+      "exit": 0,
+      "native_build": false
+    },
+    "frozen install": {
+      "exit": 0
+    },
+    "database types": {
+      "result": "byte-for-byte equal with local CLI output"
+    },
+    "full dependency audit": {
+      "exit": 1,
+      "critical": 0,
+      "high": 1,
+      "moderate": 1
+    },
+    "client bundle server-key boundary": {
+      "exit": 0,
+      "files": 66
+    },
+    "pnpm audit:deps": {
+      "exit": 1,
+      "result": "high node-forge blocks security gate"
+    }
+  },
+  "maps": {
+    "web": "MapLibre GL JS6.11.2 actual browser render and clustering; same-origin module worker",
+    "native": "MapLibre RN11.4.1; build/run unverified",
+    "tiles": "actual OpenFreeMap Positron",
+    "real_Madrid_coordinates": "NULL; no fabricated markers",
+    "geometry_matching": "PostGIS authoritative; drawn radius approximate"
+  },
+  "delivery": {
+    "preferences_active": false,
+    "push_sends": 0,
+    "S7_scheduler": "pending"
+  },
+  "runtime": {
+    "node": "22.23.3",
+    "pnpm": "10.34.6"
+  },
+  "prerequisites": {
+    "ios": "owner Xcode license review/acceptance, native build/device QA",
+    "android": "SDK/JDK/adb/emulator or own EAS development build/device QA",
+    "security": "audited upstream node-forge fix; existing moderate tracked",
+    "smtp": "absent; local Mailpit only"
+  },
+  "evidence": "sanitized logs and JPEG screenshots in this directory; fixtures explicitly marked; no secrets",
+  "next_stage": "S6 only by new task",
+  "git_push": false
+}

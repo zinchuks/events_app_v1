@@ -1,0 +1,28 @@
+BEGIN
+CREATE FUNCTION
+NOTICE:  PASS: public catalog search count
+NOTICE:  PASS: known zero coordinates count
+NOTICE:  PASS: all requested rows
+NOTICE:  PASS: description and Unicode search
+NOTICE:  PASS: literal wildcard characters
+NOTICE:  PASS: stable ordered page
+NOTICE:  PASS: page sizes
+NOTICE:  PASS: pages do not overlap
+NOTICE:  PASS: zero is genuine location, not unknown
+NOTICE:  PASS: unknown location stays null
+NOTICE:  PASS: owner union matches fixtures
+NOTICE:  PASS: preferences inactive and horizon independent
+NOTICE:  PASS: onboarding creates no push jobs
+NOTICE:  PASS: timezone preference preserves event horizon
+NOTICE:  PASS: stranger sees no owner matches
+NOTICE:  PASS: invalid preference rejected atomically
+NOTICE:  PASS: invalid preference rejected atomically
+NOTICE:  PASS: invalid preference rejected atomically
+NOTICE:  PASS: invalid preference rejected atomically
+NOTICE:  PASS: invalid preference rejected atomically
+NOTICE:  PASS: failed onboarding leaves no rule
+NOTICE:  PASS: paused rule hidden from feed
+NOTICE:  PASS: rights blocked source excluded
+NOTICE:  PASS: demo source excluded
+DO
+ROLLBACK

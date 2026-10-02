@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { Button } from './ui/button';
 import { ui } from './screen';
 import { enablePush } from '@/lib/push';
@@ -20,5 +20,5 @@ export function PushSettings() {
    } else { const result = await enablePush(); setMessage(result); if (result === 'pushEnabled') setEnabled(true); }
   } catch { setMessage('error'); } finally { setBusy(false); }
  }
- return <View style={ui.card}><Text style={ui.title}>{t('notifications')}</Text><Text style={ui.text}>{t('pushDevelopment')}</Text><Button label={enabled ? t('disablePush') : t('enablePush')} variant="outline" disabled={busy} onPress={() => void toggle()} />{message && <Text accessibilityRole="alert" style={ui.muted}>{t(message)}</Text>}</View>;
+ return <View style={ui.card}><Text style={ui.title}>{t('notifications')}</Text><Text style={ui.text}>{t(Platform.OS==='web'?'pushBrowser':'pushDevelopment')}</Text>{(Platform.OS!=='web'||enabled)&&<Button label={enabled ? t('disablePush') : t('enablePush')} variant="outline" disabled={busy} onPress={() => void toggle()} />}{message && <Text accessibilityRole="alert" style={ui.muted}>{t(message)}</Text>}</View>;
 }

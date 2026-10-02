@@ -6,9 +6,12 @@ import { project, unproject, type Point, type Extent } from '@/lib/rules';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from './ui/button';
 import { Field } from './rule-fields';
+import { EventMap } from './event-map';
+import type { FeedItem } from '@/lib/discovery';
+const noEvents:FeedItem[]=[];
 import { ui } from './screen';
 export function AreaMap({ points, onPoint, meters, disabled }: { points: Point[]; onPoint(p: Point): void; meters?: number; disabled: boolean }) {
- const { t } = useLanguage(); const [width, setWidth] = useState(320);
+ const { t } = useLanguage(); const[offline,setOffline]=useState(false); const [width, setWidth] = useState(320);
  const pressLocation = useRef<Point | null>(null);
  const [extent, setExtent] = useState<Extent>({ longitude: -3.7, latitude: 40.42, span: 12 });
  const [lon, setLon] = useState('-3.7'); const [lat, setLat] = useState('40.42');
@@ -19,7 +22,8 @@ export function AreaMap({ points, onPoint, meters, disabled }: { points: Point[]
  const projected = points.map(p => project(p, extent));
  return <View style={{ gap: 10 }}>
   <Text style={ui.muted}>{t('mapHint')}</Text>
-  <Pressable accessibilityRole="button" accessibilityLabel={t('areaMap')} disabled={disabled} onLayout={e => setWidth(e.nativeEvent.layout.width)} onPressIn={e => {
+  <Button label={offline?t('detailedMap'):t('offlineMap')} variant="outline" onPress={()=>setOffline(v=>!v)}/>{!offline&&<><EventMap items={noEvents} onSelect={()=>{}} focus={[extent.longitude,extent.latitude]} draft={points} meters={meters} onPoint={disabled?undefined:onPoint}/><Text style={ui.muted}>© OpenFreeMap · © OpenMapTiles · © OpenStreetMap</Text><Button label="© OpenStreetMap" variant="link" onPress={()=>void Linking.openURL('https://www.openstreetmap.org/copyright')}/></>}
+  {offline&&<><Pressable accessibilityRole="button" accessibilityLabel={t('areaMap')} disabled={disabled} onLayout={e => setWidth(e.nativeEvent.layout.width)} onPressIn={e => {
    // RN Web onPress receives a DOM click; its normalized responder coordinates
    // are available on onPressIn. Native onPress provides final touch coordinates.
    pressLocation.current = Number.isFinite(e.nativeEvent.locationX) && Number.isFinite(e.nativeEvent.locationY) ? [e.nativeEvent.locationX, e.nativeEvent.locationY] : null;
@@ -40,7 +44,7 @@ export function AreaMap({ points, onPoint, meters, disabled }: { points: Point[]
   </Pressable>
   <Text style={ui.muted}>{t('mapAttribution')}</Text>
   <Button size="sm" variant="link" label={t('sourceLicense')} onPress={() => void Linking.openURL('https://creativecommons.org/licenses/by/4.0/')} />
-  <View style={ui.row}><Button size="sm" variant="outline" label={t('zoomIn')} disabled={disabled} onPress={() => setExtent(e => ({...e, span: Math.max(.04,e.span/2)}))} /><Button size="sm" variant="outline" label={t('zoomOut')} disabled={disabled} onPress={() => setExtent(e => ({...e, span: Math.min(360,e.span*2)}))} /></View>
+  </>}<View style={ui.row}>{offline&&<><Button size="sm" variant="outline" label={t('zoomIn')} disabled={disabled} onPress={() => setExtent(e => ({...e, span: Math.max(.04,e.span/2)}))} /><Button size="sm" variant="outline" label={t('zoomOut')} disabled={disabled} onPress={() => setExtent(e => ({...e, span: Math.min(360,e.span*2)}))} /></>}</View>
   <Field label={t('mapLongitude')} value={lon} onChange={setLon} disabled={disabled} numeric /><Field label={t('mapLatitude')} value={lat} onChange={setLat} disabled={disabled} numeric />
   <Button size="sm" variant="outline" label={t('moveMap')} disabled={disabled} onPress={() => { const x=Number(lon.replace(',','.')), y=Number(lat.replace(',','.')); if(lon.trim() && lat.trim() && Number.isFinite(x) && Number.isFinite(y) && Math.abs(x)<=180 && Math.abs(y)<=90) setExtent(e=>({...e,longitude:x,latitude:y})); }} />
  </View>;

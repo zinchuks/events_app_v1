@@ -1,7 +1,7 @@
 # Правила Event Radar
 
 - Перед роботою читати [MVP_PLAN.md](MVP_PLAN.md), [CODEX_PROMPTS.md](CODEX_PROMPTS.md), [docs/PROGRESS.md](docs/PROGRESS.md); для архітектурних змін — [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-- Виконувати лише замовлений етап. S0–S4 мають реалізовані результати; S3 real device push blocked, S4 native unverified. Не починати S5 без нового завдання. Рутинні рішення приймати самостійно, значущі записувати в docs/DECISIONS.md.
+- Виконувати лише замовлений етап. S0–S5 мають реалізовані результати; S3 real device push blocked, S4/S5 native unverified. Не починати S6 без нового завдання. Рутинні рішення приймати самостійно, значущі записувати в docs/DECISIONS.md.
 - Не перезаписувати чужі зміни. NEVER run `git push` (including force push) without explicit user confirmation before every push. Не створювати remote і не публікувати без окремого завдання.
 - Тимчасові сторонні checkouts тримати поза продуктом. Фіксувати SHA, licenses, запозичення в docs/THIRD_PARTY.md; права на код не означають права на дані подій.
 - Не вигадувати факти, доступ, native builds чи доставку push. `implemented` ≠ `verified`; fixtures не є real integration. Блокери й результати записувати в docs/PROGRESS.md.
@@ -16,3 +16,5 @@
 - S3: `pnpm test:s3` після live import; `pnpm notify:s3:fixture` ніколи не надсилає push; `pnpm notify:s3:expo` лише за configured own native device. SQL rollback invariants: `docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s3_invariants.sql`. Фактичні commands/proof — docs/SETUP.md і docs/evidence/s3.
 
 - S4: `pnpm test:s4` після live Madrid import; `docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s4_invariants.sql` — transaction fixtures + ROLLBACK. Writes S4 settings/areas only via atomic RPC; pause через `set_s4_rule_enabled`. Matching не вигадує координати/ціну/мову, antimeridian polygons explicitly rejected. Native proof і Free/Plus limits не заявлені. Acceptance — docs/S4_ACCEPTANCE.md.
+
+- S5: `pnpm test:s5` після live import; `docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s5_invariants.sql` (ROLLBACK). Maps: RN11.4.1 + GL JS6.11.2 / OpenFreeMap attribution; no fake coordinates. Schedule preferences inactive до S7. Audit gate наразі failed: new high node-forge advisory without fixed version; не приховувати. Acceptance — docs/S5_ACCEPTANCE.md.

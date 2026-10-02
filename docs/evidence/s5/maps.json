@@ -1,0 +1,23 @@
+{
+  "maplibre-gl": {
+    "version": "6.11.2",
+    "license": "BSD-3-Clause",
+    "registry_gitHead": "acb7b722f6a752ac1a2ba98cf83006c83dc4fafa",
+    "repository": "maplibre/maplibre-gl-js",
+    "manifest_sha256": "43279ee38f2ef83bc695f6f8bfb4df098a14c49662291c126cf4a0cb477507a0"
+  },
+  "@maplibre/maplibre-react-native": {
+    "version": "11.4.1",
+    "license": "MIT",
+    "registry_gitHead": "697e54d151f34acb39e80d62cf1512e4bfb53a90",
+    "repository": "maplibre/maplibre-react-native",
+    "manifest_sha256": "5d3cc8e6f32b4018b006b6ef0bdff64f9bb3b7920663c91728335a4d725cb881"
+  },
+  "basemap": {
+    "url": "https://tiles.openfreemap.org/styles/positron",
+    "sha256": "a0f5b8487480a47ba5a5eaf25e165a19789dfa422f9ef9442f04da79c7d216db",
+    "snapshot_only": true,
+    "native_render": "unverified"
+  },
+  "web_worker": "same-origin npm package assets prepared by scripts/prepare-map-assets.mjs, version6.11.2"
+}

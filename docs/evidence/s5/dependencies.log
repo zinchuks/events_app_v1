@@ -1,0 +1,15 @@
+
+> @event-radar/mobile@0.1.0 deps:check /Users/serhiizinchuk/my_projects/events_app/apps/mobile
+> expo install --check
+
+env: load .env.local
+env: export APP_VARIANT EXPO_PUBLIC_SUPABASE_URL EXPO_PUBLIC_SUPABASE_ANON_KEY
+Dependencies are up to date
+
+> @event-radar/mobile@0.1.0 doctor /Users/serhiizinchuk/my_projects/events_app/apps/mobile
+> expo-doctor
+
+env: load .env.local
+env: export APP_VARIANT EXPO_PUBLIC_SUPABASE_ANON_KEY EXPO_PUBLIC_SUPABASE_URL
+Running 18 checks on your project...
+18/18 checks passed. No issues detected!

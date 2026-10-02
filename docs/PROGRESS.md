@@ -1,6 +1,6 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-01, Europe/Madrid. Поточна задача: **S4** за новим запитом користувача. S3 browser workflow перевірений, real device push blocked. S4 реалізовано за новим запитом «продовжуй»; browser/PostGIS acceptance перевірені, native unverified. S5 не починався. Результати аудитів — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md).
+Оновлено 2026-10-02, Europe/Madrid. Поточна задача: **S5** за новим запитом «продовжуй робити». S5 mobile experience реалізовано; browser/local DB перевірки пройшли; native acceptance unverified. S3 real device push blocked. Новий high advisory node-forge без patched version блокує clean security/release gate. S6–S12 не починалися. Аудити — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md). Нижче S0–S4 — історичні результати відповідних дат.
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
@@ -9,7 +9,7 @@
 | S2 | **implemented** | Local PostGIS/migrations/19 RLS tables, email Auth/privacy/uk-en-es; 108 real integration checks + browser QA pass. Native/storage/external SMTP/remote CI unverified |
 | S3 | **implemented; real push blocked** | Madrid → atomic DB → city/category rule → detail/save → private digest → local transport fixture verified. Device delivery/native build unverified |
 | S4 | **implemented** | Owner CRUD/пауза, multiple territories/radius/polygon/filters, union without duplicates. 73 actual API + 49 rollback SQL checks, browser QA pass; native unverified |
-| S5 | pending | Mobile UX/maps; native MapLibre і map infrastructure unverified |
+| S5 | **implemented; native unverified** | 4-step onboarding, unified search/paged feed, actual OpenFreeMap/MapLibre web map + editor/offline fallback, saved/inbox/settings. 69 API + 24 SQL checks; native acceptance і clean security gate blocked |
 | S6 | pending | 3 live sources / 2 countries, dedup/AI/translation; provider/rights gates попереду |
 | S7 | pending | Durable schedules/jobs, timezone/DST, receipts/retries |
 | S8 | pending | Changes/cancellations/reminders |
@@ -37,7 +37,7 @@
 | iOS native build/run | unverified; Xcode license gate (`simctl`, CocoaPods) | Власник переглядає/приймає угоду, перевірити simulator і build після S1 import |
 | Android native build/run | unverified; adb/standard SDK absent | SDK/JDK/emulator або EAS + physical device, потім S1 native smoke |
 | community full install | S0 failed на Python 3.13 і 3.11; legacy lxml gate | S1 worker має stdlib-only runtime і працює; selective import адаптерів із новими pins — S3 |
-| Product dependencies | S1 critical/high = 0; moderate decode-uri-component через Expo Router/query-string = 1 | Сумісний upstream update/retest перед release; JSON finding збережено, high-only gate його не приховує |
+| Product dependencies | S5 audit: 0 critical, **1 high node-forge** через Expo CLI (no patch), 1 moderate decode-uri-component | Await audited upstream fix/retest; CI audit gate залишається увімкненим і failed. Повний snapshot evidence/s5/dependencies-audit.json |
 | Supabase DB / RLS | local verified: Docker 29.8.1, Postgres 17.4/PostGIS 3.3.7, 19/19 RLS tables, 108 real Auth/API checks | Managed staging/production deployment не виконано; S3 може використовувати local DB |
 | Push/billing/AI/maps/external auth | unverified; accounts/keys/device evidence не надано | Налаштовувати за етапами S2/S3/S5/S6/S9, не блокувати незалежний S1 |
 | Real data | S3: 930 real Madrid records; 868 мають exact locality MADRID. Один live source, subset single-day/non-recurring. Barcelona/Toronto unverified | S6: ще два джерела й друга країна, серії/переклад; не обіцяти повну афішу |
@@ -114,3 +114,14 @@ S1 checkpoint: `7e577d816bd8d4999e7ef2ce68bd4fb30a23e479`. Фінальна пе
 Докази й межі — [S4_ACCEPTANCE.md](S4_ACCEPTANCE.md), [results.json](evidence/s4/results.json), [spatial-filters.log](evidence/s4/spatial-filters.log), [integration.log](evidence/s4/integration.log). S4 статус **implemented**, не fully verified on iOS/Android. Native prerequisites залишаються: Xcode license owner action, Android SDK/JDK або own EAS builds/device. Full-world boundaries/tiles/geocoder не підключені. Наступний етап S5 — лише за новим завданням; S6 sources/AI, S7 schedules, S9 billing ще pending.
 
 S4 implementation checkpoint: **`9b7e55661acdc4e72f36922d9bba021cda1a88af`**. Окремий documentation commit записує цей SHA; actual HEAD — `git log -1`. Фінальний staged whitespace check pass, fixtures remaining0, real events930 preserved, existing origin unchanged, no push.
+
+## S5 — фактично виконано (2026-10-02)
+
+- 4-step onboarding без GPS, atomically saved owner rule; territory/category OR, event horizon окремо від inactive delivery preferences. У наявному локальному акаунті залишено «Мій радар Madrid» та saved «Aires Iberoamérica, con Jasminum Ensemble»; попередні правила/дані збережені. Приватні реквізити/пароль не записувалися в evidence.
+- Unified feed/map/detail/saved/rules/inbox/settings, literal search/pages/retry/empty/loading, uk/en/es та session restore; bottom navigation selected ARIA і ≥44px button targets. Light-only. Main feed initial QA:95 music occurrences from3 overlapping rules,881 public future occurrences; counts змінюються з часом і не є гарантією coverage.
+- Actual OpenFreeMap tiles, GL JS6.11.2 basemap/cluster selection, polygon clicks + offline fallback перевірено в Chrome390×844. Реальні Madrid координати NULL: жодних вигаданих marker/geocoder. Synthetic cluster screenshot є proof renderer only. GL JS5.24.0 temporary downgrade мав critical XSS — відхилений; Babel web import-meta + same-origin module worker усунули6.x incompatibility. Full attribution/license retained.
+- `pnpm check`:16 Jest +8 Node tests, TS/lint/env/secrets pass; latest Node test exercises real patched MapLibre ESM→Metro classic script parse + exact worker asset copy. S5:69 Auth/API/RLS assertions та24 SQL transaction assertions (ROLLBACK), S2:108/S3:84/S4:73 regression checks. Export ios/android/web, admin build, Expo deps/Doctor18/18, frozen install, DB types comparison, client bundle key scan pass. Full logs — [evidence/s5](evidence/s5/results.json).
+- Native configuration isolated prebuild passes; compile/device UX unverified (Xcode licence owner action, Android SDK/adb absent). Native screen readers/font scaling/deep links/saved storage/push acceptance still unverified. Browser push button hidden with truthful device notice; no push sent. SMTP/Gmail not configured.
+- Security audit final:0critical,1high node-forge (no published patch),1moderate decode-uri-component; full audit exit1, CI high gate remains failed. New warning не приховано. Native acceptance та clean security gate prevent S5 verified/release claim.
+- Schedule settings are preferences only (`active=false`, `next_run_at=NULL`), no S7 jobs/DST/quiet hours. S6–S12 залишаються pending. Next independent stage: S6 only by new task, while native prerequisites/security remediation remain tracked.
+- Acceptance/manual steps — [S5_ACCEPTANCE.md](S5_ACCEPTANCE.md). Local checkpoint SHA записується після implementation commit; no push/remote changes.

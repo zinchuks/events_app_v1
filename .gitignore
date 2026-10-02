@@ -20,3 +20,6 @@ apps/mobile/ios/
 apps/mobile/android/
 apps/mobile/expo-env.d.ts
 apps/mobile/uniwind-types.d.ts
+
+# Copied from pinned npm package by prepare-map-assets before web start/export
+apps/mobile/public/vendor/maplibre/

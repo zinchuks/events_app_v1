@@ -1,0 +1,9 @@
+{
+  "version": "6.11.2",
+  "license": "BSD-3-Clause",
+  "gitHead": "acb7b722f6a752ac1a2ba98cf83006c83dc4fafa",
+  "repository": {
+    "url": "git+https://github.com/maplibre/maplibre-gl-js.git",
+    "type": "git"
+  }
+}

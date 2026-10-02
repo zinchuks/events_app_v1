@@ -1,0 +1,8 @@
+- Creating native directories (./ios and ./android)
+✔ Created native directories
+- Updating package.json
+✔ Updated package.json | no changes
+- Running prebuild
+» ios: icon: No icon is defined in the Expo config.
+- Running prebuild
+✔ Finished prebuild

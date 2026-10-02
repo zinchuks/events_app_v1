@@ -1,0 +1,8 @@
+{
+  "xcode_simctl_exit": 69,
+  "xcode_result": "You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.",
+  "adb": null,
+  "android_sdk_standard_exists": false,
+  "isolated_prebuild": "pass; no native build, no install",
+  "native_acceptance": "unverified"
+}

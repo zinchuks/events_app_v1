@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 test:s2 /Users/serhiizinchuk/my_projects/events_app
+> node scripts/test-s2-integration.mjs
+
+{"status":"pass","checks":108,"integration":"real local Auth/PostgREST/Postgres/PostGIS/Mailpit","nativeStorage":"unverified","scenarios":["email signup/confirmation","profile settings","cross-user read/write protection","server-only data and entitlements","date-only and timezone invariants","session restore/logout","email recovery/password change","own account deletion/private cascade/public preservation","demo territory/category seeds"]}

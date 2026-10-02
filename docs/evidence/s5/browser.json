@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-02",
+  "browser": "Chrome on macOS",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "device_acceptance": false,
+  "theme": "light-only",
+  "real_integration": "existing local Supabase / imported Ayuntamiento de Madrid, normal signed-in user; no session injection",
+  "scenarios": [
+    {
+      "name": "onboarding without GPS",
+      "result": "pass",
+      "selected": "Madrid, music, horizon30, Europe/Madrid, daily18:00; final save My Radar Madrid (UA label)",
+      "preferences": "active=false; no automatic delivery"
+    },
+    {
+      "name": "rule union feed",
+      "result": "pass",
+      "count": 95,
+      "overlapping_rules": 3,
+      "duplicates": "none; also SQL/API proof"
+    },
+    {
+      "name": "search / empty / clear / pagination",
+      "result": "pass",
+      "cases": "Quartet→1, impossible→0, clear restores; second page different titles"
+    },
+    {
+      "name": "detail / source / save / restore",
+      "result": "pass",
+      "occurrence": "d8e8e4b2-2f9e-4019-8ed8-dcdd50a27085",
+      "title": "Aires Iberoamérica, con Jasminum Ensemble",
+      "original": "actual Madrid external page opened",
+      "saved": "persisted in normal local user account"
+    },
+    {
+      "name": "real basemap / unknown coordinates",
+      "result": "pass",
+      "tiles": "OpenFreeMap Positron",
+      "real_markers": 0,
+      "notice": "unknown exact event coordinates; check source; map view/network privacy notice"
+    },
+    {
+      "name": "final MapLibre6.11.2 clustering and selection",
+      "result": "pass",
+      "synthetic_only": true,
+      "steps": "8→4→2→individual; click selects DEMO fixture-0",
+      "evidence": [
+        "map-cluster-fixture-v6.jpg",
+        "map-selected-fixture-v6.jpg"
+      ]
+    },
+    {
+      "name": "polygon draft / offline fallback",
+      "result": "pass",
+      "saved": false,
+      "steps": "3 real map clicks render polygon; offline toggle preserves points",
+      "capture": "polygon-editor-web.jpg; initial5.x renderer, final6.x uses same layer/event contract"
+    },
+    {
+      "name": "language / settings / browser push",
+      "result": "pass",
+      "locales": [
+        "uk",
+        "en",
+        "es"
+      ],
+      "final_locale": "uk",
+      "push_delivery": "not tested; truthful device-required message, no phone enable button on web"
+    },
+    {
+      "name": "accessibility selected state",
+      "result": "pass web DOM check",
+      "tabs": "aria-selected true only visible active tab, 61.5px high",
+      "native_screenreader": "unverified"
+    },
+    {
+      "name": "final mobile visual refinement",
+      "result": "compact heading; language picker in settings; returning users do not see intro; first event visible above fold",
+      "capture": "feed-mobile-web-v6.jpg"
+    }
+  ],
+  "console_errors_final_map_selection": 0,
+  "warnings": "initial default cluster glyph404 resolved by Noto Sans Regular; old tab Metro disconnect warning after intentional restarts; no warning falsely treated as native proof",
+  "native_platforms": {
+    "ios": "unverified",
+    "android": "unverified"
+  },
+  "gps_permission_requested": false,
+  "push_sends": 0,
+  "secrets_persisted": false
+}

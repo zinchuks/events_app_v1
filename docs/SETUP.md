@@ -288,3 +288,32 @@ pnpm audit:deps
 Proof: [S4_ACCEPTANCE](S4_ACCEPTANCE.md), [results](evidence/s4/results.json). 73 actual API /49 SQL assertions, S2 108/S3 84 regressions,14Jest+7Node checks, Doctor18/18, exports/keys/types pass. `pnpm audit --json` records1existing moderate decode-uri-component (exit1),0high/critical; do not report that nonzero full audit as clean. CI contains SQL fixtures; remote Actions not executed.
 
 Native S4 touch/render/build unverified; Xcode licence owner action and Android SDK/JDK or own EAS builds/device still required. Browser viewport is not a native build. S3 physical push remains blocked/browser-only. S5 tile/geocoder/native MapLibre choice, S6 more sources, S7 automatic delivery and S9 tier limits have not been implemented here.
+
+## S5 local mobile experience
+
+Existing local DB із акаунтами не скидати. Застосування incremental migrations018/019:
+
+```sh
+export PATH=/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH
+pnpm install --frozen-lockfile --store-dir /private/tmp/event-radar-s0/pnpm-store
+supabase migration up --local
+supabase gen types typescript --local --schema public > apps/mobile/src/lib/database.types.ts
+pnpm check
+pnpm test:s5
+# Full SQL fixture transaction rolls back; valid also without a live feed:
+docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s5_invariants.sql
+pnpm export:mobile
+pnpm check:client-bundles
+```
+
+`test:s5` needs existing live Madrid import; creates and deletes only own `s5-*@example.test` users. SQL fixture sources/events never persist or become visible to other transactions. CI adds SQL test, remote workflow execution unverified. No server key in docs/export; raw supabase status/start logs not tracked.
+
+Web `http://localhost:8087`, launch `CI=1 pnpm --filter @event-radar/mobile web --offline --port 8087` (web script prepares pinned MapLibre6.11.2 worker/shared public assets first); CI disables watch, restart after code changes. Basemap network is independent of Expo's --offline (which disables Expo tooling network). Supabase/Mailpit local only, no Gmail SMTP. For account entry/settings use bottom settings → account. Guided setup: rules → new rule; advanced radius/polygon via advanced editor. Delivery preferences can be edited per rule but active=false / no jobs until S7.
+
+`http://localhost:8087/map-preview` only in __DEV__: eight synthetic points for actual MapLibre renderer cluster/selection checks. Never real-feed evidence. Production export redirects this route home. Map unknown location notice / first1000 cap are intentional; source fields are not inferred. Map errors keep feed/coordinate fallback available.
+
+MapLibre requires a rebuilt development client, **not Expo Go** ([official Expo setup](https://maplibre.org/maplibre-react-native/docs/setup/expo/)). Isolated `/private/tmp/event-radar-s5-prebuild` receives app.config/package/config and a node_modules link; `expo prebuild --no-install --platform all` checks native config generation without touching product native dirs. Actual iOS compile/run still blocked by owner's Xcode license; Android adb/SDK unavailable. Generated native configs, JS exports, Chrome screenshots are not iOS/Android acceptance. Physical push/own EAS signing/APNs/FCM remains unverified.
+
+MapLibre6.11.2 uses same-origin `/vendor/maplibre/6.11.2/maplibre-gl-worker.mjs` + shared module. `pnpm export:mobile` prepares/copies these assets into web dist; serve web at configured EXPO_BASE_URL. If starting Expo directly with `exec`, run `node scripts/prepare-map-assets.mjs` first. Generated third-party code is ignored by Git/ESLint; package bytes remain covered by frozen lockfile, licence and export key scan. Never restore vulnerable5.24.0 to bypass Metro; Babel web import-meta transformation and explicit worker URL fix6.x compatibility.
+
+Security check 2026-10-02: `pnpm audit --json` / `pnpm audit:deps` fail because **1 high node-forge** (Expo CLI, no fixed published version) and existing1moderate decode-uri-component. Do not disable the CI audit gate. [Advisory](https://github.com/advisories/GHSA-86w9-cpqp-85rv), full snapshot evidence/s5/dependencies-audit.json. This prevents a clean security/release claim; routine local checks remain usable.

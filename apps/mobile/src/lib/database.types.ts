@@ -896,6 +896,15 @@ export type Database = {
           venue: string
         }[]
       }
+      list_s5_events: {
+        Args: {
+          page_offset?: number
+          page_size?: number
+          search_text?: string
+          view_mode?: string
+        }
+        Returns: Json
+      }
       register_push_device: {
         Args: { device_platform: string; expo_token: string }
         Returns: undefined
@@ -914,6 +923,10 @@ export type Database = {
           rule_id: string
         }[]
       }
+      s5_event_coordinates: {
+        Args: { occurrence: string }
+        Returns: Json
+      }
       save_s3_rule: {
         Args: { category_codes: string[] }
         Returns: string
@@ -922,8 +935,24 @@ export type Database = {
         Args: { rule_document: Json; selected_rule?: string }
         Returns: string
       }
+      save_s5_rule: {
+        Args: {
+          delivery_preferences: Json
+          rule_document: Json
+          selected_rule?: string
+        }
+        Returns: string
+      }
       set_s4_rule_enabled: {
         Args: { rule_enabled: boolean; selected_rule: string }
+        Returns: undefined
+      }
+      set_s5_delivery_preferences: {
+        Args: {
+          delivery_preferences: Json
+          rule_timezone: string
+          selected_rule: string
+        }
         Returns: undefined
       }
       valid_timezone: {

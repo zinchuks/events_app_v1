@@ -3,7 +3,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['**/node_modules/**', '**/dist/**', '**/coverage/**', '**/.expo/**', '**/ios/**', '**/android/**', '**/uniwind-types.d.ts', '**/expo-env.d.ts'] },
+  { ignores: ['**/node_modules/**', 'apps/mobile/public/vendor/maplibre/**', '**/dist/**', '**/coverage/**', '**/.expo/**', '**/ios/**', '**/android/**', '**/uniwind-types.d.ts', '**/expo-env.d.ts'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

@@ -2,12 +2,12 @@
 import type { PressableProps, View } from 'react-native';
 import type { VariantProps } from 'tailwind-variants';
 import * as React from 'react';
-import { ActivityIndicator, Pressable, Text } from 'react-native';
+import { ActivityIndicator, Platform, Pressable, Text } from 'react-native';
 import { tv } from 'tailwind-variants';
 
 const button = tv({
   slots: {
-    container: 'my-2 flex flex-row items-center justify-center rounded-md px-4',
+    container: 'my-2 min-h-11 flex flex-row items-center justify-center rounded-md px-4',
     label: 'text-base font-semibold',
     indicator: 'h-6 text-white',
   },
@@ -93,7 +93,7 @@ type Props = {
   textClassName?: string;
 } & ButtonVariants & Omit<PressableProps, 'disabled'>;
 
-export function Button({ ref, label: text, loading = false, variant = 'default', disabled = false, size = 'default', className = '', testID, textClassName = '', ...props }: Props & { ref?: React.RefObject<View | null> }) {
+export function Button({ ref, label: text, loading = false, variant = 'default', disabled = false, size = 'default', className = '', testID, textClassName = '', accessibilityState, ...props }: Props & { ref?: React.RefObject<View | null> }) {
   const styles = React.useMemo(
     () => button({ variant, disabled, size }),
     [variant, disabled, size],
@@ -102,6 +102,9 @@ export function Button({ ref, label: text, loading = false, variant = 'default',
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={props.accessibilityLabel ?? text}
+      accessibilityState={{ ...accessibilityState, disabled: disabled || loading, busy: loading }}
+      {...(Platform.OS==='web'?{'aria-busy':loading,'aria-pressed':accessibilityState?.selected}:{})}
       disabled={disabled || loading}
       className={styles.container({ className })}
       {...props}

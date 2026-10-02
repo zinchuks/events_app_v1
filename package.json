@@ -28,7 +28,8 @@
     "notify:s3:fixture": "node scripts/dispatch-s3-local.mjs fixture",
     "notify:s3:expo": "node scripts/dispatch-s3-local.mjs expo",
     "notify:s3:receipts": "node scripts/dispatch-s3-local.mjs receipts",
-    "test:s4": "node scripts/test-s4-integration.mjs"
+    "test:s4": "node scripts/test-s4-integration.mjs",
+    "test:s5": "node scripts/test-s5-integration.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

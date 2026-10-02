@@ -43,6 +43,7 @@ export default function EventScreen() {
    <Text style={ui.muted}>{t('checked')}: {new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(item.events.checked_at))}</Text>
    <Text style={ui.muted}>{item.events.sources?.name}</Text>
    <Button label={t('sourceLicense')} variant="link" onPress={() => void Linking.openURL(item.events!.sources?.rights_reference ?? 'https://datos.madrid.es/pages/condiciones-de-uso')} />
+   <Button label={t('map')} variant="outline" onPress={() => router.push({pathname:'/map',params:{occurrence:id}})} />
    <Button label={t('openOriginal')} onPress={() => void Linking.openURL(item.events!.canonical_url)} />
    {session ? <Button label={saved ? t('removeSaved') : t('saveEvent')} variant={saved ? 'outline' : 'default'} disabled={busy} onPress={() => void toggle()} /> : <Button label={t('signInToSave')} variant="outline" onPress={() => router.push('/account')} />}
   </View>}
