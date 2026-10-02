@@ -12,7 +12,7 @@
 | Safe dedup/review | **verified fixture**: exact cross-source title+venue+country+known UTC+points≤100m produces private candidate; different sessions never merge. Review queue only; no automatic merge, no S10 admin review UI. Real cross-source duplicate not encountered in these three-country subsets |
 | Категорії / unknown values | **verified**: explicit provider taxonomy/keyword dictionary; unmapped→other. Free only explicit flags; exact Madrid scalar prices accepted, ranges/empty stayunknown. Event language/age remain unknown when not provided; no geocoding/title guesses |
 | Переклад / короткий опис | **verified source-native**: Helsinki source English translations and short descriptions in version/locale cache; ready/current/permitted-source RLS. Detail language choice does not mutate profile; original remains visible and cached translation absence does not block feed |
-| AI adapter / real model access / budget caps | **blocked, not implemented**: user confirmed access exists but has not yet supplied provider, exact model ID, daily amount/currency or configured server key. No model guessed, no API key copied into client, no AI requests/spend. Source-native cache is not proof of AI dedup/billing/outage handling |
+| AI adapter / real model access / budget caps | **foundation implemented/tested; live blocked**: private cache/reservation/dispatch/settlement and text contract verified with synthetic fixtures + actual PostgreSQL concurrency. Disabled config/provider/model/capsNULL. Real provider SDK/model/key/pricing/live translations not configured; no AI calls/spend. [Contract/proof](S6_AI.md) |
 | Browser | **verified**: source cards/licence links/counts, real Helsinki Karaoke, original fallback→English source translation, real MapLibre/OpenFreeMap marker/clusters at390×844; no browser console errors. Screenshots in evidence/s6 |
 | iOS / Android / SMTP / push | **unverified/blocked unchanged**: browser-only user, Xcode licence gate, absent Android SDK/adb, no device push or external SMTP; JS export is not a native build |
 
@@ -57,3 +57,10 @@ Implementation checkpoint: `0b1e3f03130ae83945b7f7c2bd0c5771da0bb121`; local onl
 - Локальний збирач залишено запущеним разом із Supabase/web; log `/private/tmp/event-radar-s6/polling-worker.log`. Процес залежить від поточної IDE/термінальної сесії, не production availability.
 
 [Proof цього продовження](evidence/s6/polling-results.json). AI provider/model/daily budget/server key досі не надані; жодних AI calls/spend, S6 залишається in_progress; S7–S12 не починалися.
+
+## Продовження S6 — disabled AI foundation
+
+- Реалізовано private budget/cache settings/days/requests, repeat/cache/version/model/prompt/input guards, one dispatch/settlement, conservative unknown-cost accounting, lowered cap/day rollover/rights/TTL/superseded checks. Prompt/output contract plain text з schema/numeric/URL/Unicode guards. Не actual provider integration і не proof semantic accuracy.
+- Actual PostgreSQL concurrency:17 checks/four observed lock waits, two independent connections; different requests cannot exceed the configured fixture cap, repeated key cannot reserve/send/settle twice. Schema-only isolated DB cleaned, no user data copied. SQL rollback fixture proof +5 new Node text-contract tests.
+- Final `pnpm check`:16 Jest +25 Node pass; actual S2 Auth/RLS108 and S6 live sources/native-cache68 pass; generated types exact. `ai:s6:status` confirms enabledfalse, provider/model/capsNULL, requests0, budgetsempty.
+- [Runbook](S6_AI.md), [proof](evidence/s6/ai-foundation-results.json). Actual provider/model/pricing/key and budget remain missing; no AI calls/spend, S6 in_progress, S7–S12 pending. Native/export/audit statuses have no new native/security acceptance proof in this continuation.

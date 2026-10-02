@@ -32,7 +32,9 @@
     "test:s5": "node scripts/test-s5-integration.mjs",
     "ingest:s6:local": "node scripts/ingest-s6-local.mjs",
     "ingest:s6:watch": "node scripts/ingest-s6-local.mjs --watch",
-    "test:s6": "node scripts/test-s6-integration.mjs"
+    "test:s6": "node scripts/test-s6-integration.mjs",
+    "test:s6:ai": "node scripts/test-s6-ai-concurrency.mjs",
+    "ai:s6:status": "node scripts/check-s6-ai-local.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

@@ -64,3 +64,11 @@
 - Local async watcher замість OS/hosted cron на цьому етапі: той самий due/lease/backoff DB contract, sequential cycles і bounded requests. Watch ніколи не force-polls. Laptop/IDE lifetime не видається за production availability; user notification schedules залишаються S7.
 - API timeout не доводить rollback. Confirmed PostgreSQL errors release claim into backoff; ambiguous gateway/abort responses retain lease, stable normalized reimport remains idempotent after expiry. Paid AI requests цим retry path не виконуються.
 - У partial feeds source-level freshness недостатня: новий subset не перевіряє older absent records. S4 digests gate source AND record TTL; legacy S3 filters stale records. Catalog/history не ховаємо й не ставимо cancelled без явного source signal.
+
+## S6 — provider-neutral AI preparation (actual integration disabled)
+
+- Поки actual provider/model/budget не надано, реалізовано незалежну server DB foundation та text contract, без provider SDK/paid runner/вигаданих pricing/model IDs. Config disabled, fixtures явно synthetic.
+- Global UTC project budget, conservative pre-dispatch worst-case reservation; repeated/cache/dispatch/settlement serialized by settings row/unique input key. Old UTC-day reserved jobs або lowered limits rechecked before dispatch. No auto-refund/retry after uncertain paid outcome. Overrun recorded, not silently clipped.
+- Budget `charge` can be conservative/rounded commitment; exact `reported_cost` nullable distinguishes known cost from unknown ceiling. Currency changes cannot reset same-day spent/held budget; no FX.
+- Кеш model/prompt/input invalidation + normalized facts never written by AI. Structural/numeric/URL guards improve rejection, not proof of named-entity/semantic accuracy or actual model injection resistance. Live manual QA required before S6 acceptance.
+- Budget races tested in a schema-only isolated DB with two real connections/observed row-lock waits; user database never reset/copied. This is independent database verification, not API usage proof.

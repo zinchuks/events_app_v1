@@ -1,6 +1,6 @@
 # Event Radar
 
-Міжнародна апка подій для iOS та Android. S6 підключає часткові реальні афіші Madrid, Toronto й Helsinki, карту та переклади джерела Helsinki. Є локальні Supabase/PostGIS, auth/RLS, правила, збережені події та ручні добірки. AI очікує provider/model/budget; native запуск неперевірений.
+Міжнародна апка подій для iOS та Android. S6 підключає часткові реальні афіші Madrid, Toronto й Helsinki, карту та переклади джерела Helsinki. Є локальні Supabase/PostGIS, auth/RLS, правила, збережені події та ручні добірки. Серверна основа AI-кешу й бюджету перевірена, але вимкнена: actual adapter очікує provider/model/budget; native запуск неперевірений.
 
 Node **22.23.3**, pnpm **10.34.6**:
 
@@ -18,3 +18,5 @@ pnpm dev:web
 [Запуск і перевірки](docs/SETUP.md) · [Прогрес S0–S12](docs/PROGRESS.md) · [Архітектура](docs/ARCHITECTURE.md) · [Attribution](docs/THIRD_PARTY.md) · [План](MVP_PLAN.md)
 
 [Перевірки й обмеження S6](docs/S6_ACCEPTANCE.md). Автоматичну доставку/SMTP/device push не налаштовано; локальні листи дивіться в Mailpit. Секрети AI залишаються на сервері.
+
+[Стан і перевірки AI-основи](docs/S6_AI.md): `pnpm ai:s6:status` показує локальну конфігурацію без credentials; жодного реального AI-провайдера ще не підключено.

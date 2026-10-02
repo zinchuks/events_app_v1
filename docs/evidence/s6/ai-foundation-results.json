@@ -1,0 +1,75 @@
+{
+  "recorded_at": "2026-10-02T15:04:14.621802+00:00",
+  "scope": "S6 disabled provider-neutral AI budget/cache/text foundation; real provider integration blocked; S7-S12 pending",
+  "actual_configuration": {
+    "enabled": false,
+    "provider": null,
+    "model_id": null,
+    "locales": [],
+    "currency": null,
+    "daily_limit": null,
+    "request_ceiling": null,
+    "requests": 0,
+    "budget_rows": 0
+  },
+  "checks": {
+    "pnpm check": {
+      "exit": 0,
+      "jest": 16,
+      "node": 25,
+      "new_text_contract_tests": 5
+    },
+    "s6_sql_invariants": "PASS / ROLLBACK",
+    "ai_sql_invariants": "PASS / ROLLBACK",
+    "s2_auth_api": 108,
+    "s6_live_source_api": 68,
+    "generated_types": "exact local CLI output"
+  },
+  "concurrency": {
+    "assertions": 17,
+    "independent_postgres_connections": true,
+    "observed_lock_waits": 4,
+    "different_key": "one reservation / cap rejection",
+    "same_key": "one reservation",
+    "begin": "one dispatch claim",
+    "finish": "one budget settlement / one cache row",
+    "isolated_schema_only_database": true,
+    "user_data_copied": false,
+    "disposable_database_removed": true
+  },
+  "costs": {
+    "ai_network_requests": 0,
+    "real_provider_spend": 0,
+    "fixture_provider_and_model_only": true,
+    "unknown_reported_cost": null,
+    "charge_semantics": "conservative budget consumption; ceiling if unknown, exact known reported_cost separately retained"
+  },
+  "verified_boundaries": [
+    "private RLS/RPC; disabled default",
+    "version/locale/provider/model/prompt/input identity",
+    "rights/source-native/record TTL before enrichment",
+    "pre-dispatch lowered cap/UTC day/deadline",
+    "one dispatch/settlement and safe reserved-only release",
+    "uncertain outcome retains ceiling without auto retry",
+    "superseded output not published; normalized event facts untouched",
+    "currency switching cannot reset same-day commitment; overruns recorded"
+  ],
+  "text_validation": "Synthetic prompt packaging/schema/Unicode/plain-text/numeric-URL literal tests; not proof of actual model semantic quality or injection resistance. Future adapter must invoke validator.",
+  "not_implemented_or_unverified": [
+    "real provider SDK/access/key/pricing/verified request ceiling",
+    "live AI uk/en/es translation and source manual QA",
+    "real provider outage/usage/billing/malformed response handling",
+    "hosted cleanup/reconciliation/worker deployment",
+    "native iOS/Android/physical push/external SMTP/remote CI",
+    "no new export/security/native acceptance; previous audit blocker remains"
+  ],
+  "files": {
+    "ai-check.log": "2340f308809e948cb0cf3939162bbe1d60f807c6125de27d786d4742c09d923b",
+    "ai-sql.log": "b6fe69f3688490ce863595eaf0640fc1c1bf78a49e007583580edabb3f8bb489",
+    "ai-concurrency.log": "2e3f0a40bf95df3a3a763f192128b3613373785c031ae213db9113578a14fddc",
+    "ai-status.log": "d4d988a6aaddbe13de7ed59c5a6d79c649b8bbe8cd915dea8481723e70b1bfe0",
+    "ai-source-regression.log": "70e7d078ce75049288b34f68ec5bdfd6fab3c00d7e5a706aa0e0e5e29d0284a9",
+    "ai-live-source-regression.log": "bccc0f1f08bc4b8de2d134da9c937c92376d908533c309a26580b190832a29e2",
+    "ai-auth-regression.log": "141473dd3ab7e9cd489ba0de0917bda136cef3942e71dc93a3406430d270ff12"
+  }
+}

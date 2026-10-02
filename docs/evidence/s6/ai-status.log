@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 ai:s6:status /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-s6-ai-local.mjs
+
+{"settings":{"enabled":false,"provider":null,"model_id":null,"prompt_version":"event-translation-v1","locales":[],"currency":null,"daily_limit":null,"request_ceiling":null,"pricing_verified_at":null},"utc_day":"2026-10-02","budgets":[],"request_count":0,"provider_adapter":"not implemented; requires actual provider/model/pricing/access","paid_requests_from_this_command":0}

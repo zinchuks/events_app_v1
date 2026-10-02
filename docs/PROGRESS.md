@@ -10,7 +10,7 @@
 | S3 | **implemented; real push blocked** | Madrid → atomic DB → city/category rule → detail/save → private digest → local transport fixture verified. Device delivery/native build unverified |
 | S4 | **implemented** | Owner CRUD/пауза, multiple territories/radius/polygon/filters, union without duplicates. 73 actual API + 49 rollback SQL checks, browser QA pass; native unverified |
 | S5 | **implemented; native unverified** | 4-step onboarding, unified search/paged feed, actual OpenFreeMap/MapLibre web map + editor/offline fallback, saved/inbox/settings. 69 API + 24 SQL checks; native acceptance і clean security gate blocked |
-| S6 | **in_progress; AI blocked** | Madrid/ES + Toronto/CA + Helsinki/FI live imports; source registry/leases/backoff/source+record TTL/local automatic polling, safe review, real price/points, native-source English cache/browser verified. AI adapter/budget/access still blocked; [acceptance](S6_ACCEPTANCE.md) |
+| S6 | **in_progress; AI blocked** | Madrid/ES + Toronto/CA + Helsinki/FI live imports; source registry/leases/backoff/source+record TTL/local automatic polling, safe review, real price/points, native-source English cache/browser verified. Disabled AI budget/cache foundation tested; actual adapter/access/pricing/budget config still blocked; [acceptance](S6_ACCEPTANCE.md) |
 | S7 | pending | Durable schedules/jobs, timezone/DST, receipts/retries |
 | S8 | pending | Changes/cancellations/reminders |
 | S9 | pending | Store sandbox purchases/restore/server entitlements; external setup unverified |
@@ -146,3 +146,13 @@ S6 source implementation checkpoint: `0b1e3f03130ae83945b7f7c2bd0c5771da0bb121` 
 - Виправлено свіжість нових добірок: source success не освіжає відсутній у batch record; TTL перевіряється також за event.checked_at. Каталог/попередні добірки зберігаються. Migration026 forward-only, user DB не скидали.
 - `pnpm check`16Jest+20Node pass; real S3=84/S4=191/S6=68 pass; expanded SQL ROLLBACK pass (stale individual record/fresh source, historical visibility, unchanged identity after refresh, legacy TTL).
 - [Proof](evidence/s6/polling-results.json), [setup](SETUP.md). AI provider/model/daily budget/server key ще очікуються; adapter/spend не активовано. Native/SMTP/push/audit blockers без нових доказів; S7–S12 pending, push Git не виконано.
+
+## S6 — продовження: AI foundation без paid integration
+
+- Private RLS-protected config/budget-days/request ledger, cache key version/locale/provider/model/prompt/input, conservative unknown cost, exact known reported_cost, one dispatch/settlement, rights/TTL/lowered cap/day guards. Model/source change cannot publish stale results or overwrite normalized facts.
+- Provider-neutral prompt/text contract та5 new Node tests; no provider SDK/real model selected. Default actual local config remains disabled/provider+model+capsNULL, request_count0, budgets empty.
+- Real Postgres concurrency17 checks/four actual lock waits with two connections in a schema-only isolated disposable DB; no copied user rows, own DB cleaned. SQL synthetic transactions ROLLBACK; same key cannot charge twice, cap respected. This is database proof, not provider/model/billing/injection resistance proof.
+- `pnpm check`16Jest+25Node pass; S2 Auth/RLS108 and S6 sources/native-cache68 pass; generated DB types regenerated, no server credential exposed. CI updated, remote execution unverified.
+- [S6_AI.md](S6_AI.md), [evidence](evidence/s6/ai-foundation-results.json). Provider/exact model/daily amount+currency/server key still needed for actual adapter/pricing/access/manual translation QA/bounded live smoke. S6 in_progress, S7–S12 pending, no Git push.
+
+Previous local polling checkpoint: `e7cad73`; this continuation's HEAD is available with `git log -1`. Native/SMTP/physical push and prior dependency audit findings unchanged without new evidence.

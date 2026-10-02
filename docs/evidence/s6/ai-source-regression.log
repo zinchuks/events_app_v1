@@ -1,0 +1,4 @@
+BEGIN
+NOTICE:  S6 invariants: timezone parity, atomic rollback, nonempty health, leases/cadence/backoff, stable IDs/versions, changed-fact invalidation, current-cache RLS, blocked-source detail RLS, source AND record TTL, historical visibility, refreshed identity, legacy TTL, cancellation, anon denial, exact-session review without merging: PASS
+DO
+ROLLBACK

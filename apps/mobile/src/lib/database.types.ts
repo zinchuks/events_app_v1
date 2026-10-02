@@ -668,6 +668,150 @@ export type Database = {
           },
         ]
       }
+      s6_ai_days: {
+        Row: {
+          committed: number
+          currency: string
+          day: string
+        }
+        Insert: {
+          committed?: number
+          currency: string
+          day: string
+        }
+        Update: {
+          committed?: number
+          currency?: string
+          day?: string
+        }
+        Relationships: []
+      }
+      s6_ai_requests: {
+        Row: {
+          budget_day: string
+          ceiling: number
+          charge: number | null
+          created_at: string
+          currency: string
+          event_id: string
+          finished_at: string | null
+          id: string
+          input_hash: string
+          input_snapshot: Json
+          lease_until: string
+          locale: string
+          model_id: string
+          output: Json | null
+          overrun: boolean
+          prompt_version: string
+          provider: string
+          reported_cost: number | null
+          status: string
+          token: string
+          version: number
+        }
+        Insert: {
+          budget_day: string
+          ceiling: number
+          charge?: number | null
+          created_at?: string
+          currency: string
+          event_id: string
+          finished_at?: string | null
+          id?: string
+          input_hash: string
+          input_snapshot: Json
+          lease_until: string
+          locale: string
+          model_id: string
+          output?: Json | null
+          overrun?: boolean
+          prompt_version: string
+          provider: string
+          reported_cost?: number | null
+          status: string
+          token: string
+          version: number
+        }
+        Update: {
+          budget_day?: string
+          ceiling?: number
+          charge?: number | null
+          created_at?: string
+          currency?: string
+          event_id?: string
+          finished_at?: string | null
+          id?: string
+          input_hash?: string
+          input_snapshot?: Json
+          lease_until?: string
+          locale?: string
+          model_id?: string
+          output?: Json | null
+          overrun?: boolean
+          prompt_version?: string
+          provider?: string
+          reported_cost?: number | null
+          status?: string
+          token?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s6_ai_requests_budget_day_currency_fkey"
+            columns: ["budget_day", "currency"]
+            isOneToOne: false
+            referencedRelation: "s6_ai_days"
+            referencedColumns: ["day", "currency"]
+          },
+          {
+            foreignKeyName: "s6_ai_requests_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s6_ai_settings: {
+        Row: {
+          currency: string | null
+          daily_limit: number | null
+          enabled: boolean
+          locales: string[]
+          model_id: string | null
+          pricing_verified_at: string | null
+          prompt_version: string
+          provider: string | null
+          request_ceiling: number | null
+          singleton: boolean
+        }
+        Insert: {
+          currency?: string | null
+          daily_limit?: number | null
+          enabled?: boolean
+          locales?: string[]
+          model_id?: string | null
+          pricing_verified_at?: string | null
+          prompt_version?: string
+          provider?: string | null
+          request_ceiling?: number | null
+          singleton?: boolean
+        }
+        Update: {
+          currency?: string | null
+          daily_limit?: number | null
+          enabled?: boolean
+          locales?: string[]
+          model_id?: string | null
+          pricing_verified_at?: string | null
+          prompt_version?: string
+          provider?: string | null
+          request_ceiling?: number | null
+          singleton?: boolean
+        }
+        Relationships: []
+      }
       saved_events: {
         Row: {
           created_at: string
@@ -894,7 +1038,10 @@ export type Database = {
         Row: {
           description: string | null
           event_id: string
+          input_hash: string | null
           locale: string
+          model_id: string | null
+          prompt_version: string | null
           provider: string
           status: string
           summary: string | null
@@ -904,7 +1051,10 @@ export type Database = {
         Insert: {
           description?: string | null
           event_id: string
+          input_hash?: string | null
           locale: string
+          model_id?: string | null
+          prompt_version?: string | null
           provider: string
           status: string
           summary?: string | null
@@ -914,7 +1064,10 @@ export type Database = {
         Update: {
           description?: string | null
           event_id?: string
+          input_hash?: string | null
           locale?: string
+          model_id?: string | null
+          prompt_version?: string | null
           provider?: string
           status?: string
           summary?: string | null
@@ -936,6 +1089,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      begin_s6_ai: {
+        Args: { claim_token: string; selected_request: string }
+        Returns: Json
+      }
       build_rule_digest: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -969,6 +1126,16 @@ export type Database = {
       fail_s6_source: {
         Args: { claim_token: string; error_code: string; source_code: string }
         Returns: undefined
+      }
+      finish_s6_ai: {
+        Args: {
+          actual_cost?: number
+          claim_token: string
+          outcome: string
+          result?: Json
+          selected_request: string
+        }
+        Returns: string
       }
       ingest_madrid: {
         Args: { batch: Json; fetched_at: string }
@@ -1028,6 +1195,14 @@ export type Database = {
         Args: { device_platform: string; expo_token: string }
         Returns: undefined
       }
+      release_s6_ai: {
+        Args: { claim_token: string; selected_request: string }
+        Returns: boolean
+      }
+      reserve_s6_ai: {
+        Args: { selected_event: string; selected_locale: string }
+        Returns: Json
+      }
       s4_area_matches: {
         Args: {
           a: Database["public"]["Tables"]["rule_areas"]["Row"]
@@ -1045,6 +1220,22 @@ export type Database = {
       s5_event_coordinates: {
         Args: { occurrence: string }
         Returns: Json
+      }
+      s6_ai_input_hash: {
+        Args: { description: string; title: string }
+        Returns: string
+      }
+      s6_ai_translation_current: {
+        Args: {
+          selected_event: string
+          selected_hash: string
+          selected_locale: string
+          selected_model: string
+          selected_prompt: string
+          selected_provider: string
+          selected_version: number
+        }
+        Returns: boolean
       }
       s6_source_coverage: {
         Args: Record<PropertyKey, never>

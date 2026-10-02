@@ -363,3 +363,21 @@ AI is not configured. Need provider, actual model ID, daily amount/currency, the
 On DB tzdata upgrade refresh `public.timezone_names` in a reviewed migration and rerun accepted-name parity/DST checks. Do not cache UTC offsets: only accepted names are indexed. Audit remains failed1 high node-forge (no fix)+1 moderate; gate not disabled. iOS/Android native/push/external SMTP/remote CI are still unverified.
 
 S6 operational compatibility: `pnpm ingest:madrid:local` now delegates to the S6 Madrid runner with `--force`, preventing the old adapter from overwriting normalized facts/cache hashes. Legacy SQL RPC remains service-only for S3 rollback regressions; it is not the current operational import path.
+
+## S6 AI — disabled server foundation
+
+[Контракт і обмеження](S6_AI.md). Migrations027–029 apply forward без reset. Generated public types оновлені. Config за замовчуванням enabledfalse / provider/model/currency/capsNULL; adapter відсутній. Server-side credentials не друкуються; model API key ще не налаштований. Read-only status / independent tests:
+
+```sh
+supabase migration up --local
+pnpm ai:s6:status
+pnpm check
+docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s6_ai_invariants.sql
+pnpm test:s6:ai
+pnpm test:s6
+pnpm test:s2
+```
+
+`test:s6:ai` створює лише унікальну `event_radar_s6_ai_test_<random>` БД в local container, копіює **схему public/auth без rows**, встановлює наявні pgcrypto/PostGIS, тестує synthetic source/model/costs двома PostgreSQL connections і видаляє саме цю БД. Не reset/drop postgres, no AI network, no user rows copied. SQL file above — transaction fixtures + ROLLBACK; actual user config також відновлюється rollback. Remote CI execution unverified.
+
+Денні budgets є global/UTC, не Free/Plus limits. Не змінювати disabled foundation на ніби live AI: потрібні actual provider/model/pricing/access/key, bounded server adapter і перевірений worst-case ceiling. Unknown charge — conservative ceiling, не invoice; reported_cost=NULL. Prompt/schema/literal guards не доводять semantic translation quality. Source-native cache/feed/maps лишаються незалежними від цього integration blocker. Не починати S7 як нібито S6 already complete.

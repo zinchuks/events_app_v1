@@ -1,0 +1,4 @@
+BEGIN
+NOTICE:  S6 AI foundation: disabled default, private RLS/RPC, same-key dedup, cap/lowered cap/new day, one dispatch, schema, idempotent settlement, conservative ambiguity vs known reported cost, safe pre-dispatch expiry, UTC day/ceil, model/input invalidation, superseded output, rights/freshness/native cache, currency switch, overrun: PASS (synthetic, AI calls=0)
+DO
+ROLLBACK

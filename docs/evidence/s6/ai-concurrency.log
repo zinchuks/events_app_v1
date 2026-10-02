@@ -1,0 +1,6 @@
+
+> event-radar@0.1.0 test:s6:ai /Users/serhiizinchuk/my_projects/events_app
+> node scripts/test-s6-ai-concurrency.mjs
+
+{"checks":17,"independent_postgres_connections":true,"observed_lock_waits":4,"different_key_budget_race":"one reservation / one cap rejection","same_key_race":"one reservation","dispatch_race":"one dispatch","settlement_race":"one charge / one cache row","schema_only_copy":true,"user_data_copied":false,"provider":"synthetic fixture only","ai_requests":0}
+{"disposable_database_removed":true}
