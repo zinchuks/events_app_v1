@@ -1,0 +1,176 @@
+
+> event-radar@0.1.0 check /Users/serhiizinchuk/my_projects/events_app
+> pnpm typecheck && pnpm lint && pnpm test && pnpm check:env && pnpm check:secrets
+
+
+> event-radar@0.1.0 typecheck /Users/serhiizinchuk/my_projects/events_app
+> pnpm -r typecheck
+
+Scope: 2 of 3 workspace projects
+apps/admin typecheck$ tsc --noEmit
+apps/mobile typecheck$ tsc --noEmit
+apps/admin typecheck: Done
+apps/mobile typecheck: Done
+
+> event-radar@0.1.0 lint /Users/serhiizinchuk/my_projects/events_app
+> eslint apps scripts
+
+
+> event-radar@0.1.0 test /Users/serhiizinchuk/my_projects/events_app
+> pnpm --filter @event-radar/mobile test && node --test scripts/*.test.mjs
+
+
+> @event-radar/mobile@0.1.0 test /Users/serhiizinchuk/my_projects/events_app/apps/mobile
+> jest --runInBand --watch=false --watchman=false
+
+PASS src/components/ui/button.test.tsx
+PASS src/lib/messages.test.ts
+PASS src/lib/chunked-storage.test.ts
+PASS src/lib/rules.test.ts
+PASS src/lib/discovery.test.ts
+
+Test Suites: 5 passed, 5 total
+Tests:       16 passed, 16 total
+Snapshots:   0 total
+Time:        0.869 s, estimated 1 s
+Ran all test suites.
+TAP version 13
+# Subtest: patched MapLibre ESM transforms to Metro script syntax and ships its same-origin module worker
+ok 1 - patched MapLibre ESM transforms to Metro script syntax and ships its same-origin module worker
+  ---
+  duration_ms: 1288.238375
+  type: 'test'
+  ...
+# Subtest: Expo Metro reads a real router PNG through patched image-size
+ok 2 - Expo Metro reads a real router PNG through patched image-size
+  ---
+  duration_ms: 3.726708
+  type: 'test'
+  ...
+# Subtest: Expo ticket acceptance is recorded without claiming device delivery
+ok 3 - Expo ticket acceptance is recorded without claiming device delivery
+  ---
+  duration_ms: 0.951792
+  type: 'test'
+  ...
+# Subtest: Opt-out prevents network transmission of pending Expo jobs
+ok 4 - Opt-out prevents network transmission of pending Expo jobs
+  ---
+  duration_ms: 0.116709
+  type: 'test'
+  ...
+# Subtest: Ambiguous network failure is failed and is not automatically resent
+ok 5 - Ambiguous network failure is failed and is not automatically resent
+  ---
+  duration_ms: 0.334417
+  type: 'test'
+  ...
+# Subtest: DeviceNotRegistered removes its binding and records rejection
+ok 6 - DeviceNotRegistered removes its binding and records rejection
+  ---
+  duration_ms: 0.245583
+  type: 'test'
+  ...
+# Subtest: automatic polling cannot bypass cadence/backoff or use an unbounded wake rate
+ok 7 - automatic polling cannot bypass cadence/backoff or use an unbounded wake rate
+  ---
+  duration_ms: 2.034458
+  type: 'test'
+  ...
+# Subtest: not-due/leased sources do not fetch or import
+ok 8 - not-due/leased sources do not fetch or import
+  ---
+  duration_ms: 0.353042
+  type: 'test'
+  ...
+# Subtest: a claim failure does not skip another source and diagnostics omit error bodies/keys
+ok 9 - a claim failure does not skip another source and diagnostics omit error bodies/keys
+  ---
+  duration_ms: 0.187625
+  type: 'test'
+  ...
+# Subtest: successful import uses its own claim and never marks failure
+ok 10 - successful import uses its own claim and never marks failure
+  ---
+  duration_ms: 1.600334
+  type: 'test'
+  ...
+# Subtest: fetch failure releases the matching claim into durable backoff and continues
+ok 11 - fetch failure releases the matching claim into durable backoff and continues
+  ---
+  duration_ms: 0.440459
+  type: 'test'
+  ...
+# Subtest: malformed extraction never reaches importer or marks source healthy
+ok 12 - malformed extraction never reaches importer or marks source healthy
+  ---
+  duration_ms: 0.243042
+  type: 'test'
+  ...
+# Subtest: confirmed SQL rollback releases into backoff
+ok 13 - confirmed SQL rollback releases into backoff
+  ---
+  duration_ms: 0.14525
+  type: 'test'
+  ...
+# Subtest: ambiguous import timeout/gateway response retains lease; no concurrent release or immediate retry
+ok 14 - ambiguous import timeout/gateway response retains lease; no concurrent release or immediate retry
+  ---
+  duration_ms: 0.253208
+  type: 'test'
+  ...
+# Subtest: shutdown during extraction releases claim and starts no further source
+ok 15 - shutdown during extraction releases claim and starts no further source
+  ---
+  duration_ms: 0.546083
+  type: 'test'
+  ...
+# Subtest: shutdown during an ambiguous import aborts request, retains claim and starts no further source
+ok 16 - shutdown during an ambiguous import aborts request, retains claim and starts no further source
+  ---
+  duration_ms: 1.037833
+  type: 'test'
+  ...
+# Subtest: watch cycles are sequential and wait after completion; failures do not kill watcher
+ok 17 - watch cycles are sequential and wait after completion; failures do not kill watcher
+  ---
+  duration_ms: 0.234
+  type: 'test'
+  ...
+# Subtest: watch shutdown interrupts sleep without another poll
+ok 18 - watch shutdown interrupts sleep without another poll
+  ---
+  duration_ms: 0.0985
+  type: 'test'
+  ...
+# Subtest: unknown environment fails instead of silently using development
+ok 19 - unknown environment fails instead of silently using development
+  ---
+  duration_ms: 0.620208
+  type: 'test'
+  ...
+# Subtest: development and staging can coexist without IDs or deep links colliding
+ok 20 - development and staging can coexist without IDs or deep links colliding
+  ---
+  duration_ms: 0.095833
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1351.327667
+
+> event-radar@0.1.0 check:env /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-env.mjs
+
+Environment examples and separate development/staging IDs are valid.
+
+> event-radar@0.1.0 check:secrets /Users/serhiizinchuk/my_projects/events_app
+> node scripts/check-secrets.mjs
+
+Tracked/unignored files contain no known token/private-key patterns or public server-key names.

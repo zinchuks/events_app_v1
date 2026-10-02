@@ -1,0 +1,9 @@
+
+> event-radar@0.1.0 ingest:s6:watch /Users/serhiizinchuk/my_projects/events_app
+> node scripts/ingest-s6-local.mjs --watch
+
+{"status":"worker_started","sources":["madrid","toronto","helsinki"],"wake_interval_seconds":60}
+{"source":"madrid","status":"not_due_or_leased"}
+{"source":"toronto","status":"not_due_or_leased"}
+{"source":"helsinki","status":"not_due_or_leased"}
+{"status":"worker_stopped","cycles":1,"failures":0,"stopped":true}

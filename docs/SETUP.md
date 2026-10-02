@@ -320,7 +320,7 @@ Security check 2026-10-02: `pnpm audit --json` / `pnpm audit:deps` fail because 
 
 ## S6 local source workflow — 2026-10-02
 
-Current runnable UI: http://localhost:8087 (Metro), Supabase API54321/DB54322, Studio54323/Mailpit54324. User credentials are not recorded here. Before reuse, read [S6_ACCEPTANCE.md](S6_ACCEPTANCE.md); this is local/manual polling, not a deployed production scheduler.
+Current runnable UI: http://localhost:8087 (Metro), Supabase API54321/DB54322, Studio54323/Mailpit54324. User credentials are not recorded here. Before reuse, read [S6_ACCEPTANCE.md](S6_ACCEPTANCE.md); this supports local automatic polling, without a deployed production service or notification scheduler.
 
 ```sh
 supabase start
@@ -341,6 +341,20 @@ pnpm audit:deps
 ```
 
 Actual local commands use Node22.23.3/pnpm10.34.6 from `/private/tmp/event-radar-s1-tools/node_modules/.bin` prepended to PATH, Python3.13.3 in the existing ingestion `.venv`; `uv`/`rg` are unavailable here. Canonical frozen `uv sync` remains the setup path for a fresh tool-equipped environment. No `supabase db reset`: this local stack contains user account/rules/saved data. Supabase/localhost/network commands need sandbox escalation in this IDE.
+
+Automatic local polling (separate terminal, root):
+
+```sh
+pnpm ingest:s6:watch
+# Bounded verification: two cycles separated by at least60 seconds
+pnpm ingest:s6:watch --cycles=2
+# Optional only-one-source / slower wake
+pnpm ingest:s6:watch helsinki --interval-seconds=300
+```
+
+Stop with Ctrl+C (SIGINT/SIGTERM). The process/Docker must remain running; sleep/reboot/closed terminal stops or delays polling. There is no OS startup service, hosted deployment, notification scheduler or24h uptime proof. `--force` is rejected in watch mode, wake interval60..3600s, optional cycle limit1..1000. Cycles do not overlap; each wake checks durable due state rather than fetching all sources. Source claim failure does not skip other sources. Source fetch120s/API calls10s (atomic import125s) are bounded. SIGINT aborts an in-flight child/request; safe failure release is also bounded. Ambiguous import HTTP/abort responses log `import_uncertain`, retain the claim until completion/expiry and never falsely mark healthy/failed. An unchanged retry is safe through stable IDs/versioning. Logs contain only public metrics/error enums, no raw response bodies or keys.
+
+New S4 digest needs current source AND record.checked_at within the source TTL; if an old record dropped from the bounded feed, a fresh source poll does not renew it. Stale selection reports the existing localized stale notice. Catalog/details/saved/history remain available; disappearance is not cancellation. Legacy S3 filters stale records out.
 
 Default CLI checks due state and does not refetch a leased/not-due source. Optional `--force` bypasses cadence/backoff for manual QA, never an active lease. Source codes are exactly madrid/toronto/helsinki. Cadence Madrid/Toronto24h, Helsinki6h; TTL48h/48h/12h; lease4min; explicit failure backoff starts5min and caps24h. Unexpected empty/malformed/truncated batches fail without updating source health. Source-native version/locale cache is read-only from mobile, source labels/licences preserved. Worker takes server key only in memory from local Supabase CLI; no key in CLI args, evidence or mobile env.
 

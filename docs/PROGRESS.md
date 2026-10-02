@@ -10,7 +10,7 @@
 | S3 | **implemented; real push blocked** | Madrid → atomic DB → city/category rule → detail/save → private digest → local transport fixture verified. Device delivery/native build unverified |
 | S4 | **implemented** | Owner CRUD/пауза, multiple territories/radius/polygon/filters, union without duplicates. 73 actual API + 49 rollback SQL checks, browser QA pass; native unverified |
 | S5 | **implemented; native unverified** | 4-step onboarding, unified search/paged feed, actual OpenFreeMap/MapLibre web map + editor/offline fallback, saved/inbox/settings. 69 API + 24 SQL checks; native acceptance і clean security gate blocked |
-| S6 | **in_progress; AI blocked** | Madrid/ES + Toronto/CA + Helsinki/FI live imports; source registry/leases/backoff/TTL, safe review, real price/points, native-source English cache/browser verified. AI adapter/budget/access still blocked; [acceptance](S6_ACCEPTANCE.md) |
+| S6 | **in_progress; AI blocked** | Madrid/ES + Toronto/CA + Helsinki/FI live imports; source registry/leases/backoff/source+record TTL/local automatic polling, safe review, real price/points, native-source English cache/browser verified. AI adapter/budget/access still blocked; [acceptance](S6_ACCEPTANCE.md) |
 | S7 | pending | Durable schedules/jobs, timezone/DST, receipts/retries |
 | S8 | pending | Changes/cancellations/reminders |
 | S9 | pending | Store sandbox purchases/restore/server entitlements; external setup unverified |
@@ -138,3 +138,11 @@ S4 implementation checkpoint: **`9b7e55661acdc4e72f36922d9bba021cda1a88af`**. О
 - Next required input to finish S6: provider, exact model ID, daily budget with currency; key only in local server env (never chat/client/git). Local source checkpoint recorded below after final diff/secret checks. No push.
 
 S6 source implementation checkpoint: `0b1e3f03130ae83945b7f7c2bd0c5771da0bb121` (local only). Наступний документаційний commit записує цей SHA; поточний final HEAD — `git log -1`. S6 AI лишається blocked, S7–S12 pending.
+
+## S6 — продовження: локальне автоматичне оновлення
+
+- Local due-only watcher `pnpm ingest:s6:watch` реалізовано й залишено запущеним; source cadence/backoff/claims у БД, wake60s, no overlapping cycles, bounded child/API calls, SIGINT/SIGTERM. No force in watch mode. OS/hosted service/24h uptime не налаштовано й не перевірено.
+- Actual Helsinki import52 sessions/300 inspected; accumulated1299 future/1225 mapped in latest API snapshot. Actual two60s cycles skipped all not-due sources without fetch; Ctrl+C stopped cleanly. In-flight failure/shutdown contracts use explicit fakes.
+- Виправлено свіжість нових добірок: source success не освіжає відсутній у batch record; TTL перевіряється також за event.checked_at. Каталог/попередні добірки зберігаються. Migration026 forward-only, user DB не скидали.
+- `pnpm check`16Jest+20Node pass; real S3=84/S4=191/S6=68 pass; expanded SQL ROLLBACK pass (stale individual record/fresh source, historical visibility, unchanged identity after refresh, legacy TTL).
+- [Proof](evidence/s6/polling-results.json), [setup](SETUP.md). AI provider/model/daily budget/server key ще очікуються; adapter/spend не активовано. Native/SMTP/push/audit blockers без нових доказів; S7–S12 pending, push Git не виконано.

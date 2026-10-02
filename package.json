@@ -31,6 +31,7 @@
     "test:s4": "node scripts/test-s4-integration.mjs",
     "test:s5": "node scripts/test-s5-integration.mjs",
     "ingest:s6:local": "node scripts/ingest-s6-local.mjs",
+    "ingest:s6:watch": "node scripts/ingest-s6-local.mjs --watch",
     "test:s6": "node scripts/test-s6-integration.mjs"
   },
   "devDependencies": {

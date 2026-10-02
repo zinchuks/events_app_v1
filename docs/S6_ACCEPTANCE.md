@@ -6,7 +6,7 @@
 | --- | --- |
 | ≥3 живі джерела / ≥2 країни | **verified**: Madrid/ES, Helsinki/FI, Toronto/CA; HTTPS fetch → original Python adapters → atomic local Postgres → public feed |
 | Права / attribution | **reviewed**: Madrid й Helsinki CC BY4.0, Toronto Open Government Licence; official evidence/URLs у SOURCES та licenses/event-sources/NOTICE.md. CKAN `license_id=notspecified` не використано як дозвіл: official Toronto dataset page прямо посилається на licence |
-| Registry / bounded polling | **implemented + tested**: server-only claims, 4-minute leases, cadence 24h/6h/24h, TTL48h/12h/48h, bounded payload/page/row/time caps, source-specific exponential failure backoff5min→24h. Manual runner checks due state; автоматичного cron не встановлено |
+| Registry / bounded polling | **implemented + tested**: server-only claims, 4-minute leases, cadence 24h/6h/24h, TTL48h/12h/48h, bounded payload/page/row/time caps, source-specific exponential failure backoff5min→24h. One-shot і local automatic watcher checks due state; two60s cycles/shutdown verified; hosted cron/service не встановлено |
 | Extraction / factual quality | **verified sample**: 3 actual minimal source snapshots + 24 Python tests; ручна звірка Madrid paid3EUR/explicit point, Toronto distinct calendar rows/free flag/GPS, Helsinki known UTC/point/price range→unknown/provider English. Це sample QA, не повний аудит усіх описів |
 | Updates / versioning / identity | **verified**: normalized fact hash ignores fetch clock and contacts; repeated identical batch keeps IDs/version, derived changes invalidate current cache even if supplied hash unchanged. Existing Madrid occurrence IDs retained. Explicit Helsinki EventCancelled updates statuses/version; cancellation proof is SQL/Python fixture, live cancellation transition unverified |
 | Safe dedup/review | **verified fixture**: exact cross-source title+venue+country+known UTC+points≤100m produces private candidate; different sessions never merge. Review queue only; no automatic merge, no S10 admin review UI. Real cross-source duplicate not encountered in these three-country subsets |
@@ -18,9 +18,9 @@
 
 ## Фактична локальна афіша
 
-Останній QA snapshot після фінального імпорту, 12:13UTC: **1276 майбутніх сеансів**, з них1202 із координатами. Madrid1169 (1095 mapped /1001 known price), Helsinki79 (79/70), Toronto28 (28/28). Це накопичена вибірка дозволених записів; записи, що випали з bounded window/prefix, не скасовано автоматично. Кількості змінюються із часом та live data.
+Початковий QA snapshot після імпорту, 12:13UTC: **1276 майбутніх сеансів**, з них1202 із координатами. Madrid1169 (1095 mapped /1001 known price), Helsinki79 (79/70), Toronto28 (28/28). Це накопичена вибірка дозволених записів; записи, що випали з bounded window/prefix, не скасовано автоматично. Кількості змінюються із часом та live data.
 
-Останній batch: Madrid1182 із1648 upstream records; Toronto28 із3301 inspected rows/32MiB; Helsinki59 із300 inspected records. Helsinki totals79 більше за batch59, бо latest-modified pages змінюються і пропажу запису не трактуємо як cancellation. Toronto prefix обмежений32MiB від upstream файла223030906bytes; не вся афіша. Madrid excludes recurring/multiday; Helsinki excludes parent series/multiple-session ambiguity/non-Helsinki municipality.
+Початковий batch: Madrid1182 із1648 upstream records; Toronto28 із3301 inspected rows/32MiB; Helsinki59 із300 inspected records. Helsinki totals79 більше за batch59, бо latest-modified pages змінюються і пропажу запису не трактуємо як cancellation. Toronto prefix обмежений32MiB від upstream файла223030906bytes; не вся афіша. Madrid excludes recurring/multiday; Helsinki excludes parent series/multiple-session ambiguity/non-Helsinki municipality.
 
 ## Перевірки
 
@@ -46,3 +46,14 @@ Proof: [evidence/s6](evidence/s6), [source cards](evidence/s6/sources-mobile-web
 4. У «Збережені» перевірте раніше збережену подію Madrid; user account/rules були збережені. Відомі ціни перевіряйте в оригіналі, безкоштовність не гарантує відсутність реєстрації.
 
 Implementation checkpoint: `0b1e3f03130ae83945b7f7c2bd0c5771da0bb121`; local only, no push.
+
+## Продовження S6 — автоматичне локальне опитування
+
+- `pnpm ingest:s6:watch`: wake60s, sequential due-only cycles, cadence/leases/backoff у БД; force-mode заборонено. Коректна зупинка Ctrl+C/SIGTERM, bounded child/API calls. Source claim/fetch failure не перериває інші джерела. Не встановлено системний/hosted service; uptime після sleep/reboot неперевірений.
+- Actual two-cycle run:3 джерела перевірено двічі з паузою60s, усі not_due_or_leased, failures0; зайвих зовнішніх fetch не було. Actual Ctrl+C during wait:cycles1/failures0/stoppedtrue. In-flight shutdown/SQL rollback/ambiguous HTTP handling verified with explicit unit fakes, не live fault injection.
+- Новий асинхронний runner: actual Helsinki fetch→normalize→local API import52 sessions,300 inspected/2329778bytes/7.778s; last_success12:55:39UTC. Accumulated future cache в integration snapshot:1299 sessions /1225 mapped (Madrid1169/Helsinki102/Toronto28). Missing records retained, never auto-cancelled.
+- Міграція026 застосована без reset. Нові S4 добірки перевіряють TTL джерела **і кожної події**. SQL transaction proof: fresh source + old Helsinki record rejected; catalog/old digest still readable; actual record refresh keeps unchanged digest identity. Legacy S3 excludes stale records. Усі synthetic writes ROLLBACK.
+- `pnpm check` pass:16 Jest +20 Node tests (12new orchestration failure/shutdown/cadence tests); live S3=84/S4=191/S6=68; SQL invariants PASS. Client source/dependencies/schema signatures не змінено; попередній mobile export/native/security status лишається історичним proof, не повторним native run.
+- Локальний збирач залишено запущеним разом із Supabase/web; log `/private/tmp/event-radar-s6/polling-worker.log`. Процес залежить від поточної IDE/термінальної сесії, не production availability.
+
+[Proof цього продовження](evidence/s6/polling-results.json). AI provider/model/daily budget/server key досі не надані; жодних AI calls/spend, S6 залишається in_progress; S7–S12 не починалися.

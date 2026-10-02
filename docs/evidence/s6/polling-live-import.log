@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 ingest:s6:local /Users/serhiizinchuk/my_projects/events_app
+> node scripts/ingest-s6-local.mjs helsinki --force
+
+{"source":"helsinki","imported":52,"bytes":2329778,"inspected":300,"bounded_subset":true,"normalized":52,"elapsed_ms":7436,"total_elapsed_ms":7778}

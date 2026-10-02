@@ -3,6 +3,7 @@ begin;
 do $$
 declare claim uuid; repeated uuid; batch jsonb; row jsonb; e uuid; occ uuid; v integer; n integer;
  before_health timestamptz; caught boolean; hel uuid; alternate uuid; alt_event uuid; alt_occ uuid; other_occ uuid; uid uuid:=gen_random_uuid();
+ fresh_digest uuid; s3_rule uuid; s3_digest uuid; madrid_event uuid; madrid_occ uuid;
 begin
  if exists((select name from pg_catalog.pg_timezone_names except select name from public.timezone_names)
   union all (select name from public.timezone_names except select name from pg_catalog.pg_timezone_names)) then raise exception 'Timezone inventory mismatch'; end if;
@@ -80,12 +81,39 @@ begin
  update public.sources set last_success_at=now()-interval '13 hours' where code='helsinki';
  caught:=false;begin perform public.build_rule_digest();exception when others then caught:=position('stale' in sqlerrm)>0;end;
  if not caught then raise exception 'Helsinki 12h TTL ignored by digest'; end if;
+ -- Deterministic transaction-only baseline, independent of old accumulated live records.
+ update public.sources set last_success_at=now() where id in (
+  select e0.primary_source_id from public.s4_matches() m join public.occurrences o0 on o0.id=m.occurrence_id join public.events e0 on e0.id=o0.event_id);
+ update public.events set checked_at=now() where id in (
+  select o0.event_id from public.s4_matches() m join public.occurrences o0 on o0.id=m.occurrence_id);
+ fresh_digest:=public.build_rule_digest();
+ if fresh_digest is null then raise exception 'Fresh selection unavailable'; end if;
  select o.event_id,o.id into e,occ from public.occurrences o where external_id='fixture:helsinki';
+ update public.events set checked_at=now()-interval '13 hours' where id=e;
+ caught:=false;begin perform public.build_rule_digest();exception when others then caught:=position('stale' in sqlerrm)>0;end;
+ if not caught then raise exception 'Fresh source concealed stale individual record'; end if;
+ perform set_config('role','authenticated',true);
+ if not exists(select 1 from public.events where id=e) or not exists(select 1 from public.digest_items where digest_id=fresh_digest and occurrence_id=occ)
+ then raise exception 'Stale record hid catalog or historical digest'; end if;
+ perform set_config('role','postgres',true);
+ claim:=public.claim_s6_source('helsinki',true);
+ perform public.ingest_s6_source('helsinki',jsonb_build_array(row),now(),claim,'{}');
+ if public.build_rule_digest()<>fresh_digest then raise exception 'Unchanged verified facts lost digest identity'; end if;
+ -- Legacy Madrid digest also excludes old records instead of inheriting source health.
+ select o.event_id,o.id into madrid_event,madrid_occ from public.occurrences o where external_id='fixture-s6-session';
+ update public.events set checked_at=now() where primary_source_id=(select id from public.sources where code='madrid');
+ update public.sources set last_success_at=now() where code='madrid';
+ s3_rule:=public.save_s3_rule(array['music']);
+ s3_digest:=public.build_s3_digest(s3_rule);
+ if not exists(select 1 from public.digest_items where digest_id=s3_digest and occurrence_id=madrid_occ) then raise exception 'Fresh S3 fixture missing'; end if;
+ update public.events set checked_at=now()-interval '49 hours' where id=madrid_event;
+ s3_digest:=public.build_s3_digest(s3_rule);
+ if exists(select 1 from public.digest_items where digest_id=s3_digest and occurrence_id=madrid_occ) then raise exception 'Legacy digest included stale record'; end if;
  select version into v from public.events where id=e;
  claim:=public.claim_s6_source('helsinki',true);
  perform public.ingest_s6_source('helsinki',jsonb_build_array(row||'{"status":"cancelled"}'),now(),claim,'{}');
  if not exists(select 1 from public.events where id=e and status='cancelled' and version=v+1)
   or not exists(select 1 from public.occurrences where id=occ and event_id=e and status='cancelled') then raise exception 'Explicit cancellation did not preserve occurrence identity/version'; end if;
- raise notice 'S6 invariants: timezone parity, atomic rollback, nonempty health, leases/cadence/backoff, stable IDs/versions, changed-fact invalidation, current-cache RLS, blocked-source detail RLS, source TTL digest, anon denial, exact-session review without merging: PASS';
+ raise notice 'S6 invariants: timezone parity, atomic rollback, nonempty health, leases/cadence/backoff, stable IDs/versions, changed-fact invalidation, current-cache RLS, blocked-source detail RLS, source AND record TTL, historical visibility, refreshed identity, legacy TTL, cancellation, anon denial, exact-session review without merging: PASS';
 end $$;
 rollback;

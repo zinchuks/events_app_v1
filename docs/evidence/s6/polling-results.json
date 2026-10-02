@@ -1,0 +1,60 @@
+{
+  "recorded_at": "2026-10-02T13:00:50.421057+00:00",
+  "scope": "S6 local automatic polling and individual record freshness; S7-S12 pending",
+  "checks": {
+    "pnpm check": {
+      "exit": 0,
+      "jest": 16,
+      "node": 20,
+      "new_orchestration_tests": 12
+    },
+    "s3_live_api": 84,
+    "s4_live_api": 191,
+    "s6_live_api": 68,
+    "sql_s6_invariants": "PASS / ROLLBACK"
+  },
+  "live_import": {
+    "source": "helsinki",
+    "imported": 52,
+    "inspected": 300,
+    "bytes": 2329778,
+    "total_elapsed_ms": 7778,
+    "ai_requests": 0
+  },
+  "watcher": {
+    "bounded_actual_cycles": 2,
+    "wake_seconds": 60,
+    "source_checks": 6,
+    "all_not_due_or_leased": true,
+    "extra_fetches": 0,
+    "failures": 0,
+    "actual_ctrl_c": {
+      "cycles": 1,
+      "failures": 0,
+      "stopped": true
+    },
+    "local_process_left_running": true,
+    "runtime_log": "/private/tmp/event-radar-s6/polling-worker.log",
+    "production_or_24h_uptime": "unverified"
+  },
+  "failure_proof": "Claim/fetch/SQL failure, ambiguous gateway/abort response and in-flight shutdown are explicit unit fakes, not live fault injection.",
+  "record_freshness": "Migration026 applied forward without reset: source AND event.checked_at gate new S4 digest; legacy S3 filters stale records. Catalog/history remain readable; missing records are not cancellation.",
+  "unchanged_limits": [
+    "AI provider/model/daily amount+currency/server key absent",
+    "native iOS/Android unverified",
+    "SMTP and physical push unverified",
+    "node-forge high and decode-uri-component moderate findings: previous audit failed; not rerun in this continuation",
+    "remote CI unverified; no push"
+  ],
+  "client_changes": "None; no new dependencies or API signatures. Existing export proof was not rerun.",
+  "files": {
+    "polling-check.log": "01e04358447d2e21ffd1aa9672678fca370b05469bcc7e48146b435ce42b09e2",
+    "polling-invariants.log": "70e7d078ce75049288b34f68ec5bdfd6fab3c00d7e5a706aa0e0e5e29d0284a9",
+    "polling-live-import.log": "cecf8f84f3a1c8f9f0bda3304b80bc51dab03ce9254cb82c43f2ab7615cc9f8a",
+    "polling-two-cycles.log": "89696246f1906b9889cdfb44126d0e4cd7801496e5aa15b9420c57559559d8e0",
+    "polling-shutdown.log": "e499ae9b4c1e5eca011417027ca2a2a2e48675f26f1f8ac402907763120de80b",
+    "polling-s3-regression.log": "e7a2a35e32b033a8ade464a81edd866e88fc3c47f9167e6a0f97c0832044ded9",
+    "polling-s4-regression.log": "3df32312a12ea42330cfd9fc80f7549859e6930d2ddd6cb6a9caf003bfb93fee",
+    "polling-s6-integration.log": "bccc0f1f08bc4b8de2d134da9c937c92376d908533c309a26580b190832a29e2"
+  }
+}

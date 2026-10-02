@@ -58,3 +58,9 @@
 - Source-native Helsinki translations are reused with licence/origin label, version/locale cache and original fallback. AI not substituted by a mock or invented model: user will supply provider/model/daily budget, server key stays outside client/git. AI reservation/billing/outage work remains blocked.
 - Preserve DB/accounts/saved IDs. Profile preference initializes detail translation language; per-detail language choice is local and does not change account settings. No notification scheduler activated.
 - Measured real HTTP timeout isolated to repeated pg_timezone_names validation. Index accepted-name inventory, keep the exact validation set and database DST arithmetic. Same1182-record rollback test75–89s→0.442s, final live total1.734s. Refresh name inventory on tzdata upgrades; do not hide gateway failures by claiming failed HTTP returned success.
+
+## S6 продовження — polling і record TTL
+
+- Local async watcher замість OS/hosted cron на цьому етапі: той самий due/lease/backoff DB contract, sequential cycles і bounded requests. Watch ніколи не force-polls. Laptop/IDE lifetime не видається за production availability; user notification schedules залишаються S7.
+- API timeout не доводить rollback. Confirmed PostgreSQL errors release claim into backoff; ambiguous gateway/abort responses retain lease, stable normalized reimport remains idempotent after expiry. Paid AI requests цим retry path не виконуються.
+- У partial feeds source-level freshness недостатня: новий subset не перевіряє older absent records. S4 digests gate source AND record TTL; legacy S3 filters stale records. Catalog/history не ховаємо й не ставимо cancelled без явного source signal.
