@@ -25,6 +25,9 @@ begin
  perform pg_temp.check((select extensions.st_covers(boundary,extensions.st_setsrid(extensions.st_makepoint(-3.7,40.42),4326)) from public.territories where id=region),'real Madrid boundary includes city point');
  perform pg_temp.check((select not extensions.st_covers(boundary,extensions.st_setsrid(extensions.st_makepoint(2.17,41.38),4326)) from public.territories where id=region),'real Madrid boundary excludes Barcelona point');
  insert into public.sources(id,name,url,acquisition,terms_status,last_success_at) values(source,'S4 transaction-only fixture','https://example.test/s4','fixture','allowed',now());
+ -- Isolate deterministic geometry/date assertions from the expanding live catalog.
+ -- Transaction-only change is invisible to concurrent readers and always ROLLBACK.
+ update public.sources set terms_status='blocked' where id<>source;
  insert into public.events(primary_source_id,canonical_url,checked_at,title,category_code,location,price,currency,event_language,age_min,age_max)
  values(source,'https://example.test/s4/inside',now(),'S4 fixture inside','music',extensions.st_setsrid(extensions.st_makepoint(-3.5,40.5),4326),10,'EUR','es',6,12) returning id into inside;
  insert into public.events(primary_source_id,canonical_url,checked_at,title,category_code,location,price,currency,event_language,age_min,age_max)

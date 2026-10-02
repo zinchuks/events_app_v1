@@ -72,3 +72,12 @@
 - Budget `charge` can be conservative/rounded commitment; exact `reported_cost` nullable distinguishes known cost from unknown ceiling. Currency changes cannot reset same-day spent/held budget; no FX.
 - Кеш model/prompt/input invalidation + normalized facts never written by AI. Structural/numeric/URL guards improve rejection, not proof of named-entity/semantic accuracy or actual model injection resistance. Live manual QA required before S6 acceptance.
 - Budget races tested in a schema-only isolated DB with two real connections/observed row-lock waits; user database never reset/copied. This is independent database verification, not API usage proof.
+
+## S7 — independent stage / calendar and transport policy
+
+- New continue authorizes independent S7 under P4 while actual S6 AI remains blocked. No S8 implementation.
+- Explicit activation; preserve previous inactive preferences and legacy RPC. Scheduled union includes only due rules, so daily rules do not silently deliver weekly rules daily. User seen ledger controls new/changed push; full current nonempty selection always retained.
+- DB owns next dates and due identities; UTC offsets never fixed. Gap -> next valid minute, first fold once; quiet end later fold. Calendar months clamp month ends; weekend is upcoming Sat/Sun, Sunday part of current weekend.
+- Atomic owner lock/business key instead of process-local timer identity; coalesce downtime into one current run, 5000 cap rejects rather than truncates. Stale records defer same slot with persisted retry5min, preserving S6 source+record TTL.
+- Default local worker creates inbox only; synthetic transport only tested in disposable fixtures. Actual Expo requires separate explicit operator invocation. No new SDK/dependencies. Unknown send response (including5xx) held as uncertain rather than blind resend; receipts retry queries only. Bound token owner + registration timestamp protect logout/transfer/re-registration.
+- Isolated schema/grants/timezone-inventory clone tests actual two PG transactions without copying any user/catalog rows. Existing S4 date/count test assumptions broke once live source grew; isolate outside sources inside ROLLBACK, keep matching assertions unchanged.

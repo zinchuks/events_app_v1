@@ -1,5 +1,29 @@
 # Запуск і перевірки Event Radar
 
+## Поточний S7 — локальні автоматичні добірки
+
+Нові migrations030–036 застосовані через `supabase migration up --local`, **без reset**. Runtime Node22.23.3 / pnpm10.34.6 / Supabase2.34.3. У новому терміналі `export PATH="/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH"`; це temporary tools path цього комп'ютера, portable checkout потребує pinned runtimes.
+
+```sh
+supabase start
+supabase migration up --local
+pnpm local:env
+pnpm ingest:s6:watch       # окремий термінал
+pnpm schedule:s7:watch    # окремий термінал, inbox only; Ctrl+C
+pnpm dev:web             # окремий термінал
+pnpm test:s7             # schema-only disposable PostgreSQL DB
+pnpm test:s7:api         # disposable users + live Madrid
+pnpm check
+pnpm export:mobile
+pnpm check:client-bundles
+```
+
+У Правила → Розклад добірок увімкнути automatic; schedule/timezone/quiet і horizon незалежні. Після запуску worker і due slot добірка з'являється в історії без push permission. Перевірено real timed137-event selection у браузері; actual device delivery не перевірена. Поточний «Мій радар Madrid»: daily18:00 Europe/Madrid, quiet22:00–08:00. Worker має бути запущений; OS auto-start/hosted deployment ще не налаштовані. Reboot/crash не видаляє DB state; після restart пропущені слоти coalesced.
+
+`pnpm schedule:s7:local` — один bounded цикл, без Expo. `pnpm notify:s7:expo` і `pnpm notify:s7:receipts` — **лише** configured own physical native development device/credentials. Остання команда запитує receipts, не повторює send. Actual ticket/receipt не є доказом phone rendering/tap. `EXPO_ACCESS_TOKEN` optional enhanced security, server-only; не в client/env public/git. Default fixture не споживає реальні user jobs. Деталі/54 SQL+13 concurrency+56 API proof і manual steps — [S7_ACCEPTANCE.md](S7_ACCEPTANCE.md).
+
+Нижче S2–S6 — попередні контрольні точки; наведені там старі counts/status не замінюють latest PROGRESS.
+
 ## Поточний запуск S2
 
 Docker Desktop працює; перевірено Docker 29.8.1, Supabase CLI **2.34.3**, local PostgreSQL **17.4**, PostGIS **3.3.7**. Pinned Node/pnpm лишаються **22.23.3 / 10.34.6**. У root:

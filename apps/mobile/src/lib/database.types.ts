@@ -38,27 +38,39 @@ export type Database = {
       deliveries: {
         Row: {
           device_token_id: string | null
+          dispatch_token: string | null
+          dispatched_at: string | null
           error_code: string | null
           id: string
           job_id: string
+          next_receipt_at: string | null
+          receipt_attempts: number
           receipt_id: string | null
           status: string
           user_id: string
         }
         Insert: {
           device_token_id?: string | null
+          dispatch_token?: string | null
+          dispatched_at?: string | null
           error_code?: string | null
           id?: string
           job_id: string
+          next_receipt_at?: string | null
+          receipt_attempts?: number
           receipt_id?: string | null
           status: string
           user_id: string
         }
         Update: {
           device_token_id?: string | null
+          dispatch_token?: string | null
+          dispatched_at?: string | null
           error_code?: string | null
           id?: string
           job_id?: string
+          next_receipt_at?: string | null
+          receipt_attempts?: number
           receipt_id?: string | null
           status?: string
           user_id?: string
@@ -122,17 +134,23 @@ export type Database = {
       digest_items: {
         Row: {
           digest_id: string
+          matched_rule_names: string[]
           occurrence_id: string
+          selection_snapshot: Json | null
           user_id: string
         }
         Insert: {
           digest_id: string
+          matched_rule_names?: string[]
           occurrence_id: string
+          selection_snapshot?: Json | null
           user_id: string
         }
         Update: {
           digest_id?: string
+          matched_rule_names?: string[]
           occurrence_id?: string
+          selection_snapshot?: Json | null
           user_id?: string
         }
         Relationships: [
@@ -448,35 +466,50 @@ export type Database = {
         Row: {
           attempts: number
           business_key: string
+          claim_token: string | null
           digest_id: string | null
+          error_code: string | null
+          expires_at: string | null
           id: string
           lease_until: string | null
+          rule_snapshot: Json | null
           run_at: string
           status: string
           transport: string
           user_id: string
+          workflow: string
         }
         Insert: {
           attempts?: number
           business_key: string
+          claim_token?: string | null
           digest_id?: string | null
+          error_code?: string | null
+          expires_at?: string | null
           id?: string
           lease_until?: string | null
+          rule_snapshot?: Json | null
           run_at: string
           status?: string
           transport?: string
           user_id: string
+          workflow?: string
         }
         Update: {
           attempts?: number
           business_key?: string
+          claim_token?: string | null
           digest_id?: string | null
+          error_code?: string | null
+          expires_at?: string | null
           id?: string
           lease_until?: string | null
+          rule_snapshot?: Json | null
           run_at?: string
           status?: string
           transport?: string
           user_id?: string
+          workflow?: string
         }
         Relationships: [
           {
@@ -633,6 +666,8 @@ export type Database = {
           id: string
           name: string
           next_run_at: string | null
+          schedule_retry_at: string | null
+          schedule_revision: number
           timezone: string
           user_id: string
         }
@@ -644,6 +679,8 @@ export type Database = {
           id?: string
           name: string
           next_run_at?: string | null
+          schedule_retry_at?: string | null
+          schedule_revision?: number
           timezone?: string
           user_id: string
         }
@@ -655,6 +692,8 @@ export type Database = {
           id?: string
           name?: string
           next_run_at?: string | null
+          schedule_retry_at?: string | null
+          schedule_revision?: number
           timezone?: string
           user_id?: string
         }
@@ -811,6 +850,87 @@ export type Database = {
           singleton?: boolean
         }
         Relationships: []
+      }
+      s7_runs: {
+        Row: {
+          business_key: string
+          created_at: string
+          digest_id: string | null
+          id: string
+          outcome: string
+          rule_snapshot: Json
+          scheduled_at: string
+          user_id: string
+        }
+        Insert: {
+          business_key: string
+          created_at?: string
+          digest_id?: string | null
+          id?: string
+          outcome: string
+          rule_snapshot: Json
+          scheduled_at: string
+          user_id: string
+        }
+        Update: {
+          business_key?: string
+          created_at?: string
+          digest_id?: string | null
+          id?: string
+          outcome?: string
+          rule_snapshot?: Json
+          scheduled_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s7_run_digest_owner"
+            columns: ["digest_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "digests"
+            referencedColumns: ["id", "user_id"]
+          },
+          {
+            foreignKeyName: "s7_runs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s7_seen: {
+        Row: {
+          fingerprint: string
+          occurrence_id: string
+          user_id: string
+        }
+        Insert: {
+          fingerprint: string
+          occurrence_id: string
+          user_id: string
+        }
+        Update: {
+          fingerprint?: string
+          occurrence_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s7_seen_occurrence_id_fkey"
+            columns: ["occurrence_id"]
+            isOneToOne: false
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "s7_seen_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       saved_events: {
         Row: {
@@ -1093,6 +1213,10 @@ export type Database = {
         Args: { claim_token: string; selected_request: string }
         Returns: Json
       }
+      begin_s7_delivery: {
+        Args: { claim: string; device: string; selected_job: string }
+        Returns: Json
+      }
       build_rule_digest: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -1106,18 +1230,27 @@ export type Database = {
         Returns: {
           attempts: number
           business_key: string
+          claim_token: string | null
           digest_id: string | null
+          error_code: string | null
+          expires_at: string | null
           id: string
           lease_until: string | null
+          rule_snapshot: Json | null
           run_at: string
           status: string
           transport: string
           user_id: string
+          workflow: string
         }[]
       }
       claim_s6_source: {
         Args: { force_poll?: boolean; source_code: string }
         Returns: string
+      }
+      claim_s7_notification: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
       }
       delete_my_account: {
         Args: Record<PropertyKey, never>
@@ -1136,6 +1269,24 @@ export type Database = {
           selected_request: string
         }
         Returns: string
+      }
+      finish_s7_delivery: {
+        Args: {
+          claim: string
+          error?: string
+          result: string
+          selected_delivery: string
+          ticket?: string
+        }
+        Returns: boolean
+      }
+      finish_s7_notification: {
+        Args: { claim: string; selected_job: string }
+        Returns: boolean
+      }
+      finish_s7_receipt: {
+        Args: { error?: string; result: string; selected_delivery: string }
+        Returns: boolean
       }
       ingest_madrid: {
         Args: { batch: Json; fetched_at: string }
@@ -1203,6 +1354,10 @@ export type Database = {
         Args: { selected_event: string; selected_locale: string }
         Returns: Json
       }
+      run_s7_scheduler: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       s4_area_matches: {
         Args: {
           a: Database["public"]["Tables"]["rule_areas"]["Row"]
@@ -1245,6 +1400,40 @@ export type Database = {
         Args: { selected_event: string; selected_locale: string }
         Returns: Json
       }
+      s7_horizon_bounds: {
+        Args: { h: Json; today: string }
+        Returns: {
+          hi: string
+          lo: string
+        }[]
+      }
+      s7_local_instant: {
+        Args: { local_value: string; zone: string }
+        Returns: string
+      }
+      s7_matches: {
+        Args: {
+          matching_clock: string
+          selected_owner: string
+          selected_rules: string[]
+        }
+        Returns: {
+          occurrence_id: string
+          rule_id: string
+        }[]
+      }
+      s7_next_run: {
+        Args: { after_time: string; d: Json; zone: string }
+        Returns: string
+      }
+      s7_push_allowed: {
+        Args: { j: Database["public"]["Tables"]["notification_jobs"]["Row"] }
+        Returns: Json
+      }
+      s7_quiet_until: {
+        Args: { clock_time: string; q: Json; zone: string }
+        Returns: string
+      }
       save_s3_rule: {
         Args: { category_codes: string[] }
         Returns: string
@@ -1261,11 +1450,27 @@ export type Database = {
         }
         Returns: string
       }
+      save_s7_rule: {
+        Args: {
+          delivery_preferences: Json
+          rule_document: Json
+          selected_rule?: string
+        }
+        Returns: string
+      }
       set_s4_rule_enabled: {
         Args: { rule_enabled: boolean; selected_rule: string }
         Returns: undefined
       }
       set_s5_delivery_preferences: {
+        Args: {
+          delivery_preferences: Json
+          rule_timezone: string
+          selected_rule: string
+        }
+        Returns: undefined
+      }
+      set_s7_delivery_preferences: {
         Args: {
           delivery_preferences: Json
           rule_timezone: string

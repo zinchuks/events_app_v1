@@ -1,0 +1,7 @@
+
+> event-radar@0.1.0 test:s7 <workspace>
+> node scripts/test-s7-concurrency.mjs
+
+{"synthetic":true,"expo_requests":0,"invariant_checks":54}
+{"concurrency_checks":13,"independent_postgres_connections":true,"observed_overlaps":4,"scheduler_race":"one logical digest","transport_race":"one fenced dispatch","synthetic_invariants":"PASS","schema_only_copy":true,"user_data_copied":false,"expo_requests":0,"device_delivery_verified":false}
+{"disposable_database_removed":true}

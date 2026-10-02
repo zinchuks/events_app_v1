@@ -1,0 +1,109 @@
+{
+  "recorded_at": "2026-10-02T20:42:00Z",
+  "stage": "S7",
+  "status": "implemented; local/browser verified; real device push blocked",
+  "scope": "independent S7 under new continue / P4; S6 AI blocked; S8 not started",
+  "checks": {
+    "jest": 17,
+    "node": 33,
+    "s7_sql_synthetic": 54,
+    "s7_real_postgres_concurrency": 13,
+    "overlapping_transactions": 4,
+    "s7_real_local_api": 56,
+    "s2_real_local_api": 108,
+    "s5_real_local_api": 69,
+    "s6_real_local_api": 68,
+    "s4_rollback_sql": 49,
+    "typescript_lint_env_secrets": "PASS",
+    "ios_android_web_js_exports": "PASS",
+    "client_bundle_server_key_boundary": "PASS (66 files)",
+    "generated_types_exact_match": "PASS",
+    "browser_console_errors": 0,
+    "actual_local_worker_restart": "PASS: graceful stop/new process, idle, same 1 digest /137 items"
+  },
+  "browser": {
+    "viewport_verified": "390x844 browser, not native device",
+    "real_timed_selection": "2026-10-02T19:30:00Z / Europe/Madrid21:30",
+    "full_occurrence_items": 137,
+    "default_push_permission_required": false,
+    "final_daily_local_time": "18:00",
+    "timezone": "Europe/Madrid",
+    "quiet_hours": "22:00-08:00",
+    "saved_events_preserved": 2,
+    "owned_s4_rules_preserved": 3
+  },
+  "safety": {
+    "user_database_reset": false,
+    "user_data_copied_into_test_database": false,
+    "disposable_database_removed": true,
+    "paid_ai_requests": 0,
+    "expo_requests_from_s7": 0,
+    "remote_created_or_modified": false,
+    "git_push": false
+  },
+  "unverified": [
+    "native iOS/Android build/run",
+    "actual device push/Expo receipts/device tap/background/cold start",
+    "hosted worker availability",
+    "remote CI",
+    "actual S6 AI adapter/model/pricing/budget/access"
+  ],
+  "artifacts": {
+    "api.log": {
+      "sha256": "16e04ce8fc30fd90fa1b766df48d46f733d0454ef33c05456ab8417145cb8f5a",
+      "bytes": 219
+    },
+    "browser-digest.png": {
+      "sha256": "0304379eabdaff8e729e7f45d272455a258293c05aa988d8c7086cc6a8cabe7c",
+      "bytes": 37974
+    },
+    "browser-rules.png": {
+      "sha256": "df654458fa590051d9024bc8dd1be161e95dc6060554738feff0fbdb5699fddc",
+      "bytes": 38230
+    },
+    "bundles.log": {
+      "sha256": "a452cc14e21fba8c8404d9c14d89c837f63f86f79760c216cdc625e31195744e",
+      "bytes": 170
+    },
+    "check.log": {
+      "sha256": "dab58bbb26691401b6ac1be992ecf2d1c561e64aefd4072c9b8f4e187955bf07",
+      "bytes": 8367
+    },
+    "export.log": {
+      "sha256": "55ba8b223ac1b5db1e4e10f0a2770fcd13f0d676739cf2408630068033b261a2",
+      "bytes": 4766
+    },
+    "local-state.json": {
+      "sha256": "f7e63d119d05e4c9aeb9b68860a5f1979861f840270a5b1bd2027617e2f8cc4a",
+      "bytes": 611
+    },
+    "s2.log": {
+      "sha256": "d124b330de09e7674dac61f6879e62263486b7b2ac027cdcfcd558c286e1bf10",
+      "bytes": 525
+    },
+    "s4-sql.log": {
+      "sha256": "270d7566c2325242f02d03375294ceac1151ec9f16d76fce8ef4c4f95139b274",
+      "bytes": 2750
+    },
+    "s5.log": {
+      "sha256": "8757ed439042f0871dafb93d5f8a7b5f501283ba4e19de8e73671121a9cde51a",
+      "bytes": 231
+    },
+    "s6.log": {
+      "sha256": "c60f927fb6ab5f3cee000c799220f7ec458e792da203bb6b9f1c6131382ae0cb",
+      "bytes": 1482
+    },
+    "scheduler-worker.log": {
+      "sha256": "dcae2b433f2983309f98b9c45f685b63502c5efa995e7db9dde5178815a8c45c",
+      "bytes": 3343
+    },
+    "tests.log": {
+      "sha256": "8452481d86e5ab93eac039478d71da5c0060578aff2f80e5f7fb500dfca10072",
+      "bytes": 472
+    },
+    "scheduler-restart.log": {
+      "sha256": "b3865e3cd6ff9b6217a61686cc834940c5ae4673ad675cf40fa958cc82433967",
+      "bytes": 285
+    }
+  }
+}

@@ -1,0 +1,254 @@
+
+> event-radar@0.1.0 check <workspace>
+> pnpm typecheck && pnpm lint && pnpm test && pnpm check:env && pnpm check:secrets
+
+
+> event-radar@0.1.0 typecheck <workspace>
+> pnpm -r typecheck
+
+Scope: 2 of 3 workspace projects
+apps/admin typecheck$ tsc --noEmit
+apps/mobile typecheck$ tsc --noEmit
+apps/admin typecheck: Done
+apps/mobile typecheck: Done
+
+> event-radar@0.1.0 lint <workspace>
+> eslint apps scripts
+
+
+> event-radar@0.1.0 test <workspace>
+> pnpm --filter @event-radar/mobile test && node --test scripts/*.test.mjs
+
+
+> @event-radar/mobile@0.1.0 test <workspace>/apps/mobile
+> jest --runInBand --watch=false --watchman=false
+
+PASS src/lib/messages.test.ts
+PASS src/components/ui/button.test.tsx
+PASS src/lib/discovery.test.ts
+PASS src/lib/chunked-storage.test.ts
+PASS src/lib/rules.test.ts
+
+Test Suites: 5 passed, 5 total
+Tests:       17 passed, 17 total
+Snapshots:   0 total
+Time:        0.917 s, estimated 2 s
+Ran all test suites.
+TAP version 13
+# Subtest: patched MapLibre ESM transforms to Metro script syntax and ships its same-origin module worker
+ok 1 - patched MapLibre ESM transforms to Metro script syntax and ships its same-origin module worker
+  ---
+  duration_ms: 1830.057583
+  type: 'test'
+  ...
+# Subtest: Expo Metro reads a real router PNG through patched image-size
+ok 2 - Expo Metro reads a real router PNG through patched image-size
+  ---
+  duration_ms: 4.02075
+  type: 'test'
+  ...
+# Subtest: Expo ticket acceptance is recorded without claiming device delivery
+ok 3 - Expo ticket acceptance is recorded without claiming device delivery
+  ---
+  duration_ms: 0.998542
+  type: 'test'
+  ...
+# Subtest: Opt-out prevents network transmission of pending Expo jobs
+ok 4 - Opt-out prevents network transmission of pending Expo jobs
+  ---
+  duration_ms: 0.119625
+  type: 'test'
+  ...
+# Subtest: Ambiguous network failure is failed and is not automatically resent
+ok 5 - Ambiguous network failure is failed and is not automatically resent
+  ---
+  duration_ms: 0.333208
+  type: 'test'
+  ...
+# Subtest: DeviceNotRegistered removes its binding and records rejection
+ok 6 - DeviceNotRegistered removes its binding and records rejection
+  ---
+  duration_ms: 0.245042
+  type: 'test'
+  ...
+# Subtest: untrusted instructions remain JSON data and never enter the trusted instructions
+ok 7 - untrusted instructions remain JSON data and never enter the trusted instructions
+  ---
+  duration_ms: 0.63075
+  type: 'test'
+  ...
+# Subtest: valid translation retains all numeric/URL literals and allows a shorter summary
+ok 8 - valid translation retains all numeric/URL literals and allows a shorter summary
+  ---
+  duration_ms: 1.414791
+  type: 'test'
+  ...
+# Subtest: changed date, lost price, new URL or summary numbers are rejected
+ok 9 - changed date, lost price, new URL or summary numbers are rejected
+  ---
+  duration_ms: 1.1385
+  type: 'test'
+  ...
+# Subtest: schema rejects facts, executable markup, control characters and oversized output
+ok 10 - schema rejects facts, executable markup, control characters and oversized output
+  ---
+  duration_ms: 1.251333
+  type: 'test'
+  ...
+# Subtest: empty source description remains empty; Unicode code points use the database bounds
+ok 11 - empty source description remains empty; Unicode code points use the database bounds
+  ---
+  duration_ms: 0.540125
+  type: 'test'
+  ...
+# Subtest: automatic polling cannot bypass cadence/backoff or use an unbounded wake rate
+ok 12 - automatic polling cannot bypass cadence/backoff or use an unbounded wake rate
+  ---
+  duration_ms: 1.956167
+  type: 'test'
+  ...
+# Subtest: not-due/leased sources do not fetch or import
+ok 13 - not-due/leased sources do not fetch or import
+  ---
+  duration_ms: 0.363167
+  type: 'test'
+  ...
+# Subtest: a claim failure does not skip another source and diagnostics omit error bodies/keys
+ok 14 - a claim failure does not skip another source and diagnostics omit error bodies/keys
+  ---
+  duration_ms: 0.251166
+  type: 'test'
+  ...
+# Subtest: successful import uses its own claim and never marks failure
+ok 15 - successful import uses its own claim and never marks failure
+  ---
+  duration_ms: 1.54425
+  type: 'test'
+  ...
+# Subtest: fetch failure releases the matching claim into durable backoff and continues
+ok 16 - fetch failure releases the matching claim into durable backoff and continues
+  ---
+  duration_ms: 0.700625
+  type: 'test'
+  ...
+# Subtest: malformed extraction never reaches importer or marks source healthy
+ok 17 - malformed extraction never reaches importer or marks source healthy
+  ---
+  duration_ms: 0.36425
+  type: 'test'
+  ...
+# Subtest: confirmed SQL rollback releases into backoff
+ok 18 - confirmed SQL rollback releases into backoff
+  ---
+  duration_ms: 0.165542
+  type: 'test'
+  ...
+# Subtest: ambiguous import timeout/gateway response retains lease; no concurrent release or immediate retry
+ok 19 - ambiguous import timeout/gateway response retains lease; no concurrent release or immediate retry
+  ---
+  duration_ms: 0.279875
+  type: 'test'
+  ...
+# Subtest: shutdown during extraction releases claim and starts no further source
+ok 20 - shutdown during extraction releases claim and starts no further source
+  ---
+  duration_ms: 0.564708
+  type: 'test'
+  ...
+# Subtest: shutdown during an ambiguous import aborts request, retains claim and starts no further source
+ok 21 - shutdown during an ambiguous import aborts request, retains claim and starts no further source
+  ---
+  duration_ms: 1.935125
+  type: 'test'
+  ...
+# Subtest: watch cycles are sequential and wait after completion; failures do not kill watcher
+ok 22 - watch cycles are sequential and wait after completion; failures do not kill watcher
+  ---
+  duration_ms: 0.379375
+  type: 'test'
+  ...
+# Subtest: watch shutdown interrupts sleep without another poll
+ok 23 - watch shutdown interrupts sleep without another poll
+  ---
+  duration_ms: 0.114542
+  type: 'test'
+  ...
+# Subtest: S7 send ticket: accepted means Expo received, never device proof
+ok 24 - S7 send ticket: accepted means Expo received, never device proof
+  ---
+  duration_ms: 1.101709
+  type: 'test'
+  ...
+# Subtest: S7 definite rate rejection may retry, invalid tokens stop
+ok 25 - S7 definite rate rejection may retry, invalid tokens stop
+  ---
+  duration_ms: 0.954
+  type: 'test'
+  ...
+# Subtest: S7 timeout, 5xx or malformed accepted response retain uncertain dispatch
+ok 26 - S7 timeout, 5xx or malformed accepted response retain uncertain dispatch
+  ---
+  duration_ms: 0.531
+  type: 'test'
+  ...
+# Subtest: S7 payload stays short and single-device with bounded timeout
+ok 27 - S7 payload stays short and single-device with bounded timeout
+  ---
+  duration_ms: 0.238625
+  type: 'test'
+  ...
+# Subtest: S7 synthetic transport never calls Expo, still obtains a fenced dispatch
+ok 28 - S7 synthetic transport never calls Expo, still obtains a fenced dispatch
+  ---
+  duration_ms: 0.352125
+  type: 'test'
+  ...
+# Subtest: S7 policy veto or lost lease never sends an external request
+ok 29 - S7 policy veto or lost lease never sends an external request
+  ---
+  duration_ms: 0.277041
+  type: 'test'
+  ...
+# Subtest: S7 actual transport contract creates a short digest deep link and persists a ticket
+ok 30 - S7 actual transport contract creates a short digest deep link and persists a ticket
+  ---
+  duration_ms: 0.310916
+  type: 'test'
+  ...
+# Subtest: S7 receipts missing/error cases query receipts without resending push
+ok 31 - S7 receipts missing/error cases query receipts without resending push
+  ---
+  duration_ms: 1.944291
+  type: 'test'
+  ...
+# Subtest: unknown environment fails instead of silently using development
+ok 32 - unknown environment fails instead of silently using development
+  ---
+  duration_ms: 0.615458
+  type: 'test'
+  ...
+# Subtest: development and staging can coexist without IDs or deep links colliding
+ok 33 - development and staging can coexist without IDs or deep links colliding
+  ---
+  duration_ms: 0.097208
+  type: 'test'
+  ...
+1..33
+# tests 33
+# suites 0
+# pass 33
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1893.124375
+
+> event-radar@0.1.0 check:env <workspace>
+> node scripts/check-env.mjs
+
+Environment examples and separate development/staging IDs are valid.
+
+> event-radar@0.1.0 check:secrets <workspace>
+> node scripts/check-secrets.mjs
+
+Tracked/unignored files contain no known token/private-key patterns or public server-key names.

@@ -1,0 +1,8 @@
+
+> event-radar@0.1.0 schedule:s7:watch <workspace>
+> node scripts/schedule-s7-local.mjs --watch
+
+{"stage":"schedule","status":"idle","items":0}
+{"stage":"schedule","status":"idle","items":0}
+{"stage":"schedule","status":"idle","items":0}
+{"stage":"schedule","status":"idle","items":0}

@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-02T20:41:53.068Z",
+  "owned_s4_rules": 3,
+  "saved_events_preserved": 2,
+  "scheduled_digests": 1,
+  "full_digest_items": 137,
+  "final_schedule": {
+    "days": 7,
+    "mode": "daily",
+    "time": "18:00",
+    "quiet": {
+      "end": "08:00",
+      "start": "22:00"
+    },
+    "active": true,
+    "anchor": "2026-10-02",
+    "weekdays": [
+      1
+    ]
+  },
+  "timezone": "Europe/Madrid",
+  "next_run_at": "2026-10-03T16:00:00+00:00",
+  "ai_enabled": false,
+  "ai_requests": 0,
+  "real_expo_requests_from_s7": 0,
+  "hosted_worker_verified": false,
+  "native_device_verified": false
+}

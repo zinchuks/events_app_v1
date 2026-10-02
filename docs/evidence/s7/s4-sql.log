@@ -1,0 +1,56 @@
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+NOTICE:  PASS: 19 licensed admin boundaries valid
+NOTICE:  PASS: real Madrid boundary includes city point
+NOTICE:  PASS: real Madrid boundary excludes Barcelona point
+NOTICE:  PASS: polygon includes inside AND boundary; excludes outside AND unknown coordinates
+NOTICE:  PASS: country membership without coordinates via verified hierarchy
+NOTICE:  PASS: country OR includes Ukraine; excludes France
+NOTICE:  PASS: category OR; spatial AND categories
+NOTICE:  PASS: admin matching uses real boundary OR child hierarchy
+NOTICE:  PASS: point ON real licensed admin boundary included
+NOTICE:  PASS: EUR budget never compares USD price
+NOTICE:  PASS: unknown price explicitly allowed
+NOTICE:  PASS: unknown price explicitly excluded
+NOTICE:  PASS: language AND other groups; known mismatch/unknown excluded
+NOTICE:  PASS: unknown language explicitly allowed
+NOTICE:  PASS: age overlap and unknown-age exclusion
+NOTICE:  PASS: unknown age explicitly allowed
+NOTICE:  PASS: radius uses geodesic meters; includes boundary; excludes outside/unknown
+NOTICE:  PASS: inclusive explicit date range includes date-only events
+NOTICE:  PASS: date range excludes other dates
+NOTICE:  PASS: overlapping rules return ONE card with both rule IDs
+NOTICE:  PASS: manual union digest idempotent
+NOTICE:  PASS: manual union digest deduplicated
+NOTICE:  PASS: S4 manual digest does not silently schedule push
+NOTICE:  PASS: paused rule excluded
+NOTICE:  PASS: delete rule cascades private areas
+NOTICE:  PASS: delete rule preserves saved digest
+NOTICE:  Self-intersection at or near point 0.5 0.5
+NOTICE:  PASS: rejected self-intersection
+NOTICE:  PASS: rejected antimeridian
+NOTICE:  Self-intersection at or near point 1 0
+NOTICE:  PASS: rejected collinear zero-area
+NOTICE:  PASS: rejected less than 3 vertices
+NOTICE:  PASS: rejected closing duplicate
+NOTICE:  PASS: rejected out-of-range coordinates
+NOTICE:  PASS: rejected zero radius
+NOTICE:  PASS: rejected oversized radius
+NOTICE:  PASS: rejected territory-kind mismatch
+NOTICE:  PASS: rejected invalid category
+NOTICE:  PASS: rejected invalid language
+NOTICE:  PASS: rejected budget without currency
+NOTICE:  PASS: rejected zero days
+NOTICE:  PASS: rejected invalid calendar date
+NOTICE:  PASS: rejected invalid timezone
+NOTICE:  PASS: rejected non-string name
+NOTICE:  PASS: licensed country boundary matches unassigned point
+NOTICE:  PASS: 100 vertices accepted; server closes ring
+NOTICE:  PASS: rejected more than 100 vertices
+NOTICE:  PASS: known UTC timestamp filtered by local rule date (previous day)
+NOTICE:  PASS: same timestamp outside UTC date range
+NOTICE:  PASS: stale source blocks new manual digest
+NOTICE:  PASS: invalid saves leave no partial rules
+DO
+ROLLBACK

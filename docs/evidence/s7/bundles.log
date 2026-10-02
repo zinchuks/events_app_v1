@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 check:client-bundles <workspace>
+> node scripts/check-client-bundles.mjs
+
+Client export server-key boundary: pass (66 files; key value not printed).

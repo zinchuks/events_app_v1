@@ -9,8 +9,12 @@ export function eventFeatures(items: FeedItem[]): FeatureCollection<GeoPoint> {
  return {type:'FeatureCollection',features:items.flatMap(item=>{const point=coordinates(item);return point?[{type:'Feature' as const,geometry:{type:'Point' as const,coordinates:point},properties:{id:item.id,title:item.title}}]:[];})};
 }
 export const mapStyle='https://tiles.openfreemap.org/styles/positron';
-export type DeliveryPreferences={mode:'manual'|'daily'|'weekdays'|'interval';time?:string;weekdays?:number[];days?:number;anchor?:string};
+export type DeliveryPreferences={mode:'manual'|'daily'|'weekdays'|'interval';active?:boolean;time?:string;weekdays?:number[];days?:number;anchor?:string;quiet?:{start:string;end:string};repeat_unchanged?:boolean};
 export function validPreferences(d:DeliveryPreferences){
+ if(d.active!==undefined&&typeof d.active!=='boolean')return false;
+ if(d.repeat_unchanged!==undefined&&typeof d.repeat_unchanged!=='boolean')return false;
+ if(d.quiet&&(!/^([01]\d|2[0-3]):[0-5]\d$/.test(d.quiet.start)||!/^([01]\d|2[0-3]):[0-5]\d$/.test(d.quiet.end)||d.quiet.start===d.quiet.end))return false;
+ if(d.mode==='manual'&&d.active)return false;
  if(d.mode==='manual')return true;
  if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(d.time??''))return false;
  if(d.mode==='weekdays')return Boolean(d.weekdays?.length&&d.weekdays.every(n=>Number.isInteger(n)&&n>=1&&n<=7)&&new Set(d.weekdays).size===d.weekdays.length);

@@ -34,7 +34,13 @@
     "ingest:s6:watch": "node scripts/ingest-s6-local.mjs --watch",
     "test:s6": "node scripts/test-s6-integration.mjs",
     "test:s6:ai": "node scripts/test-s6-ai-concurrency.mjs",
-    "ai:s6:status": "node scripts/check-s6-ai-local.mjs"
+    "ai:s6:status": "node scripts/check-s6-ai-local.mjs",
+    "schedule:s7:local": "node scripts/schedule-s7-local.mjs",
+    "schedule:s7:watch": "node scripts/schedule-s7-local.mjs --watch",
+    "notify:s7:expo": "node scripts/schedule-s7-local.mjs --expo",
+    "notify:s7:receipts": "node scripts/schedule-s7-local.mjs --receipts",
+    "test:s7": "node scripts/test-s7-concurrency.mjs",
+    "test:s7:api": "node scripts/test-s7-integration.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

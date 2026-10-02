@@ -1,6 +1,6 @@
 # Архітектура Event Radar
 
-Вимоги: [MVP_PLAN.md](../MVP_PLAN.md), докази вибору: [REPO_AUDIT.md](REPO_AUDIT.md). Далі відділено реалізовану основу S1 від майбутніх компонентів MVP.
+Вимоги: [MVP_PLAN.md](../MVP_PLAN.md), докази вибору: [REPO_AUDIT.md](REPO_AUDIT.md). Актуальна контрольна точка — S7; попередні секції описують стан відповідних етапів. Latest status і blockers — у PROGRESS.md.
 
 ## Реалізовано у S2
 
@@ -127,3 +127,11 @@ S6 operational compatibility: `pnpm ingest:madrid:local` now delegates to the S6
 S6 record freshness correction: new S4 union digests require BOTH source.last_success_at and every selected event.checked_at within that source TTL. A fresh partial batch does not validate older retained records. Existing stale catalog/details/historical selections stay readable with checked_at; no automatic cancellation/deletion. Legacy S3 selection also filters by source-specific source AND record TTL. Selection/version/freshness still share one MVCC snapshot.
 
 S6 AI foundation: migrations027–029 add private settings/daily commitments/requests; cache identity includes version/locale/provider/model/prompt/input hash. Settings row locking serializes budget/dispatch/settlement; unknown cost retains ceiling, reported_cost staysNULL, repeated finish cannot charge twice. New translations metadata and RLS select only ready/current model/input. Provider-neutral prompt/output validator writes no normalized event facts. No provider SDK, network request runner or guessed model/pricing. Actual two-connection concurrency proof uses an isolated schema-only disposable database, not the user catalog.
+
+## S7 — server calendar scheduling / durable selection and delivery
+
+S7 implemented/local verified independently of blocked S6 AI. `s7_horizon_bounds` shared by owner matching and server scheduler; public wrapper binds auth.uid(), service-only core explicitly binds owner. `next_run_at`, schedule revision and stale retry persisted in rules. Calendar/DST resolved by PostgreSQL IANA inventory; first fold minute once, gap to earliest available minute, later fold quiet end. User edits and area changes reschedule/invalidate pending sends; legacy S5 inactive RPC preserved.
+
+Scheduler transaction locks owner then rules, unions only due rules, writes immutable full item membership plus selected metadata/rule labels, user fingerprint ledger, unique due business key, journal and notification job, then advances next run. Empty/too-many advance without push; stale source or record defers same business slot by5min. Downtime coalesces missed slots. Every nonempty ready selection retained; unchanged items suppress push unless repeat selected. Source pipeline and AI remain independent.
+
+S7 transport separate workflow from S3. Five-minute claim token fences dispatch; per-device attempt persisted before HTTP. Quiet/optout/revision/source/device rechecked before sending, unknown outcomes never automatically resent; definite rejection backoff bounded5claims/24h. Receipt queries wait15min/backoff/expire24h; late invalid receipt cannot delete freshly re-registered token. One sequential HTTP connection, paginated device IDs, digest UUID deep link uses existing owner-only route. Default local watch performs **inbox creation only**, real Expo send requires explicit operator command/configured own device. See [S7_ACCEPTANCE.md](S7_ACCEPTANCE.md) for detailed policy/proof/blockers. Local watcher availability is not a hosted cron deployment; S8 changes/reminders remain pending.
