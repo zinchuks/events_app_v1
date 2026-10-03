@@ -44,7 +44,13 @@
     "schedule:s8:local": "node scripts/schedule-s8-local.mjs",
     "schedule:s8:watch": "node scripts/schedule-s8-local.mjs --watch",
     "test:s8": "node scripts/test-s8-concurrency.mjs",
-    "test:s8:api": "node scripts/test-s8-integration.mjs"
+    "test:s8:api": "node scripts/test-s8-integration.mjs",
+    "test:s9": "node scripts/test-s9-concurrency.mjs",
+    "test:s9:api": "node scripts/test-s9-integration.mjs",
+    "billing:s9:status": "node scripts/billing-s9-local.mjs status",
+    "billing:s9:local": "node scripts/billing-s9-local.mjs run",
+    "billing:s9:watch": "node scripts/billing-s9-local.mjs watch",
+    "billing:s9:webhook": "node scripts/billing-s9-local.mjs webhook"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

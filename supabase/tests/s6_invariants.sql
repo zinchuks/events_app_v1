@@ -74,6 +74,11 @@ begin
  perform set_config('role','postgres',true);
  update public.sources set terms_status='allowed' where code='madrid';
  insert into auth.users(id,email) values(uid,'s6-transaction-fixture@example.test');
+ -- Synthetic Plus for advanced-filter regression, transaction-only; never a real store purchase.
+ insert into public.s9_config(id,enabled,entitlement_id,product_ids,app_ids) values(true,true,'synthetic-plus',array['synthetic-month'],array['synthetic-app'])
+ on conflict(id) do update set enabled=true,entitlement_id=excluded.entitlement_id,product_ids=excluded.product_ids,app_ids=excluded.app_ids;
+ insert into public.entitlements(user_id,tier,expires_at,verified_at,provider_observed_at,provider_reference,environment)
+ values(uid,'plus',now()+interval '2 days',now(),now(),'revenuecat','SANDBOX');
  perform set_config('request.jwt.claim.sub',uid::text,true);
  perform public.save_s4_rule(jsonb_build_object('name','S6 TTL fixture','enabled',true,'timezone','Europe/Helsinki',
   'filters','{"scope":"s4","categories":["music"],"languages":[],"include_unknown_language":true,"include_unknown_price":true,"include_unknown_age":true}'::jsonb,

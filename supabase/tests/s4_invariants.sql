@@ -15,6 +15,11 @@ declare uid uuid:=gen_random_uuid(); source uuid:=gen_random_uuid(); madrid uuid
  r uuid; r2 uuid; d uuid; doc jsonb; polygon jsonb; radius jsonb; countries jsonb; boundary_distance double precision; vertices jsonb; known_occurrence uuid;
 begin
  insert into auth.users(id,email) values(uid,'s4-sql-fixture@example.test');
+ -- Synthetic Plus for advanced-filter regression, transaction-only; never a real store purchase.
+ insert into public.s9_config(id,enabled,entitlement_id,product_ids,app_ids) values(true,true,'synthetic-plus',array['synthetic-month'],array['synthetic-app'])
+ on conflict(id) do update set enabled=true,entitlement_id=excluded.entitlement_id,product_ids=excluded.product_ids,app_ids=excluded.app_ids;
+ insert into public.entitlements(user_id,tier,expires_at,verified_at,provider_observed_at,provider_reference,environment)
+ values(uid,'plus',now()+interval '2 days',now(),now(),'revenuecat','SANDBOX');
  perform set_config('request.jwt.claim.sub',uid::text,true);
  select id into madrid from public.territories where external_id='madrid:municipio:Madrid';
  select id into es from public.territories where external_id='iso3166:ES';

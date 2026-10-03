@@ -88,7 +88,11 @@ try {
     assert.equal(ok(await a.from(table).select('*').eq('user_id', aId)).length, 1);
     assert.equal(ok(await b.from(table).select('*').eq('user_id', aId)).length, 0);
     if (writable.includes(table)) {
-      assert.equal(ok(await b.from(table).update({ user_id: bId }).eq('user_id', aId).select()).length, 0);
+      if(table==='rules') {
+        // S9 protects ownership at column ACL too; still exercise RLS with a writable field.
+        denied(await b.from(table).update({ user_id: bId }).eq('user_id', aId));
+        assert.equal(ok(await b.from(table).update({ name: 'Unauthorized' }).eq('user_id', aId).select()).length, 0);
+      } else assert.equal(ok(await b.from(table).update({ user_id: bId }).eq('user_id', aId).select()).length, 0);
       denied(await a.from(table).update({ user_id: bId }).eq('user_id', aId));
     }
     const removal = await b.from(table).delete().eq('user_id', aId).select();

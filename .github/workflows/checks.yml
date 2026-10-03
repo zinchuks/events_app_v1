@@ -78,6 +78,7 @@ jobs:
       - run: pnpm test:s6:ai
       - run: pnpm test:s7
       - run: pnpm test:s8
+      - run: pnpm test:s9
       - run: pnpm local:env
       - run: pnpm export:mobile
       - run: pnpm check:client-bundles

@@ -266,22 +266,34 @@ export type Database = {
       }
       entitlements: {
         Row: {
+          environment: string | null
           expires_at: string | null
+          grace_until: string | null
+          provider_observed_at: string | null
           provider_reference: string | null
           tier: string
           user_id: string
+          verified_at: string | null
         }
         Insert: {
+          environment?: string | null
           expires_at?: string | null
+          grace_until?: string | null
+          provider_observed_at?: string | null
           provider_reference?: string | null
           tier?: string
           user_id: string
+          verified_at?: string | null
         }
         Update: {
+          environment?: string | null
           expires_at?: string | null
+          grace_until?: string | null
+          provider_observed_at?: string | null
           provider_reference?: string | null
           tier?: string
           user_id?: string
+          verified_at?: string | null
         }
         Relationships: [
           {
@@ -669,6 +681,7 @@ export type Database = {
       }
       rules: {
         Row: {
+          billing_paused: boolean
           delivery_schedule: Json
           enabled: boolean
           event_horizon: Json
@@ -682,6 +695,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          billing_paused?: boolean
           delivery_schedule?: Json
           enabled?: boolean
           event_horizon?: Json
@@ -695,6 +709,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          billing_paused?: boolean
           delivery_schedule?: Json
           enabled?: boolean
           event_horizon?: Json
@@ -1108,6 +1123,133 @@ export type Database = {
           },
         ]
       }
+      s9_config: {
+        Row: {
+          app_ids: string[]
+          enabled: boolean
+          entitlement_id: string | null
+          environment: string
+          id: boolean
+          product_ids: string[]
+        }
+        Insert: {
+          app_ids?: string[]
+          enabled?: boolean
+          entitlement_id?: string | null
+          environment?: string
+          id?: boolean
+          product_ids?: string[]
+        }
+        Update: {
+          app_ids?: string[]
+          enabled?: boolean
+          entitlement_id?: string | null
+          environment?: string
+          id?: boolean
+          product_ids?: string[]
+        }
+        Relationships: []
+      }
+      s9_preferences: {
+        Row: {
+          free_rule: string | null
+          user_id: string
+        }
+        Insert: {
+          free_rule?: string | null
+          user_id: string
+        }
+        Update: {
+          free_rule?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s9_preferences_free_rule_fkey"
+            columns: ["free_rule"]
+            isOneToOne: false
+            referencedRelation: "rules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "s9_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s9_reconcile_queue: {
+        Row: {
+          attempts: number
+          claim: string | null
+          claim_generation: number | null
+          due_at: string
+          error_code: string | null
+          generation: number
+          lease_until: string | null
+          requested_at: string
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          claim?: string | null
+          claim_generation?: number | null
+          due_at?: string
+          error_code?: string | null
+          generation?: number
+          lease_until?: string | null
+          requested_at?: string
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          claim?: string | null
+          claim_generation?: number | null
+          due_at?: string
+          error_code?: string | null
+          generation?: number
+          lease_until?: string | null
+          requested_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s9_reconcile_queue_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s9_webhook_events: {
+        Row: {
+          event_id: string
+          received_at: string
+          user_id: string
+        }
+        Insert: {
+          event_id: string
+          received_at?: string
+          user_id: string
+        }
+        Update: {
+          event_id?: string
+          received_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s9_webhook_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       saved_events: {
         Row: {
           created_at: string
@@ -1419,6 +1561,10 @@ export type Database = {
         Args: { selected_rule: string }
         Returns: string
       }
+      choose_s9_free_rule: {
+        Args: { selected_rule: string }
+        Returns: undefined
+      }
       claim_s3_notification: {
         Args: { job_transport: string; selected_job?: string }
         Returns: {
@@ -1447,6 +1593,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      claim_s9_reconcile: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       correct_s8_occurrence: {
         Args: { patch: Json; reason: string; selected_occurrence: string }
         Returns: undefined
@@ -1455,9 +1605,17 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      enqueue_s9_reconcile: {
+        Args: { event_key?: string; owner_id: string }
+        Returns: boolean
+      }
       fail_s6_source: {
         Args: { claim_token: string; error_code: string; source_code: string }
         Returns: undefined
+      }
+      fail_s9_reconcile: {
+        Args: { nonce: string; owner_id: string }
+        Returns: boolean
       }
       finish_s6_ai: {
         Args: {
@@ -1485,6 +1643,10 @@ export type Database = {
       }
       finish_s7_receipt: {
         Args: { error?: string; result: string; selected_delivery: string }
+        Returns: boolean
+      }
+      finish_s9_reconcile: {
+        Args: { nonce: string; owner_id: string; snapshot: Json }
         Returns: boolean
       }
       ingest_madrid: {
@@ -1547,6 +1709,10 @@ export type Database = {
       }
       release_s6_ai: {
         Args: { claim_token: string; selected_request: string }
+        Returns: boolean
+      }
+      request_s9_reconcile: {
+        Args: Record<PropertyKey, never>
         Returns: boolean
       }
       reserve_s6_ai: {
@@ -1660,6 +1826,30 @@ export type Database = {
       s8_sync_reminders: {
         Args: { selected_occurrence: string; selected_owner: string }
         Returns: undefined
+      }
+      s9_free_eligible: {
+        Args: { r: Database["public"]["Tables"]["rules"]["Row"] }
+        Returns: boolean
+      }
+      s9_previous_push_allowed: {
+        Args: { j: Database["public"]["Tables"]["notification_jobs"]["Row"] }
+        Returns: Json
+      }
+      s9_refresh_rules: {
+        Args: { owner_id: string }
+        Returns: undefined
+      }
+      s9_rule_allowed: {
+        Args: { selected_rule: string }
+        Returns: boolean
+      }
+      s9_state: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      s9_tier: {
+        Args: { owner_id: string }
+        Returns: string
       }
       save_s3_rule: {
         Args: { category_codes: string[] }

@@ -8,6 +8,11 @@ do $$
 declare uid uuid:=gen_random_uuid(); stranger uuid:=gen_random_uuid(); src uuid:=gen_random_uuid(); e uuid; occ uuid; zero_occ uuid; city uuid; doc jsonb; r uuid; result jsonb; p1 jsonb; p2 jsonb; d jsonb; n integer;
 begin
  insert into auth.users(id,email) values(uid,'s5-sql-fixture@example.test'),(stranger,'s5-sql-stranger@example.test');
+ -- Synthetic Plus for advanced-filter regression, transaction-only; never a real store purchase.
+ insert into public.s9_config(id,enabled,entitlement_id,product_ids,app_ids) values(true,true,'synthetic-plus',array['synthetic-month'],array['synthetic-app'])
+ on conflict(id) do update set enabled=true,entitlement_id=excluded.entitlement_id,product_ids=excluded.product_ids,app_ids=excluded.app_ids;
+ insert into public.entitlements(user_id,tier,expires_at,verified_at,provider_observed_at,provider_reference,environment)
+ values(uid,'plus',now()+interval '2 days',now(),now(),'revenuecat','SANDBOX');
  perform set_config('request.jwt.claim.sub',uid::text,true);
  select id into city from public.territories where external_id='madrid:municipio:Madrid';
  insert into public.sources(id,name,url,acquisition,terms_status,last_success_at) values(src,'S5 transaction-only fixture','https://example.test/s5','fixture','allowed',now());

@@ -3,8 +3,9 @@ import { getVariant } from '../apps/mobile/config/variants.mjs';
 
 // Exact allowlist: example files cannot silently introduce public server secrets.
 const examples = {
-  'apps/mobile/.env.example': ['APP_VARIANT', 'EAS_PROJECT_ID', 'EXPO_PUBLIC_SUPABASE_URL', 'EXPO_PUBLIC_SUPABASE_ANON_KEY'],
-  'apps/mobile/.env.staging.example': ['APP_VARIANT', 'EAS_PROJECT_ID', 'EXPO_PUBLIC_SUPABASE_URL', 'EXPO_PUBLIC_SUPABASE_ANON_KEY'],
+  '.env.billing.example': ['REVENUECAT_SECRET_KEY','REVENUECAT_WEBHOOK_AUTH'],
+  'apps/mobile/.env.example': ['APP_VARIANT', 'EAS_PROJECT_ID', 'EXPO_PUBLIC_SUPABASE_URL', 'EXPO_PUBLIC_SUPABASE_ANON_KEY', 'EXPO_PUBLIC_REVENUECAT_IOS_KEY', 'EXPO_PUBLIC_REVENUECAT_ANDROID_KEY'],
+  'apps/mobile/.env.staging.example': ['APP_VARIANT', 'EAS_PROJECT_ID', 'EXPO_PUBLIC_SUPABASE_URL', 'EXPO_PUBLIC_SUPABASE_ANON_KEY', 'EXPO_PUBLIC_REVENUECAT_IOS_KEY', 'EXPO_PUBLIC_REVENUECAT_ANDROID_KEY'],
   'apps/admin/.env.example': ['VITE_APP_ENV'],
   'apps/admin/.env.staging.example': ['VITE_APP_ENV'],
   'services/ingestion/.env.example': ['APP_ENV', 'SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'DATABASE_URL'],

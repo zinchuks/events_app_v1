@@ -56,6 +56,13 @@ try {
   + schema.replace('CREATE SCHEMA public;', 'CREATE SCHEMA IF NOT EXISTS public;').replace(/^ALTER DEFAULT PRIVILEGES[^\n]*\n/gm, ''));
  // Lookup inventory is static metadata, never private user data.
  await sql("insert into public.timezone_names(name) select name from pg_catalog.pg_timezone_names;");
+ // S7 exercises Plus schedules. Synthetic grants exist only in this disposable DB.
+ await sql(`insert into public.s9_config(id,enabled,entitlement_id,product_ids,app_ids)
+ values(true,true,'synthetic-plus',array['synthetic-month'],array['synthetic-app']);
+ create function public.s7_test_plus() returns trigger language plpgsql as $$begin
+ insert into public.entitlements(user_id,tier,expires_at,verified_at,provider_observed_at,provider_reference,environment)
+ values(new.id,'plus',now()+interval '2 days',now(),now(),'revenuecat','SANDBOX');return new;end $$;
+ create trigger s7_test_plus after insert on public.profiles for each row execute function public.s7_test_plus();`);
  const invariantLog = await sql(await readFile('supabase/tests/s7_invariants.sql', 'utf8'));
  const invariantResult = JSON.parse(invariantLog.trim());
  check(invariantResult.invariant_checks >= 40);
