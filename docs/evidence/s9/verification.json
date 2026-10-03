@@ -1,0 +1,268 @@
+{
+  "recorded_at": "2026-10-03T19:11:42.662312+00:00",
+  "stage": "S9",
+  "status": "blocked_external_store_acceptance",
+  "implementation_sha": "2ca20f86339dc24998ff923baa47541a46d6ffc7",
+  "prior_checkpoint": "eeff88e",
+  "local_checks": {
+    "s9_sql": [
+      {
+        "invariant_checks": 42,
+        "provider_requests": 0,
+        "store_purchases_verified": false
+      },
+      {
+        "concurrency_checks": 11,
+        "observed_overlaps": 3,
+        "independent_postgres_connections": true,
+        "actual_clock_expiry": true,
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "provider_requests": 0,
+        "store_purchases_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s9_actual_api_http": [
+      {
+        "checks": 50,
+        "actual_auth_postgrest": true,
+        "config_mutated": false,
+        "store_purchases_verified": false,
+        "provider_requests": 0
+      }
+    ],
+    "check": {
+      "typescript": true,
+      "eslint": true,
+      "jest": 17,
+      "node_tests": 42,
+      "env": true,
+      "secrets": true
+    },
+    "s2_regression": [
+      {
+        "status": "pass",
+        "checks": 109,
+        "integration": "real local Auth/PostgREST/Postgres/PostGIS/Mailpit",
+        "nativeStorage": "unverified",
+        "scenarios": [
+          "email signup/confirmation",
+          "profile settings",
+          "cross-user read/write protection",
+          "server-only data and entitlements",
+          "date-only and timezone invariants",
+          "session restore/logout",
+          "email recovery/password change",
+          "own account deletion/private cascade/public preservation",
+          "demo territory/category seeds"
+        ]
+      }
+    ],
+    "s7_regression": [
+      {
+        "synthetic": true,
+        "expo_requests": 0,
+        "invariant_checks": 54
+      },
+      {
+        "concurrency_checks": 13,
+        "independent_postgres_connections": true,
+        "observed_overlaps": 4,
+        "scheduler_race": "one logical digest",
+        "transport_race": "one fenced dispatch",
+        "synthetic_invariants": "PASS",
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "expo_requests": 0,
+        "device_delivery_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s8_regression": [
+      {
+        "fixtures": "synthetic SQL",
+        "invariant_checks": 69,
+        "external_requests": 0
+      },
+      {
+        "concurrency_checks": 16,
+        "independent_postgres_connections": true,
+        "observed_overlaps": 4,
+        "import_correction_race": true,
+        "actual_timed_reminder": true,
+        "correction_race": "one logical update",
+        "scheduler_race": "one inbox/job",
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "expo_requests": 0,
+        "device_delivery_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s4_sql_rollback": 49,
+    "s5_sql_rollback": 24,
+    "s6_sql_rollback": "PASS",
+    "exports": [
+      "web JS",
+      "iOS JS",
+      "Android JS"
+    ],
+    "native_builds_verified": false,
+    "client_key_scan_files": 66,
+    "generated_types_exact": true,
+    "expo_doctor": "18/18",
+    "expo_deps_check": "pass"
+  },
+  "browser": {
+    "url": "http://localhost:8087/subscription",
+    "viewport": [
+      390,
+      844
+    ],
+    "locales": [
+      "uk",
+      "en",
+      "es"
+    ],
+    "restored_locale": "uk",
+    "server_tier": "free",
+    "effective_rule_count": 1,
+    "s4_rules_preserved": 3,
+    "billing_paused_s4": 2,
+    "saved_events_preserved": 2,
+    "pending_reminders_preserved": 2,
+    "reload_verified": true,
+    "console_errors": 0,
+    "screenshots": [
+      "browser-free.png",
+      "browser-rules.png",
+      "browser-en.png",
+      "browser-es.png"
+    ]
+  },
+  "billing_runtime": {
+    "enabled": false,
+    "environment": "SANDBOX",
+    "actual_entitlement_snapshots": 0,
+    "queue_rows": 0,
+    "webhook_rows": 0,
+    "actual_revenuecat_api_requests": 0,
+    "secret_key_configured": false,
+    "webhook_auth_configured": false,
+    "user_confirmed_no_store_accounts": true,
+    "sandbox_purchase_ios_verified": false,
+    "sandbox_purchase_android_verified": false,
+    "restore_ios_verified": false,
+    "restore_android_verified": false,
+    "actual_provider_webhook_verified": false,
+    "local_authenticated_http_verified": true
+  },
+  "audit": {
+    "status": "failed_high_gate",
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 1,
+      "high": 2,
+      "critical": 0
+    },
+    "advisories": [
+      {
+        "module": "decode-uri-component",
+        "severity": "moderate",
+        "url": "https://github.com/advisories/GHSA-vcc3-ghjq-m6fr",
+        "patched_versions": ">=0.5.0",
+        "versions": [
+          "0.2.2"
+        ]
+      },
+      {
+        "module": "node-forge",
+        "severity": "high",
+        "url": "https://github.com/advisories/GHSA-86w9-cpqp-85rv",
+        "patched_versions": "<0.0.0",
+        "versions": [
+          "1.4.0"
+        ]
+      },
+      {
+        "module": "braces",
+        "severity": "high",
+        "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+        "patched_versions": "<0.0.0",
+        "versions": [
+          "3.0.3"
+        ]
+      }
+    ]
+  },
+  "implementation_file_sha256": {
+    ".env.billing.example": "a877f01791033f72aa1bb892aa717eb189b9f810ddda792c95bdea7de9dcef0d",
+    ".github/workflows/checks.yml": "054fdcdd12e5ee30c41bb292f5e3a51ed548399fa972a635503a96ef312bf4c2",
+    "apps/mobile/.env.example": "3058e676be30ee78d4989e8fc7711e7dd49103d01a181d81a304ef1bbb6c84ea",
+    "apps/mobile/.env.staging.example": "d73da6f3f9b0537a7219d576ce7c24d01219466194a65f2753a6e77952c281d8",
+    "apps/mobile/package.json": "c51f11fa51b23d81c8a67a06fd8b1cfdaf6ca1ac6574fd96119e39ba1819c100",
+    "apps/mobile/src/app/onboarding.tsx": "2e4c0782503a12115e4789d257375c2602202aced0e547cc466c45f7d67ae03d",
+    "apps/mobile/src/app/rules.tsx": "1c9225ef3530591d87c8b0780fe8a1abb8478952b406982827b0cc0a11cf28d4",
+    "apps/mobile/src/app/settings.tsx": "8ee17929272d73080b61c7131c418e0b983e0069eb9e639f992ac2d81c1e68b1",
+    "apps/mobile/src/app/subscription.tsx": "4df588f43f88a92a2b955f20ed166c6fb2b279d0115cb0b777c57636c4135ffc",
+    "apps/mobile/src/components/delivery-fields.tsx": "d418b1d11b1eaa1b0dff480b61e7c0dd650753a1b2c66f3240b89d4a2a85148a",
+    "apps/mobile/src/lib/billing.native.ts": "7f5724b61e11832f183415071145c39833987ccff13ba4ce34f01cb1fcd2444b",
+    "apps/mobile/src/lib/billing.ts": "d19b7b4b91772a8b3df6fce25e633a513f363590d897a90d336a5ed7d1bc7b7f",
+    "apps/mobile/src/lib/database.types.ts": "ba2ae77cf6dfceae22c6ded8b1f6b7af0a6e5e8595608572c5fdd90ab0c6076f",
+    "apps/mobile/src/lib/messages.ts": "a3fdeacc8ef9c320d2d4646b5f6780cb15a59e635ed992d182308c188a17858c",
+    "licenses/revenuecat/LICENSE": "b175672dbc142198bae1daa4bdef4893103d75c111a949f1e33d6493d67658bf",
+    "licenses/revenuecat/purchases-js-LICENSE": "b175672dbc142198bae1daa4bdef4893103d75c111a949f1e33d6493d67658bf",
+    "package.json": "853e33e3af28c2c30b90deff1fb07035aeab3630111314899676248a1ad841cd",
+    "pnpm-lock.yaml": "b8bb9d872027c17800d079cd4abf349fbf6936cba130b1e4e43d2666a27f08ad",
+    "scripts/billing-s9-local.mjs": "d94918bd1ab653475ee8e967b29f1c4af68cb74716006026fb32e84b63e83a46",
+    "scripts/check-env.mjs": "2f433c63cf9be8bbc22a83e0375854cf6e5865efd398d68f6d965cb14bd16215",
+    "scripts/lib/local-clients.mjs": "5c6a66e8771770d872a52139755c68a7c7cd8ed70dfe541476096bb5b719c0cd",
+    "scripts/lib/s9-revenuecat.mjs": "e41808f90ba8d27763e46c6becc8c20bb9dd18ba9be99b37e11c4e26c0857cf0",
+    "scripts/s9-revenuecat.test.mjs": "1835b34ee4ae85c85ba746adac6bbd78d80637dd83dd70be1d44fd4f2d0e9d9b",
+    "scripts/test-s2-integration.mjs": "8a52463496618503fe2866b62b2dae76f9894f412b76d523da1270d30e4bad56",
+    "scripts/test-s7-concurrency.mjs": "e8c2d43ae5a68be2346193f67e9fac73d50392dfd55b37361ca776d28be8e41a",
+    "scripts/test-s9-concurrency.mjs": "dcbd39a2b52d3d3f1a5e6831f08878ddc22cdc0749e0b51eb2c8ec5eace8054a",
+    "scripts/test-s9-integration.mjs": "3fa7bb877aed4fe435490b0d56122e9c512a64b50f2ece1a054bdc279d78a281",
+    "supabase/migrations/20261003004600_s9_billing.sql": "ad3b8585d1246f1e4ffc595dcb18baa8697209ec3a5db95733f5b77da29ce5b5",
+    "supabase/migrations/20261003004700_s9_execution_limits.sql": "204bff0a31865f960400895099ef9943d64e95a5f2200170842047dcc2abd8c1",
+    "supabase/migrations/20261003004800_s9_due_policy.sql": "a6a249ea689c1d56a17144d97538f34e3853923b437b01f3e864b07a274c147b",
+    "supabase/migrations/20261003004900_s9_pause_fence.sql": "6d149a1e22e379df3a0305ccc4415a748d08e5783f6d420294927aabca3346b6",
+    "supabase/migrations/20261003005000_s9_offering_allowlist.sql": "dc5f69832874a3ad79eb43f53f0ab49dbfe24b0cb46d2f6a9efa68f351b69d09",
+    "supabase/migrations/20261003005100_s9_config_guard.sql": "b2464963e728d90fc0f13d34a2a22beb1bfb287b2dd1d65f8c36549c8f1f5cc4",
+    "supabase/tests/s4_invariants.sql": "16c769077f23c79b901782cf24ee9e5747bf31b50bf4e8db11e11c161b3e31b0",
+    "supabase/tests/s5_invariants.sql": "4c69d9fe0c373dc8555e45dc4ab987284384553e511c2a9d1370396adb51dfda",
+    "supabase/tests/s6_invariants.sql": "0fcc2d4cc7a32cd57367061ec24645050d82c5fa1c319f9ddc409e655141dbc9",
+    "supabase/tests/s9_invariants.sql": "7606a9ef6f4be051f9a2395b556b7cf63716428a7c7cca2c3886fe07759e3d62"
+  },
+  "screenshot_sha256": {
+    "browser-en.png": "1715e1f64f77735b50e37d6635281e97a5e27098e228b0786578ad00e9e00318",
+    "browser-rules.png": "7bc5c57085338730a6860f91de45b6bf133dc2daaaa1531d681884b55f5e1854",
+    "browser-free.png": "739b01ff0b95daa80ea6989ac71243ff3c9524eaa54ea49c4dc23d3a8d3c14ea",
+    "browser-es.png": "31a785dca5b7ac53c6f19fcb9c3bd0568988ded92ea7cfd43793b20b6ac2ccc9"
+  },
+  "external_blockers": [
+    "RevenueCat/store account configuration and actual product/app/entitlement IDs and keys absent",
+    "Hosted HTTPS callback and worker not deployed; current CLI local-only",
+    "Physical iOS/Android development builds and both sandbox purchase/restore absent",
+    "iOS license gate; Android SDK/adb missing",
+    "Dependency audit2 high/1 moderate",
+    "Prior actual AI and real phone push unverified"
+  ],
+  "s10_started": false,
+  "git_push_performed": false,
+  "remote_changed": false,
+  "user_database_reset": false,
+  "user_rows_copied_to_test_db": false,
+  "implementation_commits": [
+    "56109601669d1bae86d5b94297c1938ba5093bce",
+    "2ca20f86339dc24998ff923baa47541a46d6ffc7"
+  ]
+}

@@ -1,6 +1,6 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-03, Europe/Madrid. Поточна задача: **S8** за новим «продовжуй» (P4). S8 реалізовано; локальні DB/API/browser перевірки пройшли, native push unverified. S6 sources/cache працюють; actual AI blocked без provider/model/budget/server key. S3/S7 real device push і native builds потребують фізичного development device та toolchains. Останній recorded S5 audit gate failed; нового dependency audit у S8 не було. S9–S12 не розпочато. Докази S8 — [S8_ACCEPTANCE.md](S8_ACCEPTANCE.md), команди — [SETUP.md](SETUP.md). Нижче — історичні результати попередніх дат.
+Оновлено 2026-10-03, Europe/Madrid. Поточна задача: **S9** за новим «продовжуй» (P4). Незалежна серверна/SDK/UI основа реалізована й локально перевірена; **S9 blocked** до real RevenueCat/store setup та sandbox purchase/restore на iOS й Android. Користувач підтвердив, що магазинів ще немає й перевіряє браузер. Не надаємо Plus через клієнтські flags/fixtures. Free виконує одне правило; paid configurations збережені paused. S6 actual AI та S3/S7/S8 real device push blockers лишаються. Audit2026-10-03:2 high +1 moderate, gate failed. **S10–S12 не розпочато.** Докази — [S9_ACCEPTANCE.md](S9_ACCEPTANCE.md), [verification](evidence/s9/verification.json); команди — [SETUP.md](SETUP.md). Нижче — історичні результати попередніх дат.
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
@@ -13,7 +13,7 @@
 | S6 | **in_progress; AI blocked** | Madrid/ES + Toronto/CA + Helsinki/FI live imports; source registry/leases/backoff/source+record TTL/local automatic polling, safe review, real price/points, native-source English cache/browser verified. Disabled AI budget/cache foundation tested; actual adapter/access/pricing/budget config still blocked; [acceptance](S6_ACCEPTANCE.md) |
 | S7 | **implemented; real device push blocked** | Durable schedules/DST/quiet/pause/full history, fenced jobs/retries/receipts; 54 SQL + 13 concurrency + 56 API checks, real timed 137-event browser digest; [acceptance](S7_ACCEPTANCE.md) |
 | S8 | **implemented; native push unverified** | Saved before/after updates/cancellation, rescheduled known-time reminders, stale/unknown and audited manual overlays; 69 SQL +16 concurrency/timed +58 API, browser uk/en/es; [acceptance](S8_ACCEPTANCE.md) |
-| S9 | pending | Store sandbox purchases/restore/server entitlements; external setup unverified |
+| S9 | **blocked; local foundation implemented/verified** | RevenueCat SDK10.11.0, server Free/Plus/effective pause/expiry/grace, authenticated local webhook/reconcile, paywall/restore code;42 SQL +11 concurrency/clock +50 actual API/HTTP checks. Real provider/store/native purchase/restore відсутні; [acceptance](S9_ACCEPTANCE.md) |
 | S10 | pending | Admin/monitoring/backup restore |
 | S11 | pending | Device beta/E2E/performance/release builds |
 | S12 | pending | Release/store metadata/policies/operator data |
@@ -181,3 +181,18 @@ Real saved concert10Oct19:00 Madrid now has24h/2h reminders, independent Europe/
 Initial S6 regression encountered stale Helsinki after6 prior import failures. Actual bounded official fetch/import54 normalized records succeeded, backoff reset and S6 passed. Previous SQL cause was not reproduced, not declared fixed; observe next unattended import. Safe error-code reporting avoids raw event/HTTP error contents. AI stays disabled; provider/model/daily budget+currency/server key missing. Real push/native/iOS license/Android SDK/SMTP/remote CI and previous dependency audit blockers remain. Next independent stage S9 requires new task/store sandbox setup; actual billing cannot be verified only in browser.
 
 S8 implementation checkpoint: `e70ecc8f0a8b00224239614c108c718d643cd3b4` (local only). Окремий documentation commit записує цей SHA та final state. Actual HEAD — `git log -1`. Working tree checks pass; no push/remote changes.
+
+
+## S9 — 2026-10-03
+
+Нове «продовжуй» дозволило наступний незалежний етап; попередні integration blockers не названі завершеними. SDK exact pin/MIT notices збережено. Local migrations046–051 applied без reset; server config disabled/SANDBOX, entitlement/product/app IDs NULL/empty, actual REST/webhook keys absent. Provider API requests0. Native offerings/purchase/restore code доступний тільки поза Expo Go з власними per-platform SDK keys; web stub не запускає Preview API mocks. Ціни тільки зі store offering, не з гіпотези €4.99/€39.99.
+
+Free: effective city/radius rule1, weekly single weekday; Plus10/advanced monitoring/filters. Користувач може зберігати paid drafts, але matching/scheduler/dispatch їх не виконують. `enabled` intent та whole configuration не перезаписуються при expiry; `billing_paused` + revision/due fence зупиняє зайве. Вибір одного Free rule owner-bound; catalog/history/saved/Free cancellations/reminders лишаються. Старі client S3 quick-rule/digest RPC retired; current mobile використовує S4+ flows.
+
+Durable webhook ledger→owner queue→leased GET current subscriber→verified snapshot, не webhook's guessed tier. Replays dedup; out-of-order triggers fetch current state; old provider response/lost lease rejected. Transfer refreshes both parties. Events during fetch remain due; periodic6h/retry5min. Local authenticated loopback handler cannot receive real RevenueCat delivery; HTTPS hosting and supervision remain a specific deployment blocker.
+
+Actual verification:42 SQL +11 concurrency/real-clock expiry checks (3 observed overlaps, own random DB removed),50 real Auth/PostgREST/local HTTP checks (disposable accounts removed, config/catalog untouched); TypeScript/lint/env/secrets,17 Jest/42 Node; S2 regression109, S4/S5 SQL49/24, S6 rollback invariants, S7 SQL54+concurrency13, S8 SQL69+concurrency/timed16. Advanced older tests use explicitly synthetic Plus only in their own disposable DB/ROLLBACK; no real user grant. Expo deps pass/Doctor18, all three JS exports, bundle key scan66files. Browser uk/en/es/390×844 and reload; existing3 S4 rules+legacy, saved2, actual source facts untouched. No GitHub Actions/native build/device push/store purchase/provider restore proof.
+
+Audit after SDK install: node-forge1.4.0 high GHSA-86w9-cpqp-85rv; newly recorded braces3.0.3 high GHSA-vfj7-8cjw-p6xm via Jest/@types/jest; decode-uri-component0.2.2 moderate. Both high packages already in previous lock, no registry fix shown. Gate remains failed; no unsafe override/ignore. Next S9 completion needs actual RC/store identifiers/keys, HTTPS server, development phones/builds and both sandbox purchase/restore evidence. S10 needs a new continuation task.
+
+S9 implementation checkpoint: `2ca20f86339dc24998ff923baa47541a46d6ffc7`. Final documentation/evidence checkpoint available through `git log -1`; no push.

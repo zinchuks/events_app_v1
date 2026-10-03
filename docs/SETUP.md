@@ -433,3 +433,35 @@ Allowlist: title,venue,price/currency,status(scheduled/cancelled/review),time_ki
 Optional temporary browser QA: `node scripts/preview-s8-local.mjs create OWNER_EMAIL`, inspect returned labelled synthetic URLs, **always** `node scripts/preview-s8-local.mjs cleanup`. Own IDs are held in `/private/tmp/event-radar-s8-preview.json`, no credentials. A synthetic cacheable source/event/saved row and two alerts appear briefly; cleanup removes only its own source/event/digests/jobs/audit. This is fixture evidence, not a live cancellation. Personal emails/passwords are not stored in repo. Actual retained preferences/manual steps and limitations: [S8_ACCEPTANCE.md](S8_ACCEPTANCE.md).
 
 Before S9: new task plus store/provider selection, sandbox product IDs/accounts and server configuration. Real store purchase/restore/expiry validation requires native sandbox device builds; browser is insufficient. AI/provider and native push blockers remain separately tracked.
+
+
+## S9 — local billing foundation
+
+Use existing local stack; **do not reset user DB**. Node22.23.3/pnpm10.34.6; here prefix commands with `PATH=/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH`.
+
+```sh
+supabase migration up --local
+pnpm billing:s9:status
+pnpm test:s9
+pnpm test:s9:api
+pnpm check
+pnpm export:mobile
+pnpm check:client-bundles
+```
+
+`test:s9` clones only schema/grants/static IANA inventory into own random DB, inserts synthetic default config/products/Plus, checks42 SQL+11 concurrency/clock assertions, drops that DB. No user/catalog rows copied; no provider request. `test:s9:api` creates/removes own temporary Auth users, uses existing real territories, leaves catalog/config unchanged, starts/stops its own local webhook on8099 with synthetic in-memory auth. Port8099 must be free. Never run S9 SQL directly in user DB. Earlier advanced S4/S5/S6 SQL fixtures use synthetic Plus within ROLLBACK; S7 only in its own test DB.
+
+Current status: disabled/SANDBOX, identifiers empty, actual RevenueCat server key/header absent. `billing:s9:local` returns disabled with zero provider requests; **do not enable config with guessed IDs**. App Settings→Plan shows actual server Free and preserved paused rules. `s9_state`/choose refresh derived pause; no client tier writes.
+
+After real account setup, copy `.env.billing.example` to ignored `.env.billing.local`, fill secret REST key and the exact Authorization value configured in RevenueCat dashboard. Keep file private; never paste values in chat or EXPO_PUBLIC. CLI does not automatically read dotenv: Node22 can load it explicitly:
+
+```sh
+node --env-file=.env.billing.local scripts/billing-s9-local.mjs watch
+node --env-file=.env.billing.local scripts/billing-s9-local.mjs webhook
+```
+
+These commands remain **local harness**; webhook URL127.0.0.1:8099/revenuecat cannot receive RevenueCat internet delivery. Actual HTTPS hosting/remote service client/managed worker configuration must be implemented and verified after access is available, not inferred from these local commands. Watcher wake10s, RPC10s/provider15s/1MiB; DB owns lease2min/retry5min/refresh6h. It never purchases anything. Claims retain fencing after ambiguity; authenticated owner refresh is rate-limited60s.
+
+Native keys go only into `EXPO_PUBLIC_REVENUECAT_IOS_KEY` (`appl_`) / Android (`goog_`) in ignored mobile env; no test-store/secret key. Actual server identifiers are entitlement/product/app IDs from your own RevenueCat/store projects. Native SDK is autolinked; new dev build required. Existing iOS/Android tooling/device blockers still apply. Native offerings/purchase/restore remain unverified; no hardcoded price/trial.
+
+Before S9 done: real sandbox purchase +restore on **both** platforms, renewal/cancellation/grace/expiry/refund/transfer, actual authenticated callback→server snapshot and data preservation. [Acceptance](S9_ACCEPTANCE.md). Audit currently fails2 high/1 moderate; do not disable the gate.
