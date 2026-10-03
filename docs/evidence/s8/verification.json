@@ -2,7 +2,7 @@
   "stage": "S8",
   "date": "2026-10-03",
   "status": "implemented; local verification passed; native push unverified",
-  "implementation_commit": null,
+  "implementation_commit": "e70ecc8f0a8b00224239614c108c718d643cd3b4",
   "checks": {
     "sql_invariants": 69,
     "concurrency_timed_checks": 16,
@@ -99,8 +99,8 @@
       "bytes": 260
     },
     "local-state.json": {
-      "sha256": "eff2c6dd4bf641c3bf1fad7a10ba707b73abb4ffe303cd22b1b81d580dbe9d3b",
-      "bytes": 1751
+      "sha256": "3d5650dd8e450617012f0a19a8754400775f06c5cfcb06f5b8945c1bfac89dd7",
+      "bytes": 1811
     },
     "postgres.log": {
       "sha256": "5b49aaf669fae13917e6f760bf2e768ca3d6f48ac9bb554803b4d66048294f56",

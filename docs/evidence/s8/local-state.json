@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-03T15:16:47.436Z",
+  "checked_at": "2026-10-03T16:20:11.732Z",
   "sources": [
     {
       "failures": 0,
@@ -71,5 +71,6 @@
   "own_browser_fixture_audit_remaining": 0,
   "ai_request_count": 0,
   "expo_requests_this_task": 0,
-  "native_delivery_verified": false
+  "native_delivery_verified": false,
+  "saved_epoch_migration_retained_pending_reminders": true
 }
