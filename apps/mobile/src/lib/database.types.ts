@@ -474,6 +474,7 @@ export type Database = {
           lease_until: string | null
           rule_snapshot: Json | null
           run_at: string
+          s8_alert_id: string | null
           status: string
           transport: string
           user_id: string
@@ -490,6 +491,7 @@ export type Database = {
           lease_until?: string | null
           rule_snapshot?: Json | null
           run_at: string
+          s8_alert_id?: string | null
           status?: string
           transport?: string
           user_id: string
@@ -506,6 +508,7 @@ export type Database = {
           lease_until?: string | null
           rule_snapshot?: Json | null
           run_at?: string
+          s8_alert_id?: string | null
           status?: string
           transport?: string
           user_id?: string
@@ -525,6 +528,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "s8_job_owner"
+            columns: ["s8_alert_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "s8_alerts"
+            referencedColumns: ["id", "user_id"]
           },
         ]
       }
@@ -932,20 +942,204 @@ export type Database = {
           },
         ]
       }
+      s8_alerts: {
+        Row: {
+          before_snapshot: Json | null
+          business_key: string
+          created_at: string
+          digest_id: string | null
+          expires_at: string
+          id: string
+          kind: string
+          lead_minutes: number | null
+          occurrence_id: string
+          preference_revision: number
+          revision: number
+          run_at: string
+          saved_epoch: string
+          snapshot: Json
+          status: string
+          user_id: string
+        }
+        Insert: {
+          before_snapshot?: Json | null
+          business_key: string
+          created_at?: string
+          digest_id?: string | null
+          expires_at: string
+          id?: string
+          kind: string
+          lead_minutes?: number | null
+          occurrence_id: string
+          preference_revision?: number
+          revision: number
+          run_at: string
+          saved_epoch: string
+          snapshot: Json
+          status?: string
+          user_id: string
+        }
+        Update: {
+          before_snapshot?: Json | null
+          business_key?: string
+          created_at?: string
+          digest_id?: string | null
+          expires_at?: string
+          id?: string
+          kind?: string
+          lead_minutes?: number | null
+          occurrence_id?: string
+          preference_revision?: number
+          revision?: number
+          run_at?: string
+          saved_epoch?: string
+          snapshot?: Json
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s8_alerts_digest_id_user_id_fkey"
+            columns: ["digest_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "digests"
+            referencedColumns: ["id", "user_id"]
+          },
+          {
+            foreignKeyName: "s8_alerts_occurrence_id_fkey"
+            columns: ["occurrence_id"]
+            isOneToOne: false
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "s8_alerts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s8_correction_log: {
+        Row: {
+          created_at: string
+          id: string
+          occurrence_id: string | null
+          patch: Json
+          reason: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          occurrence_id?: string | null
+          patch: Json
+          reason: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          occurrence_id?: string | null
+          patch?: Json
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s8_correction_log_occurrence_id_fkey"
+            columns: ["occurrence_id"]
+            isOneToOne: false
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s8_corrections: {
+        Row: {
+          occurrence_id: string
+          patch: Json
+          reason: string
+          updated_at: string
+        }
+        Insert: {
+          occurrence_id: string
+          patch: Json
+          reason: string
+          updated_at?: string
+        }
+        Update: {
+          occurrence_id?: string
+          patch?: Json
+          reason?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s8_corrections_occurrence_id_fkey"
+            columns: ["occurrence_id"]
+            isOneToOne: true
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s8_state: {
+        Row: {
+          occurrence_id: string
+          revision: number
+          snapshot: Json
+        }
+        Insert: {
+          occurrence_id: string
+          revision?: number
+          snapshot: Json
+        }
+        Update: {
+          occurrence_id?: string
+          revision?: number
+          snapshot?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s8_state_occurrence_id_fkey"
+            columns: ["occurrence_id"]
+            isOneToOne: true
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       saved_events: {
         Row: {
           created_at: string
           occurrence_id: string
+          reminder_epoch: string
+          reminder_minutes: number[]
+          reminder_quiet: Json | null
+          reminder_revision: number
+          reminder_timezone: string
+          updates_enabled: boolean
           user_id: string
         }
         Insert: {
           created_at?: string
           occurrence_id: string
+          reminder_epoch?: string
+          reminder_minutes?: number[]
+          reminder_quiet?: Json | null
+          reminder_revision?: number
+          reminder_timezone?: string
+          updates_enabled?: boolean
           user_id: string
         }
         Update: {
           created_at?: string
           occurrence_id?: string
+          reminder_epoch?: string
+          reminder_minutes?: number[]
+          reminder_quiet?: Json | null
+          reminder_revision?: number
+          reminder_timezone?: string
+          updates_enabled?: boolean
           user_id?: string
         }
         Relationships: [
@@ -1238,6 +1432,7 @@ export type Database = {
           lease_until: string | null
           rule_snapshot: Json | null
           run_at: string
+          s8_alert_id: string | null
           status: string
           transport: string
           user_id: string
@@ -1251,6 +1446,10 @@ export type Database = {
       claim_s7_notification: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      correct_s8_occurrence: {
+        Args: { patch: Json; reason: string; selected_occurrence: string }
+        Returns: undefined
       }
       delete_my_account: {
         Args: Record<PropertyKey, never>
@@ -1358,6 +1557,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      run_s8_scheduler: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       s4_area_matches: {
         Args: {
           a: Database["public"]["Tables"]["rule_areas"]["Row"]
@@ -1400,6 +1603,10 @@ export type Database = {
         Args: { selected_event: string; selected_locale: string }
         Returns: Json
       }
+      s7_digest_push_allowed: {
+        Args: { j: Database["public"]["Tables"]["notification_jobs"]["Row"] }
+        Returns: Json
+      }
       s7_horizon_bounds: {
         Args: { h: Json; today: string }
         Returns: {
@@ -1433,6 +1640,26 @@ export type Database = {
       s7_quiet_until: {
         Args: { clock_time: string; q: Json; zone: string }
         Returns: string
+      }
+      s8_availability: {
+        Args: { selected_occurrence: string }
+        Returns: string
+      }
+      s8_collect: {
+        Args: { selected_occurrence: string }
+        Returns: undefined
+      }
+      s8_manual_correction: {
+        Args: { selected_occurrence: string }
+        Returns: boolean
+      }
+      s8_snapshot: {
+        Args: { selected_occurrence: string }
+        Returns: Json
+      }
+      s8_sync_reminders: {
+        Args: { selected_occurrence: string; selected_owner: string }
+        Returns: undefined
       }
       save_s3_rule: {
         Args: { category_codes: string[] }
@@ -1475,6 +1702,16 @@ export type Database = {
           delivery_preferences: Json
           rule_timezone: string
           selected_rule: string
+        }
+        Returns: undefined
+      }
+      set_s8_saved_preferences: {
+        Args: {
+          leads: number[]
+          quiet?: Json
+          selected_occurrence: string
+          updates: boolean
+          zone: string
         }
         Returns: undefined
       }

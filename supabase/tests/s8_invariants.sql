@@ -1,0 +1,212 @@
+-- Synthetic fixtures; ONLY schema-only disposable DB via pnpm test:s8.
+begin;
+create function pg_temp.check(ok boolean,label text) returns void language plpgsql as $$ begin
+ if ok is distinct from true then raise exception 'S8 invariant failed: %',label; end if;
+ perform set_config('eventradar.s8_checks',(coalesce(nullif(current_setting('eventradar.s8_checks',true),''),'0')::integer+1)::text,true);
+end $$;
+do $$
+declare owner uuid:=gen_random_uuid(); other uuid:=gen_random_uuid(); src uuid; e uuid; o uuid; result jsonb; j public.notification_jobs;
+ old_time timestamptz:=now()+interval '5 days'; caught boolean; n integer; claim jsonb; device uuid; dispatch jsonb; revision_number bigint; quiet jsonb; epoch uuid; token uuid:=gen_random_uuid();
+begin
+ insert into auth.users(id,email) values(owner,'s8-fixture@fixture.invalid'),(other,'s8-other@fixture.invalid');
+ insert into public.sources(name,url,acquisition,terms_status,allow_cache,last_success_at) values('S8 synthetic','https://fixture.invalid/','fixture','allowed',true,now()) returning id into src;
+ insert into public.events(primary_source_id,canonical_url,checked_at,title,venue) values(src,'https://fixture.invalid/s8',now(),'Synthetic S8','Synthetic venue') returning id into e;
+ insert into public.occurrences(event_id,external_id,time_kind,start_at,timezone) values(e,'s8-synthetic','known',old_time,'Europe/Madrid') returning id into o;
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check((select revision=1 from public.s8_state where occurrence_id=o),'initial baseline');
+ perform set_config('TimeZone','Pacific/Apia',true);
+ perform pg_temp.check((select snapshot=public.s8_snapshot(o) from public.s8_state where occurrence_id=o),'snapshot stable across caller timezone');
+ perform set_config('TimeZone','UTC',true);
+ insert into public.saved_events(user_id,occurrence_id) values(owner,o);
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ perform public.set_s8_saved_preferences(o,array[120,1440],true,'Europe/Madrid',null);
+ perform pg_temp.check((select count(*)=2 from public.s8_alerts where kind='reminder' and status='pending'),'two future leads');
+ perform pg_temp.check((select bool_and(run_at=old_time-make_interval(mins=>lead_minutes)) from public.s8_alerts),'absolute lead arithmetic');
+ revision_number:=(select reminder_revision from public.saved_events where occurrence_id=o);
+ perform public.set_s8_saved_preferences(o,array[1440,120],true,'Europe/Madrid',null);
+ perform pg_temp.check((select reminder_revision=revision_number from public.saved_events where occurrence_id=o),'identical reordered prefs idempotent');
+ for n in 1..4 loop
+  caught:=false;begin
+   perform public.set_s8_saved_preferences(o,case n when 1 then array[120,120] when 2 then array[1] when 3 then array[null::integer] else array[120] end,true,
+    case when n=4 then 'invalid/zone' else 'UTC' end,null);
+  exception when others then caught:=true;end;
+  perform pg_temp.check(caught,'reject invalid preferences');
+ end loop;
+ caught:=false;begin perform public.set_s8_saved_preferences(o,array[120],true,'UTC','{"start":"22:00","end":"22:00"}');exception when others then caught:=true;end;
+ perform pg_temp.check(caught,'reject 24h quiet');
+ perform set_config('request.jwt.claim.sub',other::text,true);
+ caught:=false;begin perform public.set_s8_saved_preferences(o,array[120],true,'UTC',null);exception when others then caught:=true;end;
+ perform pg_temp.check(caught,'cross owner mutation denied');
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ update public.events set title='Moved synthetic',venue='Other synthetic venue',version=version+1 where id=e;
+ update public.occurrences set start_at=old_time+interval '1 day' where id=o;
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check((select count(*)=1 from public.s8_alerts where kind='changed'),'event+occurrence one logical update');
+ perform pg_temp.check((select count(*)=2 from public.s8_alerts where kind='reminder' and status='superseded'),'old leads superseded');
+ perform pg_temp.check((select bool_and(run_at=old_time+interval '1 day'-make_interval(mins=>lead_minutes)) from public.s8_alerts where kind='reminder' and status='pending'),'moved start reschedules both leads');
+ result:=public.run_s8_scheduler();perform pg_temp.check(result->>'status'='published','change creates inbox');
+ perform pg_temp.check((select count(*)=1 from public.digests),'one change digest');
+ perform pg_temp.check((select selection_snapshot->'before'->>'title'='Synthetic S8' from public.digest_items),'immutable before snapshot');
+ perform pg_temp.check(public.run_s8_scheduler()->>'status'='idle','repeat worker no duplicate');
+ update public.events set checked_at=now()+interval '1 second',version=version+1 where id=e;
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check((select count(*)=1 from public.s8_alerts where kind='changed'),'checked_at/version alone no noise');
+ update public.events set checked_at=now()-interval '3 days' where id=e;
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check(public.s8_availability(o)='outdated','source fresh individual stale');
+ perform pg_temp.check((select status='scheduled' from public.occurrences where id=o),'missing record never cancelled');
+ update public.events set checked_at=now() where id=e;
+ update public.s8_alerts set run_at=now()-interval '1 minute' where kind='reminder' and status='pending' and lead_minutes=120;
+ result:=public.run_s8_scheduler();perform pg_temp.check(result->>'kind'='reminder','due reminder inbox');
+ select * into j from public.notification_jobs where s8_alert_id in(select id from public.s8_alerts where kind='reminder' and status='published');
+ update public.profiles set push_enabled=true where id=owner;
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='allowed','current reminder send policy');
+ perform public.set_s8_saved_preferences(o,array[1440],false,'UTC',null);
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='event_changed','preference revision veto after claim');
+ update public.events set status='cancelled',version=version+1 where id=e;
+ update public.occurrences set status='cancelled' where id=o;
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check((select count(*)=1 from public.s8_alerts where kind='cancelled'),'explicit cancellation exactly one logical update despite optout');
+ perform pg_temp.check((select count(*)=0 from public.s8_alerts where kind='reminder' and status='pending'),'cancel stops pending reminders');
+ perform pg_temp.check(public.s8_availability(o)='cancelled','explicit cancelled presentation');
+ result:=public.run_s8_scheduler();perform pg_temp.check(result->>'kind'='cancelled','cancellation publishes without entitlement');
+ select * into j from public.notification_jobs where s8_alert_id in(select id from public.s8_alerts where kind='cancelled');
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='allowed','cancelled event can notify');
+ quiet:=jsonb_build_object('start',to_char((now() at time zone 'UTC')-interval '1 minute','HH24:MI'),'end',to_char((now() at time zone 'UTC')+interval '1 hour','HH24:MI'));
+ perform public.set_s8_saved_preferences(o,array[]::integer[],false,'UTC',quiet);
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='quiet','saved event quiet hours independent of rule schedule');
+ insert into public.device_tokens(user_id,token,platform) values(owner,'ExpoPushToken[s8SyntheticDevice123]','ios') returning id into device;
+ update public.notification_jobs set status='claimed',claim_token=token,lease_until=now()+interval '5 minutes' where id=j.id;
+ dispatch:=public.begin_s7_delivery(j.id,token,device);
+ perform pg_temp.check(dispatch->>'status'='quiet','quiet rechecked immediately before dispatch');
+ perform pg_temp.check((select count(*)=0 from public.deliveries),'quiet no synthetic dispatch');
+ perform public.set_s8_saved_preferences(o,array[]::integer[],false,'UTC',null);
+ update public.notification_jobs set expires_at=now()-interval '1 second' where id=j.id returning * into j;
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='expired','expired reminder/change job no late delivery');
+ update public.notification_jobs set expires_at=now()+interval '59 seconds' where id=j.id returning * into j;
+ dispatch:=public.begin_s7_delivery(j.id,token,device);
+ perform pg_temp.check(dispatch->>'status'='dispatch','cancellation uses shared fenced dispatch despite updates disabled');
+ perform pg_temp.check((dispatch->>'ttl_seconds')::integer=59,'provider TTL bounded by remaining deadline');
+ perform pg_temp.check(public.finish_s7_delivery((dispatch->>'delivery_id')::uuid,token,'fixture_recorded'),'synthetic outcome persisted');
+ perform pg_temp.check(not public.finish_s7_delivery((dispatch->>'delivery_id')::uuid,token,'fixture_recorded'),'fence settle once');
+
+ update public.events set status='cancelled',checked_at=now() where id=e;update public.occurrences set status='cancelled' where id=o;
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check((select count(*)=1 from public.s8_alerts where kind='cancelled'),'same cancellation replay dedup');
+ update public.sources set terms_status='blocked' where id=src;
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='selection_unavailable','rights withdrawal veto');
+ update public.sources set terms_status='allowed' where id=src;
+ delete from public.saved_events where occurrence_id=o;
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='unsaved_or_paused','unsave veto before delivery');
+ insert into public.saved_events(user_id,occurrence_id) values(owner,o);
+ perform public.set_s8_saved_preferences(o,array[120],true,'UTC',null);
+ perform public.correct_s8_occurrence(o,jsonb_build_object('status','scheduled','time_kind','date_only','start_at',null,'end_at',null,'local_date',(now()+interval '10 days')::date),'Synthetic date correction');
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check((select start_at is null and time_kind='date_only' from public.occurrences where id=o),'date only no exact time');
+ perform pg_temp.check((select count(*)=0 from public.s8_alerts where kind='reminder' and status='pending'),'date only no lead jobs');
+ perform pg_temp.check((select count(*)=1 from public.s8_correction_log),'manual correction audited');
+ select reminder_epoch into epoch from public.saved_events where occurrence_id=o;
+ delete from public.saved_events where user_id=owner and occurrence_id=o;
+ insert into public.saved_events(user_id,occurrence_id) values(owner,o);
+ perform pg_temp.check((select reminder_epoch<>epoch from public.saved_events where occurrence_id=o),'re-save gets new subscription instance');
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'<>'allowed','old published job cannot revive after re-save');
+
+ perform pg_temp.check(public.s8_manual_correction(o),'public manual marker');
+ perform public.correct_s8_occurrence(o,'{"status":"review","time_kind":"unknown","local_date":null}','Synthetic unknown correction');
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check(public.s8_availability(o)='unknown','unknown distinct from cancellation');
+ caught:=false;begin perform public.correct_s8_occurrence(o,'{"is_demo":true}','Synthetic invalid field');exception when others then caught:=true;end;
+ perform pg_temp.check(caught,'correction field allowlist');
+ perform set_config('role','authenticated',true);
+ perform pg_temp.check((select count(*)>0 from public.s8_alerts),'owner readable alerts');
+ caught:=false;begin perform 1 from public.s8_corrections;exception when insufficient_privilege then caught:=true;end;
+ perform pg_temp.check(caught,'private corrections');
+ caught:=false;begin perform public.run_s8_scheduler();exception when insufficient_privilege then caught:=true;end;
+ perform pg_temp.check(caught,'client cannot run scheduler');
+ caught:=false;begin perform public.correct_s8_occurrence(o,'{}','Forbidden client mutation');exception when insufficient_privilege then caught:=true;end;
+ perform pg_temp.check(caught,'client cannot correct');
+ perform set_config('request.jwt.claim.sub',other::text,true);
+ perform pg_temp.check((select count(*)=0 from public.s8_alerts),'other owner history hidden');
+ perform set_config('role','postgres',true);
+end $$;
+do $$
+declare owner uuid:=gen_random_uuid(); src uuid; claim uuid; record jsonb; o uuid; e uuid; version_number integer; start_time timestamptz:=now()+interval '7 days'; count_before integer;
+begin
+ insert into auth.users(id,email) values(owner,'s8-import@fixture.invalid');
+ insert into public.sources(code,name,url,acquisition,terms_status,allow_cache,allow_translate,poll_interval_seconds,last_success_at)
+ values('madrid','Synthetic Madrid','https://fixture.invalid/madrid','fixture','allowed',true,true,86400,now()) returning id into src;
+ record:=jsonb_build_object('external_id','s8-import','hash',repeat('a',64),'title','Provider title','description','Synthetic original','url','https://www.madrid.es/s8-fixture',
+ 'occurrences',jsonb_build_array(jsonb_build_object('external_id','s8-import','time_kind','known','timezone','Europe/Madrid','start_at',start_time)),
+ 'translations',jsonb_build_array(jsonb_build_object('locale','en','title','Original provider translation','description','Synthetic provider translation')));
+ claim:=public.claim_s6_source('madrid',true);perform public.ingest_s6_source('madrid',jsonb_build_array(record),now(),claim,'{}');
+ set constraints all immediate;set constraints all deferred;
+ select id,event_id into o,e from public.occurrences where external_id='s8-import';
+ insert into public.saved_events(user_id,occurrence_id) values(owner,o);
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ perform public.set_s8_saved_preferences(o,array[120],true,'Europe/Madrid',null);
+ perform public.correct_s8_occurrence(o,jsonb_build_object('title','Corrected synthetic title','start_at',start_time+interval '1 day'),'Synthetic audited overlay');
+ set constraints all immediate;set constraints all deferred;
+ perform public.correct_s8_occurrence(o,'{"venue":"Corrected synthetic venue"}','Synthetic merge overlay');
+ set constraints all immediate;set constraints all deferred;
+ select version into version_number from public.events where id=e;
+ select count(*) into count_before from public.s8_alerts;
+ claim:=public.claim_s6_source('madrid',true);perform public.ingest_s6_source('madrid',jsonb_build_array(record),now(),claim,'{}');
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check((select title='Corrected synthetic title' and venue='Corrected synthetic venue' and version=version_number from public.events where id=e),'same source reimport preserves merged correction and version');
+ perform pg_temp.check((select start_at=start_time+interval '1 day' from public.occurrences where id=o),'reimport does not revert moved start');
+ perform pg_temp.check((select count(*)=count_before from public.s8_alerts),'unchanged corrected reimport no alert/replan');
+ perform set_config('role','anon',true);
+ -- pg_temp assertion function accessible; translation RLS must be tested as client, not superuser.
+ perform pg_temp.check(public.s6_translation(e,'en') is null,'original provider translation cannot claim corrected current version');
+ perform set_config('role','postgres',true);
+ perform pg_temp.check((select payload_hash=repeat('a',64) from public.source_records where external_id='s8-import'),'source hash remains original');
+ -- A successful partial batch omits this saved session. Only its own checked_at determines freshness.
+ update public.events set checked_at=now()-interval '3 days' where id=e;
+ record:=jsonb_set(jsonb_set(record,'{external_id}','"s8-other-import"'),'{occurrences,0,external_id}','"s8-other-import"');
+ claim:=public.claim_s6_source('madrid',true);perform public.ingest_s6_source('madrid',jsonb_build_array(record),now(),claim,'{}');
+ set constraints all immediate;set constraints all deferred;
+ perform pg_temp.check(public.s8_availability(o)='outdated','real importer omission => outdated, never cancelled');
+ perform pg_temp.check((select count(*)=0 from public.s8_alerts where occurrence_id=o and kind='cancelled'),'omission no false cancellation update');
+ update public.s8_alerts set run_at=now()-interval '1 minute' where occurrence_id=o and kind='reminder' and status='pending';
+ perform public.run_s8_scheduler(); -- An older change may be first; drain bounded due slots.
+ perform public.run_s8_scheduler();perform public.run_s8_scheduler();
+ perform pg_temp.check((select status='pending' and run_at>now() from public.s8_alerts where occurrence_id=o and kind='reminder' and status='pending'),'stale reminder deferred');
+ update public.s8_alerts set run_at=now()-interval '1 minute',expires_at=now()-interval '1 second' where occurrence_id=o and kind='reminder' and status='pending';
+ perform public.run_s8_scheduler();
+ perform pg_temp.check((select count(*)=1 from public.s8_alerts where occurrence_id=o and kind='reminder' and status='expired'),'never reminder after event start');
+end $$;
+do $$
+declare owner uuid:=gen_random_uuid(); src uuid; e uuid; o uuid; epoch uuid; j public.notification_jobs; caught boolean;
+begin
+ insert into auth.users(id,email) values(owner,'s8-resave@fixture.invalid');
+ insert into public.sources(name,url,acquisition,terms_status,allow_cache,last_success_at) values('S8 re-save synthetic','https://fixture.invalid/resave','fixture','allowed',true,now()) returning id into src;
+ insert into public.events(primary_source_id,canonical_url,checked_at,title) values(src,'https://fixture.invalid/resave',now(),'Synthetic re-save') returning id into e;
+ insert into public.occurrences(event_id,external_id,time_kind,start_at,timezone) values(e,'resave','known',now()+interval '5 days','UTC') returning id into o;
+ set constraints all immediate;set constraints all deferred;
+ insert into public.saved_events(user_id,occurrence_id) values(owner,o);
+ perform set_config('request.jwt.claim.sub',owner::text,true);
+ perform public.set_s8_saved_preferences(o,array[120],true,'UTC',null);
+ select saved_epoch into epoch from public.s8_alerts where user_id=owner;
+ delete from public.saved_events where user_id=owner and occurrence_id=o;
+ insert into public.saved_events(user_id,occurrence_id) values(owner,o);
+ perform public.set_s8_saved_preferences(o,array[120],true,'UTC',null);
+ perform pg_temp.check((select count(*)=1 from public.s8_alerts where user_id=owner and status='pending'),'same lead re-planned after re-save');
+ perform pg_temp.check((select count(*)=1 from public.s8_alerts where user_id=owner and status='superseded'),'old subscription pending stays superseded');
+ perform pg_temp.check((select saved_epoch<>epoch from public.s8_alerts where user_id=owner and status='pending'),'new lead epoch distinct');
+ perform public.set_s8_saved_preferences(o,array[120],true,'UTC',null);
+ perform pg_temp.check((select count(*)=2 from public.s8_alerts where user_id=owner),'repeated current preferences still idempotent');
+ update public.s8_alerts set run_at=now()-interval '1 hour' where user_id=owner and status='pending';
+ perform public.run_s8_scheduler();
+ select * into j from public.notification_jobs where user_id=owner;
+ update public.profiles set push_enabled=true where id=owner;
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='allowed','published current subscription allowed');
+ delete from public.saved_events where user_id=owner and occurrence_id=o;
+ insert into public.saved_events(user_id,occurrence_id) values(owner,o);
+ perform public.set_s8_saved_preferences(o,array[120],true,'UTC',null);
+ perform pg_temp.check(public.s7_push_allowed(j)->>'status'='unsaved_or_paused','re-save cannot revive old published reminder with same preference revision');
+ caught:=false;begin update public.saved_events set occurrence_id=gen_random_uuid() where user_id=owner and occurrence_id=o;exception when others then caught:=sqlerrm='Saved identity immutable';end;
+ perform pg_temp.check(caught,'direct identity mutation cannot bypass subscription lifecycle');
+
+end $$;
+select jsonb_build_object('invariant_checks',current_setting('eventradar.s8_checks')::integer,'fixtures','synthetic SQL','external_requests',0);
+rollback;

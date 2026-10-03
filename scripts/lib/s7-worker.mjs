@@ -1,4 +1,9 @@
 // Provider calls are deliberately injectable. Database tokens fence every dispatch.
+const alertTitles = {
+ changed: { uk:'Збережена подія змінилася', en:'A saved event changed', es:'Un evento guardado ha cambiado' },
+ cancelled: { uk:'Збережену подію скасовано', en:'A saved event was cancelled', es:'Un evento guardado ha sido cancelado' },
+ reminder: { uk:'Нагадування про подію', en:'Event reminder', es:'Recordatorio de evento' },
+};
 const titles = { uk: 'Ваша добірка подій готова', en: 'Your event selection is ready', es: 'Tu selección de eventos está lista' };
 export async function rpc(admin, name, params = {}) {
  const result = await admin.rpc(name, params).abortSignal(AbortSignal.timeout(10000));
@@ -31,8 +36,14 @@ export async function processS7Job(admin, transport = 'fixture', send = fetch) {
  if (!['fixture', 'expo'].includes(transport)) throw Error('Invalid S7 transport');
  const claim = await rpc(admin, 'claim_s7_notification');
  if (claim.status !== 'claimed') return claim.status;
- const job = await admin.from('notification_jobs').select('user_id').eq('id', claim.id).single().abortSignal(AbortSignal.timeout(10000));
+ const job = await admin.from('notification_jobs').select('user_id,s8_alert_id').eq('id', claim.id).single().abortSignal(AbortSignal.timeout(10000));
  if (job.error) throw Error('S7 owner lookup unavailable');
+ let alertKind;
+ if (job.data.s8_alert_id) {
+  const alert = await admin.from('s8_alerts').select('kind').eq('id', job.data.s8_alert_id).single().abortSignal(AbortSignal.timeout(10000));
+  if (alert.error) throw Error('S8 alert unavailable');
+  alertKind = alert.data.kind;
+ }
  const devices = [];
  for (let offset = 0; ; offset += 100) {
   const page = await admin.from('device_tokens').select('id').eq('user_id', job.data.user_id).order('id').range(offset, offset + 99).abortSignal(AbortSignal.timeout(10000));
@@ -45,8 +56,8 @@ export async function processS7Job(admin, transport = 'fixture', send = fetch) {
   if (begin.status === 'lost_lease') return 'lost_lease'; // Next owner resumes, terminal device attempts are retained.
   if (begin.status !== 'dispatch') continue;
   const outcome = transport === 'fixture' ? { result: 'fixture_recorded' } : await sendTicket({
-   to: begin.device_token, title: titles[begin.locale] ?? titles.uk, body: 'Event Radar',
-   data: { digest_id: begin.digest_id }, channelId: 'digests', ttl: 3600,
+   to: begin.device_token, title: alertTitles[alertKind]?.[begin.locale] ?? titles[begin.locale] ?? titles.uk, body: 'Event Radar',
+   data: { digest_id: begin.digest_id }, channelId: 'digests', ttl: begin.ttl_seconds ?? 3600,
   }, send);
   await rpc(admin, 'finish_s7_delivery', { selected_delivery: begin.delivery_id, claim: claim.token, ...outcome });
  }

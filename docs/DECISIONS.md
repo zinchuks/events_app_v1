@@ -81,3 +81,11 @@
 - Atomic owner lock/business key instead of process-local timer identity; coalesce downtime into one current run, 5000 cap rejects rather than truncates. Stale records defer same slot with persisted retry5min, preserving S6 source+record TTL.
 - Default local worker creates inbox only; synthetic transport only tested in disposable fixtures. Actual Expo requires separate explicit operator invocation. No new SDK/dependencies. Unknown send response (including5xx) held as uncertain rather than blind resend; receipts retry queries only. Bound token owner + registration timestamp protect logout/transfer/re-registration.
 - Isolated schema/grants/timezone-inventory clone tests actual two PG transactions without copying any user/catalog rows. Existing S4 date/count test assumptions broke once live source grew; isolate outside sources inside ROLLBACK, keep matching assertions unchanged.
+
+## 2026-10-03 — S8 saved updates, overlays and transport
+
+- Deferred final transaction snapshots, not independent per-table messages, preserve one logical update when import changes both event and occurrence. Monotonic revision avoids deduping distinct later transitions back to the same values.
+- Use owner alerts + immutable one-item digests and the existing S7 fenced transport. Cancellation has a distinct policy permitting cancelled facts; S3 jobs remain isolated. No paid-provider call or new SDK needed for browser inbox.
+- Reminder offsets use actual start instants; date-only/unknown keep preferences without jobs. Start/pref revision invalidates old work. Stale data defers until deadline, not false cancellation. Provider TTL bounded by remaining deadline; accepted pushes cannot be recalled.
+- Minimum S8 manual correction is a trusted service-only merged overlay/audit command, serialized with source import. Existing source rights/hash remain original; translations cannot falsely claim the manually corrected version. Admin UI/roles deferred to S10, entitlements to S9.
+- S6 regression found stale Helsinki after6 import failures; successful bounded official refresh54 records restored freshness. Historical SQL cause not reproduced. Minimal safe SQLSTATE logging added for next failure; no raw payload/error messages logged by watcher. Continuous unattended recovery remains unverified.

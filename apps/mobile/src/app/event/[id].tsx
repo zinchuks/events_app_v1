@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/auth-context';
 import { useLanguage } from '@/lib/i18n';
-import { eventSelect, occurrenceTime } from '@/lib/events';
+import { SavedPreferences } from '@/components/saved-preferences';
+import { eventSelect, occurrenceTime, eventAvailability } from '@/lib/events';
 import { isLocale,locales,type Locale } from '@/lib/messages';
 function query() { return supabase!.from('occurrences').select(eventSelect); }
 type Item = QueryData<ReturnType<typeof query>>[number];
@@ -17,14 +18,16 @@ export default function EventScreen() {
  const owner = useRef(session?.user.id); owner.current = session?.user.id;
  const [item, setItem] = useState<Item | null>(null); const [saved, setSaved] = useState(false); const [busy, setBusy] = useState(false);
  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading'); const [message, setMessage] = useState('');
+ const [manual,setManual]=useState(false);
  const [translation,setTranslation]=useState<Translation|null>(null);
  const [translationLocale,setTranslationLocale]=useState<Locale>(locale);
  const languageChoice=useRef(0);
- useEffect(() => { let active = true; languageChoice.current=0; setSaved(false); setMessage(''); setTranslation(null); setState('loading');
+ useEffect(() => { let active = true; languageChoice.current=0; setSaved(false); setMessage(''); setTranslation(null);setManual(false); setState('loading');
   async function load() {
    if (!supabase) { setState('error'); return; }
    const result = await query().eq('id', id).maybeSingle(); if (!active) return;
    if (result.error || !result.data) { setState('error'); return; } setItem(result.data); setState('ready');
+   const correction=await supabase.rpc('s8_manual_correction',{selected_occurrence:id});if(active)setManual(correction.data===true);
    // Independent account preference; detail-page choice never changes the profile.
    const choice=languageChoice.current;const profile=session?await supabase.from('profiles').select('translation_locale').eq('id',session.user.id).maybeSingle():null;
    if(active&&languageChoice.current===choice)setTranslationLocale(isLocale(profile?.data?.translation_locale)?profile.data.translation_locale:locale);
@@ -46,11 +49,11 @@ export default function EventScreen() {
  }
  return <Screen title={t('eventDetails')}>
   {state === 'loading' ? <Text>{t('loading')}</Text> : state === 'error' || !item?.events ? <Text accessibilityRole="alert">{t('eventUnavailable')}</Text> : <View style={ui.card}>
-   <Text style={ui.badge}>{occurrenceTime(item, locale, t('timeUnknown'))}</Text><Text accessibilityRole="header" style={ui.heading}>{item.events.title}</Text>
+   <Text style={ui.badge}>{occurrenceTime(item, locale, t('timeUnknown'))}</Text>{manual&&<Text style={ui.badge}>{t('manualCorrection')}</Text>}<Text accessibilityRole="header" style={ui.heading}>{item.events.title}</Text>
    <Text style={ui.muted}>{t('translation')}</Text><View style={ui.row}>{locales.map(lang=><Button key={lang} label={lang==='uk'?'Українська':lang==='en'?'English':'Español'} size="sm" variant={translationLocale===lang?'default':'outline'} accessibilityState={{selected:translationLocale===lang}} onPress={()=>{languageChoice.current++;setTranslationLocale(lang);}}/>)}</View>
    {!translation&&<Text style={ui.muted}>{t('translationUnavailable')}</Text>}
    {translation&&<View style={ui.card}><Text style={ui.badge}>{t(translation.provider.startsWith('source:')?'sourceTranslation':'aiTranslation')}</Text><Text style={ui.title}>{translation.title}</Text>{translation.summary&&<><Text style={ui.muted}>{t('shortDescription')}</Text><Text style={ui.text}>{translation.summary}</Text></>}<Text style={ui.text}>{translation.description}</Text></View>}
-   {(item.status !== 'scheduled' || item.events.status !== 'scheduled') && <Text accessibilityRole="alert">{t('notScheduled')}</Text>}
+   {eventAvailability(item)&&<Text accessibilityRole="alert">{t(eventAvailability(item)!)}</Text>}
    {item.events.venue && <Text style={ui.text}>{item.events.venue}</Text>}
    <Text style={ui.muted}>{t('originalDescription')}</Text><Text style={ui.text}>{item.events.description || t('noDescription')}</Text>
    <Text style={ui.text}>{t('price')}: {item.events.price !== null && item.events.currency ? new Intl.NumberFormat(locale, { style: 'currency', currency: item.events.currency }).format(item.events.price) : t('priceUnknown')}</Text>
@@ -61,6 +64,7 @@ export default function EventScreen() {
    <Button label={t('openOriginal')} onPress={() => void Linking.openURL(item.events!.canonical_url)} />
    {session ? <Button label={saved ? t('removeSaved') : t('saveEvent')} variant={saved ? 'outline' : 'default'} disabled={busy} onPress={() => void toggle()} /> : <Button label={t('signInToSave')} variant="outline" onPress={() => router.push('/account')} />}
   </View>}
+  {saved&&session&&item&&<SavedPreferences key={session.user.id+id} occurrence={id} known={item.time_kind==='known'} scheduled={item.status==='scheduled'&&item.events.status==='scheduled'}/>}
   {Boolean(message) && <Text accessibilityRole="alert">{message}</Text>}
  </Screen>;
 }

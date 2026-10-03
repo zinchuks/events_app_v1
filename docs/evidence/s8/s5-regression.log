@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 test:s5 <workspace>
+> node scripts/test-s5-integration.mjs
+
+{"checks":69,"integration":"actual local Auth/PostgREST/RLS/live Madrid","catalog_total":1239,"music_total":133,"push_sends":0,"native":"unverified"}

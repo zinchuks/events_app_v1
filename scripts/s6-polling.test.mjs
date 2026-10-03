@@ -65,8 +65,10 @@ test('malformed extraction never reaches importer or marks source healthy', asyn
 });
 
 test('confirmed SQL rollback releases into backoff', async () => {
- const db = database(name => name === 'ingest_s6_source' ? { error: { code: '22023' } } : { data: 'own-claim', error: null });
- await pollS6Sources({ admin: db.admin, sources: ['madrid'], extract: extraction, report: () => {} });
+ const db = database(name => name === 'ingest_s6_source' ? { error: { code: '22023',message:'private upstream content' } } : { data: 'own-claim', error: null });
+ const messages=[];await pollS6Sources({ admin: db.admin, sources: ['madrid'], extract: extraction, report: v=>messages.push(v) });
+ assert.deepEqual(messages[0],{source:'madrid',status:'import_failed',database_code:'22023',release_failed:false});
+ assert.ok(!JSON.stringify(messages).includes('private upstream content'));
  assert.equal(db.calls.at(-1).name, 'fail_s6_source');
  assert.equal(db.calls.at(-1).params.error_code, 'import_failed');
 });

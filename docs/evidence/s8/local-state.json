@@ -1,0 +1,75 @@
+{
+  "checked_at": "2026-10-03T15:16:47.436Z",
+  "sources": [
+    {
+      "failures": 0,
+      "last_error_code": null,
+      "lease_until": null,
+      "next_poll_at": "2026-10-03T18:02:24.684562+00:00",
+      "sources": {
+        "code": "helsinki",
+        "last_success_at": "2026-10-03T12:02:24.665+00:00"
+      }
+    },
+    {
+      "failures": 0,
+      "last_error_code": null,
+      "lease_until": null,
+      "next_poll_at": "2026-10-04T12:14:25.950141+00:00",
+      "sources": {
+        "code": "madrid",
+        "last_success_at": "2026-10-03T12:14:25.853+00:00"
+      }
+    },
+    {
+      "failures": 0,
+      "last_error_code": null,
+      "lease_until": null,
+      "next_poll_at": "2026-10-04T12:14:27.88139+00:00",
+      "sources": {
+        "code": "toronto",
+        "last_success_at": "2026-10-03T12:14:27.874+00:00"
+      }
+    }
+  ],
+  "saved_count": 2,
+  "saved_preferences": [
+    {
+      "reminder_minutes": [],
+      "updates_enabled": true,
+      "reminder_timezone": "UTC",
+      "reminder_quiet": null
+    },
+    {
+      "reminder_minutes": [
+        120,
+        1440
+      ],
+      "updates_enabled": true,
+      "reminder_timezone": "Europe/Madrid",
+      "reminder_quiet": {
+        "end": "08:00",
+        "start": "22:00"
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "kind": "reminder",
+      "status": "pending",
+      "run_at": "2026-10-10T15:00:00+00:00",
+      "lead_minutes": 120
+    },
+    {
+      "kind": "reminder",
+      "status": "pending",
+      "run_at": "2026-10-09T17:00:00+00:00",
+      "lead_minutes": 1440
+    }
+  ],
+  "own_browser_fixture_sources_remaining": 0,
+  "own_browser_fixture_audit_remaining": 0,
+  "ai_request_count": 0,
+  "expo_requests_this_task": 0,
+  "native_delivery_verified": false
+}

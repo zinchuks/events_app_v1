@@ -1,0 +1,130 @@
+{
+  "stage": "S8",
+  "date": "2026-10-03",
+  "status": "implemented; local verification passed; native push unverified",
+  "implementation_commit": null,
+  "checks": {
+    "sql_invariants": 69,
+    "concurrency_timed_checks": 16,
+    "observed_connection_overlaps": 4,
+    "naturally_due_reminder": true,
+    "source_import_correction_race": true,
+    "auth_postgrest_rls": 58,
+    "jest": 17,
+    "node": 35,
+    "typecheck_lint_env_secret_checks": "PASS",
+    "s2_regression": 108,
+    "s5_regression": 69,
+    "s6_regression": 68,
+    "s7_sql_regression": 54,
+    "s7_concurrency_regression": 13,
+    "exports": [
+      "ios JS",
+      "android JS",
+      "web JS"
+    ],
+    "database_types": "byte-for-byte match",
+    "client_bundle_key_boundary_files": 66,
+    "saved_resubscription_lifecycle": "PASS",
+    "snapshot_session_timezone_stability": "PASS"
+  },
+  "browser": {
+    "viewport": [
+      390,
+      844
+    ],
+    "locales": [
+      "uk",
+      "en",
+      "es"
+    ],
+    "real_saved_preferences_reload": "PASS",
+    "change_cancellation_history": "explicit synthetic fixture; removed",
+    "console_errors": 0,
+    "screenshots": [
+      "browser-reminders.png",
+      "browser-change-fixture.png",
+      "browser-cancellation-fixture.png"
+    ]
+  },
+  "privacy": {
+    "real_saved_events_retained": 2,
+    "real_future_reminders_pending": 2,
+    "own_browser_fixture_cleanup": "PASS",
+    "disposable_databases_schema_only": true,
+    "user_data_copied": false,
+    "disposable_test_users_removed": true,
+    "expo_requests": 0,
+    "ai_requests": 0,
+    "database_reset": false,
+    "git_push": false,
+    "remote_changed": false
+  },
+  "unverified": [
+    "actual phone push/receipts/tap/background/cold start",
+    "native iOS/Android builds",
+    "AI provider/model/key/budget integration",
+    "continuous unattended Helsinki polling after recovery",
+    "hosted scheduler/remote CI",
+    "S9 purchases/restore/entitlements"
+  ],
+  "dependency_audit": "previous S5 failed gate; not re-audited in this stage",
+  "artifacts": {
+    "browser-cancellation-fixture.png": {
+      "sha256": "a9fbb71dfda965def00d89cbbd8cd1f4ccb25ad1ab8e11d800ddab3a860d7df8",
+      "bytes": 44066
+    },
+    "browser-change-fixture.png": {
+      "sha256": "158ede64788a9b29a33c71e6de1ed958dec16ba66c8766c2a4762a4af4525c82",
+      "bytes": 43256
+    },
+    "browser-reminders.png": {
+      "sha256": "0baad50b6dec098a9d54d88b6646df484800b95c676a866115b8fc4c622bd1d4",
+      "bytes": 42228
+    },
+    "checks.log": {
+      "sha256": "c6bf0f3268e352f124e449f855916b98f81794f22e89d84156c1e1ed1c746d82",
+      "bytes": 8870
+    },
+    "client-bundles.log": {
+      "sha256": "a452cc14e21fba8c8404d9c14d89c837f63f86f79760c216cdc625e31195744e",
+      "bytes": 170
+    },
+    "exports.log": {
+      "sha256": "c61dbed680fa07bf08035e29f8d2e307c552da2b4d1501556b6d92eaf5cb8a5c",
+      "bytes": 5063
+    },
+    "integration.log": {
+      "sha256": "b33285fc4b4c205e907e54aa7eb4af550e8c7d9710c7eaaeb6a2655f9f2e8728",
+      "bytes": 260
+    },
+    "local-state.json": {
+      "sha256": "eff2c6dd4bf641c3bf1fad7a10ba707b73abb4ffe303cd22b1b81d580dbe9d3b",
+      "bytes": 1751
+    },
+    "postgres.log": {
+      "sha256": "5b49aaf669fae13917e6f760bf2e768ca3d6f48ac9bb554803b4d66048294f56",
+      "bytes": 510
+    },
+    "s2-regression.log": {
+      "sha256": "d124b330de09e7674dac61f6879e62263486b7b2ac027cdcfcd558c286e1bf10",
+      "bytes": 525
+    },
+    "s5-regression.log": {
+      "sha256": "747db4e8c526f3f9767695756c971dbaba1cb4aef613fdb9af6dab7e595a18ab",
+      "bytes": 231
+    },
+    "s6-regression.log": {
+      "sha256": "80fd858f48de475dd1590403f1864835722ccb488b1480889def3776a8874a90",
+      "bytes": 1484
+    },
+    "s7-regression.log": {
+      "sha256": "8452481d86e5ab93eac039478d71da5c0060578aff2f80e5f7fb500dfca10072",
+      "bytes": 472
+    },
+    "source-recovery.json": {
+      "sha256": "cf7461e77707d4fc649f2fe23e803852b4d64b614ec2ca729ba57c14f8429e80",
+      "bytes": 594
+    }
+  }
+}

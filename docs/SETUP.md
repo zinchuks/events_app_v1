@@ -405,3 +405,31 @@ pnpm test:s2
 `test:s6:ai` створює лише унікальну `event_radar_s6_ai_test_<random>` БД в local container, копіює **схему public/auth без rows**, встановлює наявні pgcrypto/PostGIS, тестує synthetic source/model/costs двома PostgreSQL connections і видаляє саме цю БД. Не reset/drop postgres, no AI network, no user rows copied. SQL file above — transaction fixtures + ROLLBACK; actual user config також відновлюється rollback. Remote CI execution unverified.
 
 Денні budgets є global/UTC, не Free/Plus limits. Не змінювати disabled foundation на ніби live AI: потрібні actual provider/model/pricing/access/key, bounded server adapter і перевірений worst-case ceiling. Unknown charge — conservative ceiling, не invoice; reported_cost=NULL. Prompt/schema/literal guards не доводять semantic translation quality. Source-native cache/feed/maps лишаються незалежними від цього integration blocker. Не починати S7 як нібито S6 already complete.
+
+## S8 — local changes and reminders
+
+Prerequisites: running existing local Supabase; pinned Node22.23.3/pnpm10.34.6. Apply migrations without reset: `supabase migration up --local`, then regenerate public types if schema changed. Existing saved events/schedules are preserved; new reminder offsets default empty.
+
+```sh
+pnpm schedule:s8:local
+pnpm schedule:s8:watch
+pnpm test:s8
+pnpm test:s8:api
+pnpm check
+pnpm export:mobile
+pnpm check:client-bundles
+```
+
+`test:s8` creates/drops only its own random schema-only test DB; do not run `s8_invariants.sql` directly against user DB. `test:s8:api` needs the live local future catalog, creates/removes disposable accounts. No tests send real push. In this environment use `PATH=/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH` before pnpm. `schedule:s8:watch` is local inbox only; alongside existing S6 and S7 watchers, wake60s. Keep the laptop awake; hosted service/restart-after-reboot is not configured. Ctrl+C stops each worker. Existing `pnpm notify:s7:expo`/`pnpm notify:s7:receipts` use the shared S7/S8 delivery queue; enable only after configured own physical development-device acceptance. Browser-only use needs no push permission.
+
+Trusted manual correction (local service-only, explicit audit reason): put an allowlisted JSON patch in a temporary file, then:
+
+```sh
+node scripts/correct-s8-local.mjs OCCURRENCE_UUID PATCH_JSON_FILE 'Reason for verified manual correction'
+```
+
+Allowlist: title,venue,price/currency,status(scheduled/cancelled/review),time_kind/start_at/end_at/local_date/timezone. Partial patches merge with previous overrides, not silently remove them; null means a deliberately unknown nullable field. For date-only set time_kind/date and explicitly null start/end; unknown also nulls local_date. DB constraints validate combinations. Event-wide title/venue/price/status and selected occurrence time are corrected; current source adapters are1:1 session/event. Do not guess facts or use real events to test cancellation. Removing overrides/restoring latest provider facts needs an explicit operator review; full correction UI is S10. Source-original translations are not displayed as translations of corrected current versions.
+
+Optional temporary browser QA: `node scripts/preview-s8-local.mjs create OWNER_EMAIL`, inspect returned labelled synthetic URLs, **always** `node scripts/preview-s8-local.mjs cleanup`. Own IDs are held in `/private/tmp/event-radar-s8-preview.json`, no credentials. A synthetic cacheable source/event/saved row and two alerts appear briefly; cleanup removes only its own source/event/digests/jobs/audit. This is fixture evidence, not a live cancellation. Personal emails/passwords are not stored in repo. Actual retained preferences/manual steps and limitations: [S8_ACCEPTANCE.md](S8_ACCEPTANCE.md).
+
+Before S9: new task plus store/provider selection, sandbox product IDs/accounts and server configuration. Real store purchase/restore/expiry validation requires native sandbox device builds; browser is insufficient. AI/provider and native push blockers remain separately tracked.

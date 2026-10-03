@@ -1,0 +1,5 @@
+
+> event-radar@0.1.0 test:s8:api <workspace>
+> node scripts/test-s8-integration.mjs
+
+{"checks":58,"integration":"actual local Auth/PostgREST/RLS and real catalog reminder preferences","catalog_mutated":false,"expo_requests":0,"device_delivery_verified":false}

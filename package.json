@@ -40,7 +40,11 @@
     "notify:s7:expo": "node scripts/schedule-s7-local.mjs --expo",
     "notify:s7:receipts": "node scripts/schedule-s7-local.mjs --receipts",
     "test:s7": "node scripts/test-s7-concurrency.mjs",
-    "test:s7:api": "node scripts/test-s7-integration.mjs"
+    "test:s7:api": "node scripts/test-s7-integration.mjs",
+    "schedule:s8:local": "node scripts/schedule-s8-local.mjs",
+    "schedule:s8:watch": "node scripts/schedule-s8-local.mjs --watch",
+    "test:s8": "node scripts/test-s8-concurrency.mjs",
+    "test:s8:api": "node scripts/test-s8-integration.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

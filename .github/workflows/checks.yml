@@ -77,6 +77,7 @@ jobs:
       - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/s6_ai_invariants.sql
       - run: pnpm test:s6:ai
       - run: pnpm test:s7
+      - run: pnpm test:s8
       - run: pnpm local:env
       - run: pnpm export:mobile
       - run: pnpm check:client-bundles

@@ -1,0 +1,22 @@
+{
+  "observed_initial_state": {
+    "source": "helsinki",
+    "fresh": false,
+    "failures": 6,
+    "last_error_code": "import_failed",
+    "last_success_at": "2026-10-02T18:55:56.74+00:00"
+  },
+  "actual_official_fetch_import": {
+    "imported": 54,
+    "bytes": 2226788,
+    "inspected": 300,
+    "bounded_subset": true,
+    "normalized": 54,
+    "elapsed_ms": 9968,
+    "last_success_at": "2026-10-03T12:02:24.665+00:00"
+  },
+  "old_sql_error_reproduced": false,
+  "root_cause_verified": false,
+  "safe_sqlstate_reporting_added": true,
+  "next_unattended_helsinki_import_verified": false
+}

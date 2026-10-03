@@ -1,6 +1,6 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-02, Europe/Madrid. Поточна задача: **S7** за новим запитом «продовжуй». S5 mobile experience реалізовано; browser/local DB перевірки пройшли; native acceptance unverified. S3 real device push blocked. Новий high advisory node-forge без patched version блокує clean security/release gate. S6: 3 sources/3 countries і source-native cache verified, AI blocked (provider/model/budget/server key); Незалежний S7 розпочато за новим «продовжуй»; S8–S12 не починалися. Аудити — [REPO_AUDIT.md](REPO_AUDIT.md), команди — [SETUP.md](SETUP.md). Нижче S0–S4 — історичні результати відповідних дат.
+Оновлено 2026-10-03, Europe/Madrid. Поточна задача: **S8** за новим «продовжуй» (P4). S8 реалізовано; локальні DB/API/browser перевірки пройшли, native push unverified. S6 sources/cache працюють; actual AI blocked без provider/model/budget/server key. S3/S7 real device push і native builds потребують фізичного development device та toolchains. Останній recorded S5 audit gate failed; нового dependency audit у S8 не було. S9–S12 не розпочато. Докази S8 — [S8_ACCEPTANCE.md](S8_ACCEPTANCE.md), команди — [SETUP.md](SETUP.md). Нижче — історичні результати попередніх дат.
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
@@ -12,7 +12,7 @@
 | S5 | **implemented; native unverified** | 4-step onboarding, unified search/paged feed, actual OpenFreeMap/MapLibre web map + editor/offline fallback, saved/inbox/settings. 69 API + 24 SQL checks; native acceptance і clean security gate blocked |
 | S6 | **in_progress; AI blocked** | Madrid/ES + Toronto/CA + Helsinki/FI live imports; source registry/leases/backoff/source+record TTL/local automatic polling, safe review, real price/points, native-source English cache/browser verified. Disabled AI budget/cache foundation tested; actual adapter/access/pricing/budget config still blocked; [acceptance](S6_ACCEPTANCE.md) |
 | S7 | **implemented; real device push blocked** | Durable schedules/DST/quiet/pause/full history, fenced jobs/retries/receipts; 54 SQL + 13 concurrency + 56 API checks, real timed 137-event browser digest; [acceptance](S7_ACCEPTANCE.md) |
-| S8 | pending | Changes/cancellations/reminders |
+| S8 | **implemented; native push unverified** | Saved before/after updates/cancellation, rescheduled known-time reminders, stale/unknown and audited manual overlays; 69 SQL +16 concurrency/timed +58 API, browser uk/en/es; [acceptance](S8_ACCEPTANCE.md) |
 | S9 | pending | Store sandbox purchases/restore/server entitlements; external setup unverified |
 | S10 | pending | Admin/monitoring/backup restore |
 | S11 | pending | Device beta/E2E/performance/release builds |
@@ -168,3 +168,14 @@ S6 disabled AI foundation implementation checkpoint: `bb223e6dd9a46e9f900c82c1d6
 Default running watcher створює inbox only; no Expo/paid AI requests. Device delivery/real receipts/tap/background/cold start **blocked/unverified**, бо користувач має лише browser. Local worker restart/concurrency verified, hosted scheduling/remote CI/native builds unverified; existing dependency release gate лишається останнім recorded failed S5 audit. Laptop process не є production service. S8 не розпочато. Наступне: phone development build і Expo credentials для S7 external acceptance, або actual provider/model/budget для завершення S6; незалежний S8 потребує нового завдання.
 
 S7 implementation checkpoint: `67a22e51b5a91d3591f8b684f6d9f67659c09179`. Наступний documentation-only commit записує SHA; final HEAD див. `git log -1`. Remote збережено без змін, push не виконувався.
+
+
+## S8 — незалежне продовження, 2026-10-03
+
+Нове «продовжуй» дозволило S8, S9 не розпочато. Important-field final transaction snapshots, stable occurrence/revision, owner update/cancellation history, future lead reminders and replan, stale/unknown/explicit cancelled semantics, server-only merged/audited manual correction preserving source hash and surviving reimport implemented. Shared S7 delivery fences/receipts extended with S8 saved-event policy and expiry-bounded provider TTL; no real Expo or AI requests. Migrations037–045 applied without reset. Free/Plus enforcement remains S9, full admin UI S10.
+
+Proof:69 SQL invariants +16 actual two-connection/timed checks in disposable schema-only DB, four observed overlaps including source import/correction and naturally due reminder;58 actual Auth/PostgREST/RLS checks with own disposable users removed. pnpm check17Jest+35Node; regressions S2=108,S5=69,S6=68,S7=54SQL+13concurrency; three JS exports/type match/client-key scan. Browser390×844 real preferences/reload and explicitly synthetic change/cancellation history uk/en/es, no console errors. Browser fixture/source/audit/digests/jobs removed, original2 saved events retained, Ukrainian restored. [Acceptance](S8_ACCEPTANCE.md), [proof](evidence/s8/verification.json).
+
+Real saved concert10Oct19:00 Madrid now has24h/2h reminders, independent Europe/Madrid timezone, quiet22:00–08:00, updates on. First scheduled9Oct19:00, second10Oct17:00; actual future delivery not yet observed. Existing S7 schedule/rules untouched. Local S8 inbox watcher added; S6 due watcher restarted with safe SQLSTATE diagnostics. Laptop watcher is not hosted/uptime evidence.
+
+Initial S6 regression encountered stale Helsinki after6 prior import failures. Actual bounded official fetch/import54 normalized records succeeded, backoff reset and S6 passed. Previous SQL cause was not reproduced, not declared fixed; observe next unattended import. Safe error-code reporting avoids raw event/HTTP error contents. AI stays disabled; provider/model/daily budget+currency/server key missing. Real push/native/iOS license/Android SDK/SMTP/remote CI and previous dependency audit blockers remain. Next independent stage S9 requires new task/store sandbox setup; actual billing cannot be verified only in browser.

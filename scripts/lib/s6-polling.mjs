@@ -52,7 +52,7 @@ export async function pollS6Sources({ admin, sources = S6_SOURCES, force = false
    continue; // One unavailable source does not skip the others. An ambiguous claim expires in DB.
   }
   if (!token) { report({ source, status: 'not_due_or_leased' }); continue; }
-  let phase = 'fetch_failed';
+  let phase = 'fetch_failed';let databaseCode;
   const started = performance.now();
   try {
    const extracted = await extract(source, signal);
@@ -66,7 +66,7 @@ export async function pollS6Sources({ admin, sources = S6_SOURCES, force = false
    }, signal);
    if (result.error) {
     // A PostgreSQL error proves rollback. Network/gateway/abort errors may follow a commit.
-    if (/^[0-9A-Z]{5}$/.test(result.error.code ?? '')) phase = 'import_failed';
+    if (/^[0-9A-Z]{5}$/.test(result.error.code ?? '')) { phase = 'import_failed';databaseCode=result.error.code; }
     throw Error('Import failed');
    }
    report({ source, imported: result.data, ...metrics, total_elapsed_ms: Math.round(performance.now() - started) });
@@ -80,7 +80,7 @@ export async function pollS6Sources({ admin, sources = S6_SOURCES, force = false
      releaseFailed = Boolean(release.error);
     } catch { releaseFailed = true; }
    }
-   report({ source, status: phase, ...(phase === 'import_uncertain' ? { lease_retained: true } : { release_failed: releaseFailed }) });
+   report({ source, status: phase, ...(databaseCode ? { database_code:databaseCode } : {}), ...(phase === 'import_uncertain' ? { lease_retained: true } : { release_failed: releaseFailed }) });
   }
  }
  return { failures };
