@@ -50,7 +50,10 @@
     "billing:s9:status": "node scripts/billing-s9-local.mjs status",
     "billing:s9:local": "node scripts/billing-s9-local.mjs run",
     "billing:s9:watch": "node scripts/billing-s9-local.mjs watch",
-    "billing:s9:webhook": "node scripts/billing-s9-local.mjs webhook"
+    "billing:s9:webhook": "node scripts/billing-s9-local.mjs webhook",
+    "test:s10": "node scripts/test-s10-operations.mjs",
+    "test:s10:api": "node scripts/test-s10-integration.mjs",
+    "admin:s10:local": "node scripts/admin-s10-local.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

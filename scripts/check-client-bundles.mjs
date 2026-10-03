@@ -14,5 +14,6 @@ function scan(directory) {
   }
 }
 scan('apps/mobile/dist');
+scan('apps/admin/dist');
 assert.ok(count > 0);
 console.log(`Client export server-key boundary: pass (${count} files; key value not printed).`);

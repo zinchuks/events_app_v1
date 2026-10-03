@@ -1,0 +1,221 @@
+{
+  "date": "2026-10-03",
+  "stage": "S10",
+  "status": "local_foundation_verified_staging_restore_blocked",
+  "baseline_commit": "95f4d5f",
+  "migrations": [
+    "20261003005200",
+    "20261003005300",
+    "20261003005400",
+    "20261003005500",
+    "20261003005600"
+  ],
+  "s10_postgres": [
+    {
+      "invariant_checks": 45
+    },
+    {
+      "checks": 12,
+      "actual_postgres_overlap": true,
+      "optimistic_single_winner": true,
+      "backup_format": "PGDMP custom",
+      "backup_sha256": "cfa6f979c70c578b0c251a8917f2791fe6dd4ca7476064fe4e377737b082ee7e",
+      "schema_and_synthetic_data_restored": true,
+      "rls_grants_auth_functions_verified": true,
+      "private_user_data_copied": false,
+      "staging_restore_verified": false
+    },
+    {
+      "own_databases_removed": 2
+    }
+  ],
+  "s10_auth_postgrest": [
+    {
+      "checks": 25,
+      "actual_auth_postgrest": true,
+      "signup_metadata_trusted": false,
+      "real_catalog_mutated": false,
+      "server_secrets_in_browser": false
+    }
+  ],
+  "regressions": {
+    "s2": [
+      {
+        "status": "pass",
+        "checks": 109,
+        "integration": "real local Auth/PostgREST/Postgres/PostGIS/Mailpit",
+        "nativeStorage": "unverified",
+        "scenarios": [
+          "email signup/confirmation",
+          "profile settings",
+          "cross-user read/write protection",
+          "server-only data and entitlements",
+          "date-only and timezone invariants",
+          "session restore/logout",
+          "email recovery/password change",
+          "own account deletion/private cascade/public preservation",
+          "demo territory/category seeds"
+        ]
+      }
+    ],
+    "s6_sql": "passed; transaction rolled back",
+    "s7": [
+      {
+        "synthetic": true,
+        "expo_requests": 0,
+        "invariant_checks": 54
+      },
+      {
+        "concurrency_checks": 13,
+        "independent_postgres_connections": true,
+        "observed_overlaps": 4,
+        "scheduler_race": "one logical digest",
+        "transport_race": "one fenced dispatch",
+        "synthetic_invariants": "PASS",
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "expo_requests": 0,
+        "device_delivery_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s8": [
+      {
+        "fixtures": "synthetic SQL",
+        "invariant_checks": 69,
+        "external_requests": 0
+      },
+      {
+        "concurrency_checks": 16,
+        "independent_postgres_connections": true,
+        "observed_overlaps": 4,
+        "import_correction_race": true,
+        "actual_timed_reminder": true,
+        "correction_race": "one logical update",
+        "scheduler_race": "one inbox/job",
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "expo_requests": 0,
+        "device_delivery_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s9": [
+      {
+        "invariant_checks": 42,
+        "provider_requests": 0,
+        "store_purchases_verified": false
+      },
+      {
+        "concurrency_checks": 11,
+        "observed_overlaps": 3,
+        "independent_postgres_connections": true,
+        "actual_clock_expiry": true,
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "provider_requests": 0,
+        "store_purchases_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ]
+  },
+  "checks": {
+    "pnpm_check": "pass (typecheck/lint/17 Jest +42 Node tests/env/secrets)",
+    "frozen_install": "pass; same locked versions; incomplete offline cache needed npm download; ignore-scripts",
+    "admin_build": "pass; Vite8.3.2,227.80kB JS /60.67kB gzip",
+    "mobile_js_exports": [
+      "web",
+      "ios",
+      "android"
+    ],
+    "native_build_verified": false,
+    "client_service_key_scan": "pass;69 mobile+admin files; key not printed",
+    "diff_check": "pass"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:5173",
+    "real_existing_owner_signin": true,
+    "real_sources_displayed": [
+      "madrid",
+      "toronto",
+      "helsinki"
+    ],
+    "stale_record_counts_visible": true,
+    "fixture_title_correction_and_reset": true,
+    "fixture_duplicate_merge": true,
+    "fixtures_removed": true,
+    "locales": [
+      "uk",
+      "en",
+      "es"
+    ],
+    "console_errors": 0,
+    "responsive": {
+      "viewport_width": 390,
+      "body_scroll_width": 375,
+      "viewport_reset": true
+    },
+    "screenshots": [
+      "browser-dashboard.png",
+      "browser-responsive.png",
+      "browser-correction.png",
+      "browser-merge.png"
+    ],
+    "recovery": "browser extension timed out/detached; new same-Chrome tab restored and final clean dashboard verified"
+  },
+  "preserved_state": {
+    "profiles": 1,
+    "saved": 2,
+    "s4_rule_configs": 3,
+    "effective_active_rules": 1,
+    "effective_tier": "free",
+    "s4_billing_paused": 2,
+    "legacy_s3_billing_paused": true,
+    "owner_admin_role": true,
+    "ai_enabled": false,
+    "billing_enabled": false,
+    "real_sources": 3,
+    "remaining_s10_preview_sources": 0
+  },
+  "blockers": [
+    "No hosted staging source/destination projects, actual backup access or operator DB access: staging restore not exercised.",
+    "Actual AI provider/model/budget/server key absent; zero paid requests.",
+    "RevenueCat/Apple/Google store accounts/products/keys absent; purchases/restore unverified.",
+    "Browser-only; physical native development devices/Expo/APNs/FCM absent; real push unverified.",
+    "Xcode license gate; Android SDK/adb absent; native builds unverified.",
+    "External SMTP absent; Gmail codes not sent.",
+    "Dependency audit gate failed:2 high+1 moderate,0 critical; not suppressed.",
+    "Remote CI/hosted uptime not verified."
+  ],
+  "git": {
+    "push_performed": false,
+    "remote_modified": false
+  },
+  "sources": [
+    "https://supabase.com/docs/guides/database/postgres/row-level-security",
+    "https://supabase.com/docs/guides/api/custom-claims-and-role-based-access-control-rbac",
+    "https://www.postgresql.org/docs/17/app-pgdump.html",
+    "https://www.postgresql.org/docs/17/app-pgrestore.html"
+  ],
+  "artifact_sha256": {
+    "pnpm-lock.yaml": "21c814180558c2225ed4265d282ffc66d3edfba8b28f38e3413f93455405396b",
+    "apps/admin/package.json": "9929c524425f80e05a87ff96f5254a06b5a4d32d8d204ca8879f081744402735",
+    "apps/admin/src/main.ts": "4bfe617471decc9ee5222a02bc23e90eb410160b9893140683c5d9a6cb413cae",
+    "supabase/tests/s10_invariants.sql": "74991ecf4719ca2f9c8606b2a0937622343ed6580773d0279cedaa510a29220c",
+    "scripts/test-s10-operations.mjs": "0fa90496c68691b38fda96a8cfc3168772250398e37cf6728688b9cad5dc61dd"
+  },
+  "audit_counts": {
+    "info": 0,
+    "low": 0,
+    "moderate": 1,
+    "high": 2,
+    "critical": 0
+  },
+  "legacy_timezone_fix": "056 removes hardcoded zone after overlay; actual legacy+S6 reimport fixture verifies title/category/IANA timezone persistence"
+}

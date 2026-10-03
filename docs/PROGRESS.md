@@ -1,6 +1,6 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-03, Europe/Madrid. Поточна задача: **S9** за новим «продовжуй» (P4). Незалежна серверна/SDK/UI основа реалізована й локально перевірена; **S9 blocked** до real RevenueCat/store setup та sandbox purchase/restore на iOS й Android. Користувач підтвердив, що магазинів ще немає й перевіряє браузер. Не надаємо Plus через клієнтські flags/fixtures. Free виконує одне правило; paid configurations збережені paused. S6 actual AI та S3/S7/S8 real device push blockers лишаються. Audit2026-10-03:2 high +1 moderate, gate failed. **S10–S12 не розпочато.** Докази — [S9_ACCEPTANCE.md](S9_ACCEPTANCE.md), [verification](evidence/s9/verification.json); команди — [SETUP.md](SETUP.md). Нижче — історичні результати попередніх дат.
+Оновлено 2026-10-03, Europe/Madrid. Поточна задача: **S10** за новим «продовжуй» (P4). Admin Auth/roles, registry CRUD, monitoring/coverage/AI usage/jobs, audited persistent corrections/categorization і logical duplicate merge **implemented та local verified**. Реальний custom backup→restore перевірено у власній ізольованій локальній DB з synthetic даними, Auth helpers/RLS/grants та lookup-before-data; **S10 blocked** до фактичного staging restore. Hosted staging/backup/operator access не надані. S9 actual RevenueCat/store purchase/restore, S6 actual AI й S3/S7/S8 real device push лишаються blocked; користувач поки перевіряє браузер. Наявний локальний owner має audited admin-role, Free1/paused paid rules/saved2 збережені. Audit2026-10-03: **2 high +1 moderate,0 critical; gate failed**, findings не приховані. **S11–S12 не розпочато.** Докази — [S10_ACCEPTANCE.md](S10_ACCEPTANCE.md), [verification](evidence/s10/verification.json), runbook — [S10_OPERATIONS.md](S10_OPERATIONS.md); команди — [SETUP.md](SETUP.md). Нижче — історичні результати попередніх дат.
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
@@ -14,7 +14,7 @@
 | S7 | **implemented; real device push blocked** | Durable schedules/DST/quiet/pause/full history, fenced jobs/retries/receipts; 54 SQL + 13 concurrency + 56 API checks, real timed 137-event browser digest; [acceptance](S7_ACCEPTANCE.md) |
 | S8 | **implemented; native push unverified** | Saved before/after updates/cancellation, rescheduled known-time reminders, stale/unknown and audited manual overlays; 69 SQL +16 concurrency/timed +58 API, browser uk/en/es; [acceptance](S8_ACCEPTANCE.md) |
 | S9 | **blocked; local foundation implemented/verified** | RevenueCat SDK10.11.0, server Free/Plus/effective pause/expiry/grace, authenticated local webhook/reconcile, paywall/restore code;42 SQL +11 concurrency/clock +50 actual API/HTTP checks. Real provider/store/native purchase/restore відсутні; [acceptance](S9_ACCEPTANCE.md) |
-| S10 | pending | Admin/monitoring/backup restore |
+| S10 | **blocked; local foundation implemented/verified** | Admin roles/CRUD/monitoring/audited corrections/category/merge;45 SQL +12 concurrency/restore +25 actual Auth/API, browser uk/en/es. Local restore verified; staging restore unverified; [acceptance](S10_ACCEPTANCE.md) |
 | S11 | pending | Device beta/E2E/performance/release builds |
 | S12 | pending | Release/store metadata/policies/operator data |
 
@@ -196,3 +196,17 @@ Actual verification:42 SQL +11 concurrency/real-clock expiry checks (3 observed 
 Audit after SDK install: node-forge1.4.0 high GHSA-86w9-cpqp-85rv; newly recorded braces3.0.3 high GHSA-vfj7-8cjw-p6xm via Jest/@types/jest; decode-uri-component0.2.2 moderate. Both high packages already in previous lock, no registry fix shown. Gate remains failed; no unsafe override/ignore. Next S9 completion needs actual RC/store identifiers/keys, HTTPS server, development phones/builds and both sandbox purchase/restore evidence. S10 needs a new continuation task.
 
 S9 implementation checkpoint: `2ca20f86339dc24998ff923baa47541a46d6ffc7`. Final documentation/evidence checkpoint available through `git log -1`; no push.
+
+
+## S10 — адмінка та операції (2026-10-03)
+
+- Migrations052–056: DB roles viewer/editor/admin, explicit ACL/RLS, role spoof/revoke, version-fenced sources/events/duplicate review, actor/reason/before/after audit, account-delete role audit identifier cleanup.
+- Browser 127.0.0.1:5173 використовує public key/Auth; admin grants тільки trusted local operator. Поточному локальному project owner audited admin-role надано, remote permissions не змінені. Пароль/службові ключі не комітилися.
+- Create disabled/unreviewed, arbitrary adapter execution denied, source identity immutable, delete only empty, referenced source pause/rights block preserves provenance. Poll/correction/import fences, pause invalidates old claims incl force/legacy import. Нові failures в ingestion history; старі не вигадані заднім числом.
+- Title/venue/category/price/status/time overlays переживають S6 і legacy import; reset до свіжого private normalized baseline після S6 poll. Multi-session correction refused. Logical conservative merge зберігає originals/saved/history/reminders, dedup до pagination/full scheduled union, eligible fallback і automatic divergent-facts split.
+- Actual PostgreSQL45 invariants +12 concurrency/custom binary backup→isolated restore checks; actual local Auth/PostgREST25; nonadmin signup metadata не дає ролі. Рестарт/restore залежить від IANA inventory: pre-data → inventory → data/post-data, інакше valid_timezone CHECK fail. Це виявлено й виправлено реальним restore drill.
+- Browser actual3sources +stale records, імпорти, aggregate jobs/receipts, disabled AI; TEST title/reset/merge verified, uk/en/es, console errors0. Own TEST fixtures/audit/merge/overlays прибрані; реальні дані подій не замінювалися.
+- Regression S2 109, S6 SQL suite, S7 54+13, S8 69+16, S9 42+11 pass. JS/admin checks/build pass; exports/key scan — evidence. Remote CI не запускалися; pipeline додано S10 tests і admin boundary scan.
+- Blocker: відсутній staging project/restore target/operator access/actual backup evidence. Наступна дія для закриття S10 — staging drill за S10_OPERATIONS. Не називати локальний fixture restore staging proof. S11 не починався.
+
+- Фінальна ревізія legacy Madrid виявила hardcoded Europe/Madrid після overlay; migration056 зберігає ручний IANA timezone. Додано фактичний legacy→S6 повторний імпорт fixture: title/category/timezone overlay збережені; final45 SQL +12 concurrency/restore pass.

@@ -79,8 +79,11 @@ jobs:
       - run: pnpm test:s7
       - run: pnpm test:s8
       - run: pnpm test:s9
+      - run: pnpm test:s10
+      - run: pnpm test:s10:api
       - run: pnpm local:env
       - run: pnpm export:mobile
+      - run: pnpm build:admin
       - run: pnpm check:client-bundles
       - if: always()
         run: supabase stop --no-backup

@@ -9,3 +9,9 @@ if (existsSync(file)) {
   assert.equal(readFileSync(file, 'utf8'), value, 'Existing local configuration differs; it was not overwritten');
 } else writeFileSync(file, value, { flag: 'wx', mode: 0o600 });
 console.log('Local public mobile configuration ready in ignored apps/mobile/.env.local; no server credentials copied.');
+
+const adminFile='apps/admin/.env.local';
+const adminValue=`VITE_APP_ENV=development\nVITE_SUPABASE_URL=${status.API_URL}\nVITE_SUPABASE_ANON_KEY=${status.ANON_KEY}\n`;
+if(existsSync(adminFile))assert.equal(readFileSync(adminFile,'utf8'),adminValue,'Existing admin configuration differs; not overwritten');
+else writeFileSync(adminFile,adminValue,{flag:'wx',mode:0o600});
+console.log('Local public admin configuration ready; no server credentials copied.');

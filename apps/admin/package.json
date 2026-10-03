@@ -10,5 +10,12 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
   },
-  "devDependencies": { "vite": "8.3.2", "typescript": "^5.9.3" }
+  "devDependencies": {
+    "vite": "8.3.2",
+    "typescript": "^5.9.3",
+    "@types/node": "26.6.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.2"
+  }
 }

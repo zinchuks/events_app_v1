@@ -86,3 +86,8 @@ Poller endpoints/redirects are HTTPS-host allowlisted, URLs never read as comman
 Source success/claim/failure state is server-only except public checked-time/coverage/licence/counts RPC. Empty or invalid batches never mark healthy. Source-specific TTL applies to both source and individual record freshness in new manual digests; feed preserves originals if translations unavailable. CLI supports local automatic due polling via `pnpm ingest:s6:watch` (wake60s; source cadence/leases/backoff still authoritative). No production daemon/cron deployed; this requires the local process/Docker to stay running. Barcelona remains403/unreviewed and is not counted; Paris/other shortlisted sources not connected.
 
 AI user confirms access but provider/model/budget still absent; no live AI service configured. Source-native English does not claim Ukrainian AI translation. [Data notices](../licenses/event-sources/NOTICE.md).
+
+
+## S10 operator registry policy
+
+Наявні Madrid/Toronto/Helsinki rights/attribution/partial-coverage notes збережені. Admin CRUD не надає прав на нові дані: entry створюється disabled/unreviewed/cache-off, worker adapter allowlist незмінний. Code/URL/acquisition stable; metadata/poll/TTL/rights edits version-fenced й audited. Pause ≠ cancellation/rights revocation; blocked rights прибирають public detail/feed/cache access. Referenced sources не delete; нові failures видно в import history. S10 provider baseline — приватні валідовані normalized facts для explicit override reset, тільки після S6 poll, source TTL/rights перевіряються. Logical merge зберігає кожний original source record/URL і occurrence ID; не стирає provenance. [Operator runbook](S10_OPERATIONS.md).

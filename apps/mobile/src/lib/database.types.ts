@@ -732,6 +732,129 @@ export type Database = {
           },
         ]
       }
+      s10_audit: {
+        Row: {
+          action: string
+          actor: string | null
+          after_state: Json | null
+          before_state: Json | null
+          created_at: string
+          id: string
+          reason: string
+          target: string | null
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          after_state?: Json | null
+          before_state?: Json | null
+          created_at?: string
+          id?: string
+          reason: string
+          target?: string | null
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          after_state?: Json | null
+          before_state?: Json | null
+          created_at?: string
+          id?: string
+          reason?: string
+          target?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s10_audit_actor_fkey"
+            columns: ["actor"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s10_merges: {
+        Row: {
+          canonical_id: string
+          occurrence_id: string
+        }
+        Insert: {
+          canonical_id: string
+          occurrence_id: string
+        }
+        Update: {
+          canonical_id?: string
+          occurrence_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s10_merges_canonical_id_fkey"
+            columns: ["canonical_id"]
+            isOneToOne: false
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "s10_merges_occurrence_id_fkey"
+            columns: ["occurrence_id"]
+            isOneToOne: true
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s10_provider_facts: {
+        Row: {
+          checked_at: string
+          occurrence_id: string
+          record: Json
+        }
+        Insert: {
+          checked_at: string
+          occurrence_id: string
+          record: Json
+        }
+        Update: {
+          checked_at?: string
+          occurrence_id?: string
+          record?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s10_provider_facts_occurrence_id_fkey"
+            columns: ["occurrence_id"]
+            isOneToOne: true
+            referencedRelation: "occurrences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s10_roles: {
+        Row: {
+          assigned_at: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          assigned_at?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s10_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       s6_ai_days: {
         Row: {
           committed: number
@@ -1380,6 +1503,7 @@ export type Database = {
       sources: {
         Row: {
           acquisition: string
+          admin_revision: number
           allow_cache: boolean
           allow_images: boolean
           allow_translate: boolean
@@ -1390,6 +1514,7 @@ export type Database = {
           is_demo: boolean
           last_success_at: string | null
           name: string
+          poll_enabled: boolean
           poll_interval_seconds: number | null
           rights_reference: string | null
           terms_status: string
@@ -1397,6 +1522,7 @@ export type Database = {
         }
         Insert: {
           acquisition: string
+          admin_revision?: number
           allow_cache?: boolean
           allow_images?: boolean
           allow_translate?: boolean
@@ -1407,6 +1533,7 @@ export type Database = {
           is_demo?: boolean
           last_success_at?: string | null
           name: string
+          poll_enabled?: boolean
           poll_interval_seconds?: number | null
           rights_reference?: string | null
           terms_status?: string
@@ -1414,6 +1541,7 @@ export type Database = {
         }
         Update: {
           acquisition?: string
+          admin_revision?: number
           allow_cache?: boolean
           allow_images?: boolean
           allow_translate?: boolean
@@ -1424,6 +1552,7 @@ export type Database = {
           is_demo?: boolean
           last_success_at?: string | null
           name?: string
+          poll_enabled?: boolean
           poll_interval_seconds?: number | null
           rights_reference?: string | null
           terms_status?: string
@@ -1727,6 +1856,86 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      s10_correct: {
+        Args: {
+          expected_version: number
+          patch: Json
+          reason: string
+          selected_occurrence: string
+        }
+        Returns: undefined
+      }
+      s10_dashboard: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      s10_delete_source: {
+        Args: {
+          expected_revision: number
+          reason: string
+          selected_source: string
+        }
+        Returns: undefined
+      }
+      s10_event: {
+        Args: { selected_occurrence: string }
+        Returns: Json
+      }
+      s10_group: {
+        Args: { selected_occurrence: string }
+        Returns: string
+      }
+      s10_previous_matches: {
+        Args: {
+          matching_clock: string
+          selected_owner: string
+          selected_rules: string[]
+        }
+        Returns: {
+          occurrence_id: string
+          rule_id: string
+        }[]
+      }
+      s10_require: {
+        Args: { required_role?: string }
+        Returns: string
+      }
+      s10_reset_override: {
+        Args: {
+          expected_version: number
+          reason: string
+          selected_occurrence: string
+        }
+        Returns: undefined
+      }
+      s10_review_duplicate: {
+        Args: {
+          chosen_canonical: string
+          left_id: string
+          left_version: number
+          reason: string
+          right_id: string
+          right_version: number
+        }
+        Returns: undefined
+      }
+      s10_same_session: {
+        Args: { a: string; b: string }
+        Returns: boolean
+      }
+      s10_search: {
+        Args: { page_offset?: number; query: string }
+        Returns: Json
+      }
+      s10_source: {
+        Args: {
+          document: Json
+          expected_revision?: number
+          reason: string
+          selected_source?: string
+        }
+        Returns: string
+      }
       s4_area_matches: {
         Args: {
           a: Database["public"]["Tables"]["rule_areas"]["Row"]
@@ -1874,6 +2083,10 @@ export type Database = {
           selected_rule?: string
         }
         Returns: string
+      }
+      set_s10_role: {
+        Args: { assigned_role: string; reason: string; selected_owner: string }
+        Returns: undefined
       }
       set_s4_rule_enabled: {
         Args: { rule_enabled: boolean; selected_rule: string }

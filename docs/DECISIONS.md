@@ -99,3 +99,12 @@
 - Current authenticated server is local-only to preserve existing local-stack boundary. Do not expose localhost/tunnel or invent a hosted RevenueCat integration. HTTPS deployment, platform configuration and real callback/restore proof remain blockers. Native operations bind authenticated UUID and do not support anonymous purchase.
 - Strengthen rules ownership/billing-column ACL; retire S3 prototype client save/digest RPC. Keep S2 RLS regression via an allowed name column plus explicit owner-column denial. Older advanced SQL/scheduler tests receive synthetic Plus only in ROLLBACK/own disposable DB. Never flip the real config or grant the user's account test Plus.
 - Fresh audit shows2 high/1 moderate; braces high advisory newly recorded alongside existing node-forge. Both existed before SDK installation; lock diff adds only SDK family. No fabricated upstream patch or audit suppression.
+
+
+## S10 (2026-10-03): operations authorization, merge, restore
+
+Live DB roles chosen over role in signup metadata/cached JWT: immediate next-RPC revocation, service-only assignment. Admin public client shares pinned SDK already in lock; no new runtime family. Revision/source fences and persistent normalized baseline provide auditable corrections and explicit reset; old records must be polled before reset. category_code joins overlay policy; no client catalog writes.
+
+Logical merge chosen to preserve stable occurrence identities, saved/reminder configs and immutable digest history. It deduplicates eligible future catalog/match union, rechecks exact session facts, uses eligible fallback when canonical is unavailable, supports undo and forbids chains. Original S8 reminders remain separate if user saved both; no destructive FK rewrites or inferred dates.
+
+Actual local custom restore found lookup-order bug: valid_timezone CHECK depends on timezone_names TABLE DATA. Restore pre-data then same-PG IANA inventory then remaining data/post-data fixed it and passed row/Auth/RLS/grants checks. Hosted staging restore remains blocked; no fixture substituted for staging evidence.

@@ -465,3 +465,29 @@ These commands remain **local harness**; webhook URL127.0.0.1:8099/revenuecat ca
 Native keys go only into `EXPO_PUBLIC_REVENUECAT_IOS_KEY` (`appl_`) / Android (`goog_`) in ignored mobile env; no test-store/secret key. Actual server identifiers are entitlement/product/app IDs from your own RevenueCat/store projects. Native SDK is autolinked; new dev build required. Existing iOS/Android tooling/device blockers still apply. Native offerings/purchase/restore remain unverified; no hardcoded price/trial.
 
 Before S9 done: real sandbox purchase +restore on **both** platforms, renewal/cancellation/grace/expiry/refund/transfer, actual authenticated callback→server snapshot and data preservation. [Acceptance](S9_ACCEPTANCE.md). Audit currently fails2 high/1 moderate; do not disable the gate.
+
+
+## S10 local admin / operations
+
+Авторизований S10, S11 не починався. Використовувати Node22.23.3/pnpm10.34.6. У цій машині перед командами: `export PATH=/private/tmp/event-radar-s1-tools/node_modules/.bin:$PATH`. Dependency frozen install verified: `CI=1 pnpm install --frozen-lockfile --ignore-scripts`; offline cache був неповний, отримано ті самі locked пакети з npm, version drift не додано.
+
+```sh
+supabase migration up --local
+pnpm local:env
+pnpm dev:admin
+pnpm admin:s10:local grant OWNER_EMAIL admin 'Причина локального доступу'
+pnpm test:s10
+pnpm test:s10:api
+pnpm check
+pnpm build:admin
+pnpm export:mobile
+pnpm check:client-bundles
+```
+
+Не `supabase db reset`: наявні акаунт/rules/saved збережені. Admin env examples мають VITE_APP_ENV/VITE_SUPABASE_URL/VITE_SUPABASE_ANON_KEY, blank credentials; local:env пише лише public local config у ignored `.env.local` із0600, не перезаписує інший файл. Server/operator key ніколи не VITE_ env.
+
+Працює `http://127.0.0.1:5173`, наявний project-owner login; локальна audited admin-role вже призначена. Dev server перезапущено після створення env. Browser storage відокремлено від mobile на8087; SMTP не потрібний для password login існуючого локального акаунта. Gmail SMTP лишається неналаштованим. Role revoke: `pnpm admin:s10:local revoke OWNER_EMAIL none 'Причина відкликання'`.
+
+`pnpm test:s10`: schema-only clone + own synthetic fixtures, SQL45 +12 concurrency/custom pg_dump→pg_restore checks, two DB cleanup. Не запускати SQL без цього runner на user DB. `test:s10:api`:25 actual Auth/PostgREST checks, own users/empty unreviewed source cleanup. Preview: `node scripts/preview-s10-local.mjs create`, TEST editing/reset/merge, потім `node scripts/preview-s10-local.mjs cleanup`. Не змінює owner saved/rules; fixture baselines не є live provider proof.
+
+Актуальні результати — [S10_ACCEPTANCE](S10_ACCEPTANCE.md)/[evidence](evidence/s10/verification.json). Backup cadence/retention/provider setup, staging restore та hosted uptime **unverified**. Для staging потрібні окремі source/restore projects, DB/operator доступ, actual backup та protected storage; lookup-before-data й acceptance drill — [S10_OPERATIONS](S10_OPERATIONS.md). Native/device/store/AI blockers лишилися, security audit gate не обходити.
