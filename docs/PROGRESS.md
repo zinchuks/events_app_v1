@@ -210,3 +210,5 @@ S9 implementation checkpoint: `2ca20f86339dc24998ff923baa47541a46d6ffc7`. Final 
 - Blocker: відсутній staging project/restore target/operator access/actual backup evidence. Наступна дія для закриття S10 — staging drill за S10_OPERATIONS. Не називати локальний fixture restore staging proof. S11 не починався.
 
 - Фінальна ревізія legacy Madrid виявила hardcoded Europe/Madrid після overlay; migration056 зберігає ручний IANA timezone. Додано фактичний legacy→S6 повторний імпорт fixture: title/category/timezone overlay збережені; final45 SQL +12 concurrency/restore pass.
+
+- S10 implementation checkpoint: `8fc253178f4d56aa31af397a0e2ac7284432ee19`. Staged diff check pass, worktree clean на checkpoint; existing remote збережено, push не робився. Документаційний checkpoint фіксує цей SHA; фінальний HEAD — `git log -1`.

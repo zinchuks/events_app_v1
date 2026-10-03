@@ -195,7 +195,9 @@
   ],
   "git": {
     "push_performed": false,
-    "remote_modified": false
+    "remote_modified": false,
+    "implementation_worktree_clean": true,
+    "staged_diff_check": "pass"
   },
   "sources": [
     "https://supabase.com/docs/guides/database/postgres/row-level-security",
@@ -217,5 +219,6 @@
     "high": 2,
     "critical": 0
   },
-  "legacy_timezone_fix": "056 removes hardcoded zone after overlay; actual legacy+S6 reimport fixture verifies title/category/IANA timezone persistence"
+  "legacy_timezone_fix": "056 removes hardcoded zone after overlay; actual legacy+S6 reimport fixture verifies title/category/IANA timezone persistence",
+  "implementation_commit": "8fc253178f4d56aa31af397a0e2ac7284432ee19"
 }
