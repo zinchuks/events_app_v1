@@ -1,3 +1,4 @@
+import { useMetrics } from '@/lib/metrics-context';
 import { useEffect, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Linking, Text, View } from 'react-native';
@@ -14,6 +15,7 @@ function query() { return supabase!.from('occurrences').select(eventSelect); }
 type Item = QueryData<ReturnType<typeof query>>[number];
 type Translation = { title: string; description: string; summary: string|null; provider: string };
 export default function EventScreen() {
+ const { record } = useMetrics();
  const { id } = useLocalSearchParams<{ id: string }>(); const { t, locale } = useLanguage(); const { session } = useAuth();
  const owner = useRef(session?.user.id); owner.current = session?.user.id;
  const [item, setItem] = useState<Item | null>(null); const [saved, setSaved] = useState(false); const [busy, setBusy] = useState(false);
@@ -44,7 +46,7 @@ export default function EventScreen() {
   setBusy(true); setMessage('');
   try {
    const result = saved ? await supabase.from('saved_events').delete().eq('user_id', session.user.id).eq('occurrence_id', id) : await supabase.from('saved_events').upsert({ user_id: session.user.id, occurrence_id: id });
-   if (result.error) throw result.error; if (owner.current === caller) setSaved(!saved);
+   if (result.error) throw result.error; if (!saved) record('event_saved'); if (owner.current === caller) setSaved(!saved);
   } catch { if (owner.current === caller) setMessage(t('error')); } finally { setBusy(false); }
  }
  return <Screen title={t('eventDetails')}>
@@ -61,7 +63,7 @@ export default function EventScreen() {
    <Text style={ui.muted}>{item.events.sources?.name}</Text>
    <Button label={t('sourceLicense')} variant="link" onPress={() => void Linking.openURL(item.events!.sources?.rights_reference ?? 'https://datos.madrid.es/pages/condiciones-de-uso')} />
    <Button label={t('map')} variant="outline" onPress={() => router.push({pathname:'/map',params:{occurrence:id}})} />
-   <Button label={t('openOriginal')} onPress={() => void Linking.openURL(item.events!.canonical_url)} />
+   <Button label={t('openOriginal')} onPress={() => { void Linking.openURL(item.events!.canonical_url).then(() => record('organizer_opened')).catch(() => setMessage(t('error'))); }} />
    {session ? <Button label={saved ? t('removeSaved') : t('saveEvent')} variant={saved ? 'outline' : 'default'} disabled={busy} onPress={() => void toggle()} /> : <Button label={t('signInToSave')} variant="outline" onPress={() => router.push('/account')} />}
   </View>}
   {saved&&session&&item&&<SavedPreferences key={session.user.id+id} occurrence={id} known={item.time_kind==='known'} scheduled={item.status==='scheduled'&&item.events.status==='scheduled'}/>}

@@ -1,5 +1,13 @@
 export const messages = {
   "uk": {
+    "legacyDigestNotice": "У цій старій добірці початковий вміст не був зафіксований. Назви й дати нижче читаються з поточних записів; це не історичний snapshot.",
+    "staleExcluded": "Застарілих записів пропущено",
+    "metricsTitle": "Допомогти покращити апку",
+    "metricsConsent": "Дозволити мінімальні метрики",
+    "metricsExplanation": "За вашою згодою зберігаємо денні лічильники: створення правила, відкриття добірки, збереження події, перехід до організатора та успішна покупка в апці. Без назв подій, пошуку, координат або рекламних ідентифікаторів. Лічильники приватні й прив’язані до вашого акаунта; адміністратор бачить суми за день.",
+    "metricsRemoval": "У звітах враховуємо останні 30 днів. Вимкнення або видалення акаунта видаляє всі ваші лічильники.",
+    "metricsUnavailable": "Не вдалося завантажити згоду. Метрики не надсилаються; відкрийте налаштування знову після відновлення зв’язку.",
+
     "subscription": "Тариф і підписка",
     "currentPlan": "Ваш тариф",
     "freeFeatures": "Free: 1 активне правило для міста або радіуса, щотижнева добірка. Каталог усіх країн, базовий переклад і збереження доступні.",
@@ -314,6 +322,14 @@ export const messages = {
     "eventScheduled": "Заплановано"
   },
   "en": {
+    "legacyDigestNotice": "This older selection did not capture its original content. Titles and dates below come from current records, not a historical snapshot.",
+    "staleExcluded": "Expired records omitted",
+    "metricsTitle": "Help improve the app",
+    "metricsConsent": "Allow minimal metrics",
+    "metricsExplanation": "With your consent, we keep daily counts of rule creation, digest opening, event saving, organizer visits and successful in-app purchases. No event titles, searches, coordinates or advertising identifiers. Counts are private and linked to your account; administrators see daily totals.",
+    "metricsRemoval": "Reports use the last 30 days. Turning this off or deleting your account deletes all your counts.",
+    "metricsUnavailable": "Consent could not be loaded. No metrics are sent; reopen settings after reconnecting.",
+
     "subscription": "Plan and subscription",
     "currentPlan": "Your plan",
     "freeFeatures": "Free: 1 active city or radius rule and a weekly digest. Browse all countries, use basic translations and save events.",
@@ -628,6 +644,14 @@ export const messages = {
     "eventScheduled": "Scheduled"
   },
   "es": {
+    "legacyDigestNotice": "Esta selección antigua no guardó su contenido original. Los títulos y fechas se leen de los registros actuales; no son una instantánea histórica.",
+    "staleExcluded": "Registros desactualizados omitidos",
+    "metricsTitle": "Ayudar a mejorar la app",
+    "metricsConsent": "Permitir métricas mínimas",
+    "metricsExplanation": "Con tu consentimiento guardamos recuentos diarios de reglas creadas, selecciones abiertas, eventos guardados, visitas al organizador y compras completadas en la app. Sin títulos de eventos, búsquedas, coordenadas ni identificadores publicitarios. Los recuentos son privados y están vinculados a tu cuenta; los administradores ven totales diarios.",
+    "metricsRemoval": "Los informes usan los últimos 30 días. Al desactivar o eliminar la cuenta se borran todos tus recuentos.",
+    "metricsUnavailable": "No se pudo cargar el consentimiento. No se envían métricas; vuelve a abrir ajustes al recuperar la conexión.",
+
     "subscription": "Plan y suscripción",
     "currentPlan": "Tu plan",
     "freeFeatures": "Free: 1 regla activa de ciudad o radio y un resumen semanal. Explora todos los países, usa traducciones básicas y guarda eventos.",

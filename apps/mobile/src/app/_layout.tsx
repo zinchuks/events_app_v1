@@ -7,6 +7,7 @@ import { AuthProvider } from '@/lib/auth-context';
 import { LanguageProvider } from '@/lib/i18n';
 import { PushObserver } from '@/components/push-observer';
 import { Uniwind } from 'uniwind';
+import { MetricsProvider } from '@/lib/metrics-context';
 
 // This shell is light-only, including when the browser's system theme is dark.
 Uniwind.setTheme('light');
@@ -15,7 +16,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <StatusBar style="dark" />
-      <AuthProvider><LanguageProvider><PushObserver /><Stack screenOptions={{ headerShown: false }} /></LanguageProvider></AuthProvider>
+      <AuthProvider><LanguageProvider><MetricsProvider><PushObserver /><Stack screenOptions={{ headerShown: false }} /></MetricsProvider></LanguageProvider></AuthProvider>
     </SafeAreaProvider>
   );
 }

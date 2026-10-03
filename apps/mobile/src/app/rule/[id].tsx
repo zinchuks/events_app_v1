@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useMetrics } from '@/lib/metrics-context';
+import { useEffect, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
 import { Screen, ui } from '@/components/screen';
@@ -11,7 +12,8 @@ import { supabase } from '@/lib/supabase';
 import { emptyFilters, label, optionalNumber, type Area, type Filters, type Territory, type Point } from '@/lib/rules';
 import type { Json } from '@/lib/database.types';
 export default function RuleEditor(){
- const{id}=useLocalSearchParams<{id:string}>();const{session,loading}=useAuth();const{t,locale}=useLanguage();
+ const{record}=useMetrics();const{id}=useLocalSearchParams<{id:string}>();const{session,loading}=useAuth();const{t,locale}=useLanguage();
+ const owner=useRef(session?.user.id);owner.current=session?.user.id;
  const[name,setName]=useState('');const[enabled,setEnabled]=useState(true);const[filters,setFilters]=useState<Filters>({...emptyFilters});const[areas,setAreas]=useState<Area[]>([]);const[territories,setTerritories]=useState<Territory[]>([]);const[categories,setCategories]=useState<{code:string;names:Json}[]>([]);const[state,setState]=useState('loading');const[busy,setBusy]=useState(false);const[message,setMessage]=useState('');
  const[kind,setKind]=useState<Area['kind']>('city');const[search,setSearch]=useState('');const[shown,setShown]=useState(12);const[points,setPoints]=useState<Point[]>([]);const[lon,setLon]=useState('');const[lat,setLat]=useState('');const[km,setKm]=useState('10');
  const[priceMin,setPriceMin]=useState('');const[priceMax,setPriceMax]=useState('');const[currency,setCurrency]=useState('');const[languages,setLanguages]=useState('');const[ageMin,setAgeMin]=useState('');const[ageMax,setAgeMax]=useState('');
@@ -35,14 +37,14 @@ export default function RuleEditor(){
  function report(error:unknown){const m=error&&typeof error==='object'&&'message'in error?String(error.message):'';setMessage(m.includes('Antimeridian')?t('antimeridianError'):m.includes('Polygon')||m.includes('polygon')||m.includes('vertex')?t('polygonError'):t('ruleValidationError'));}
  function addArea(area:Area){if(areas.length>=20){setMessage(t('areaLimit'));return;}if(!areas.some(a=>JSON.stringify(a)===JSON.stringify(area)))setAreas(a=>[...a,area]);setMessage('');setPoints([]);}
  function addPoint(p:Point){if(kind==='radius')setPoints([p]);else if(points.length<100)setPoints(ps=>[...ps,p]);else setMessage(t('polygonError'));}
- async function save(){if(!supabase||!session||disabled)return;setMessage('');setBusy(true);
+ async function save(){if(!supabase||!session||disabled)return;const caller=session.user.id;setMessage('');setBusy(true);
   try{
    const f:Filters={...filters,languages:[...new Set(languages.split(',').map(s=>s.trim()).filter(Boolean))],price_min:optionalNumber(priceMin),price_max:optionalNumber(priceMax),currency:currency.trim().toUpperCase()||null,age_min:optionalNumber(ageMin),age_max:optionalNumber(ageMax)};
    if(!name.trim()||areas.length===0)throw Error('Invalid rule');
    const event_horizon=dateMode==='days'?{kind:'days',days:optionalNumber(days)}:dateMode==='months'?{kind:'months',months:optionalNumber(days)}:dateMode==='weekend'?{kind:'weekend'}:{kind:'range',start:start.trim(),end:end.trim()};
    const document={name:name.trim(),enabled,filters:f,event_horizon,timezone:timezone.trim(),areas:areas.map(a=>({kind:a.kind,parameters:a.parameters,territory_id:a.territory_id??null}))};
-   const{error}=await supabase.rpc('save_s4_rule',{rule_document:document,selected_rule:id==='new'?undefined:id});if(error)throw error;router.replace('/rules');
-  }catch(error){report(error);}finally{setBusy(false);}
+   const{error}=await supabase.rpc('save_s4_rule',{rule_document:document,selected_rule:id==='new'?undefined:id});if(error)throw error;if(id==='new')record('rule_created');if(owner.current===caller)router.replace('/rules');
+  }catch(error){if(owner.current===caller)report(error);}finally{setBusy(false);}
  }
  const choices=territories.filter(v=>v.kind===kind && (label(v.names,locale)+' '+v.country_code).toLowerCase().includes(search.toLowerCase())).sort((a,b)=>label(a.names,locale).localeCompare(label(b.names,locale)));
  const areaName=(a:Area)=>a.kind==='radius'?`${t('radius')}: ${a.parameters.longitude}, ${a.parameters.latitude} · ${a.parameters.meters/1000} km`:a.kind==='polygon'?`${t('polygon')}: ${a.parameters.points.length} ${t('vertices')}`:label(territories.find(v=>v.id===a.territory_id)?.names??{},locale);

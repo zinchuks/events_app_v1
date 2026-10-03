@@ -1,5 +1,6 @@
-import { Fragment, useEffect, useState } from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useMetrics } from '@/lib/metrics-context';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
 import type { QueryData } from '@supabase/supabase-js';
 import { Screen, ui } from '@/components/screen';
@@ -38,17 +39,20 @@ function groupDate(row:Items[number]) {
  return ['year','month','day'].map(type=>parts.find(p=>p.type===type)?.value??'').join('-');
 }
 export default function DigestScreen() {
+ const { enabled, record } = useMetrics();const opened=useRef('');
  const { id } = useLocalSearchParams<{ id: string }>(); const { t, locale } = useLanguage(); const { session } = useAuth();
+ const [excluded,setExcluded]=useState(0);
  const [items, setItems] = useState<Items>([]); const [state, setState] = useState('loading'); const [transport, setTransport] = useState('');const [alertKind,setAlertKind]=useState('');
- useEffect(() => { let active = true; setItems([]); setTransport('');setAlertKind('');
+ useEffect(() => { let active = true; setItems([]); setExcluded(0);setTransport('');setAlertKind('');
   if (!session || !supabase) { setState('ready'); return; } setState('loading');
-  void Promise.all([readItems(id, session.user.id), supabase.from('notification_jobs').select('transport,status').eq('digest_id', id).eq('user_id', session.user.id).maybeSingle(), supabase.from('digests').select('id,business_key,rule_name').eq('id',id).eq('user_id',session.user.id).maybeSingle()]).then(([rows, job, digest]) => {
-   if (!active) return; setAlertKind(digest.data?.rule_name?.startsWith('S8:')?digest.data.rule_name.slice(3):'');setItems(rows.data ?? []); setState(rows.error || job.error || digest.error ? 'error' : !digest.data ? 'unavailable' : 'ready'); setTransport(digest.data?.business_key.startsWith('s8:')?'eventUpdate':digest.data?.business_key.startsWith('s7:')?'scheduled':job.data?.transport ?? (digest.data?.business_key.startsWith('s4:') ? 'manual' : ''));
+  void Promise.all([readItems(id, session.user.id), supabase.from('notification_jobs').select('transport,status').eq('digest_id', id).eq('user_id', session.user.id).maybeSingle(), supabase.from('digests').select('id,business_key,rule_name,stale_excluded').eq('id',id).eq('user_id',session.user.id).maybeSingle()]).then(([rows, job, digest]) => {
+   if (!active) return;setExcluded(digest.data?.stale_excluded??0); setAlertKind(digest.data?.rule_name?.startsWith('S8:')?digest.data.rule_name.slice(3):'');setItems(rows.data ?? []); setState(rows.error || job.error || digest.error ? 'error' : !digest.data ? 'unavailable' : 'ready'); setTransport(digest.data?.business_key.startsWith('s8:')?'eventUpdate':digest.data?.business_key.startsWith('s7:')?'scheduled':job.data?.transport ?? (digest.data?.business_key.startsWith('s4:') ? 'manual' : ''));
   }); return () => { active = false; };
  }, [id, session?.user.id]);
+ useFocusEffect(useCallback(()=>{const key=session?.user.id+':'+id;if(state==='ready'&&items.length>0&&enabled&&opened.current!==key){opened.current=key;record('digest_opened');}},[id,session?.user.id,state,items.length,enabled,record]));
  const sorted = [...items].sort((a,b)=>(groupDate(a)+':'+(historical(a).start_at??'zzz')).localeCompare(groupDate(b)+':'+(historical(b).start_at??'zzz')));
  return <Screen title={t(alertKind==='cancelled'?'eventCancelled':alertKind==='changed'?'eventChanged':alertKind==='reminder'?'eventReminders':'yourDigest')}>{!session ? <Button label={t('signInForRule')} onPress={() => router.push('/account')} /> : state === 'loading' ? <Text>{t('loading')}</Text> : state === 'error' ? <Text>{t('error')}</Text> : state === 'unavailable' ? <Text>{t('digestUnavailable')}</Text> : <>
-  <View style={ui.card}>{!alertKind&&<><Text style={ui.title}>{items.length} · {t('eventsCount')}</Text><Text style={ui.text}>{t('digestNotice')}</Text></>}<Text style={ui.muted}>{transport === 'eventUpdate' ? t('changeAfterImport') : transport === 'scheduled' ? t('scheduledDigestNotice') : transport === 'fixture' ? t('fixtureNotice') : transport === 'expo' ? t('pushPending') : transport === 'manual' ? t('manualDigestNotice') : t('digestUnavailable')}</Text></View>
+  <View style={ui.card}>{!alertKind&&<><Text style={ui.title}>{items.length} · {t('eventsCount')}</Text><Text style={ui.text}>{t('digestNotice')}</Text>{items.some(row=>!row.selection_snapshot||typeof row.selection_snapshot!=='object'||Array.isArray(row.selection_snapshot)||typeof row.selection_snapshot.title!=='string')&&<Text style={ui.muted}>{t('legacyDigestNotice')}</Text>}{excluded>0&&<Text style={ui.muted}>{t('staleExcluded')}: {excluded}</Text>}</>}<Text style={ui.muted}>{transport === 'eventUpdate' ? t('changeAfterImport') : transport === 'scheduled' ? t('scheduledDigestNotice') : transport === 'fixture' ? t('fixtureNotice') : transport === 'expo' ? t('pushPending') : transport === 'manual' ? t('manualDigestNotice') : t('digestUnavailable')}</Text></View>
   {sorted.map((row,index) => row.occurrences?.events && <Fragment key={row.occurrence_id}>{(index===0||groupDate(row)!==groupDate(sorted[index-1]))&&<Text accessibilityRole="header" style={ui.title}>{groupDate(row)||t('timeUnknown')}</Text>}<View style={ui.card}><EventChange snapshot={row.selection_snapshot}/>{!alertKind&&<><Text style={ui.badge}>{occurrenceTime(historical(row), locale, t('timeUnknown'))}</Text><Text style={ui.title}>{historical(row).title}</Text></>}{row.matched_rule_names.length>0&&<Text style={ui.muted}>{t('matchedRules')}: {row.matched_rule_names.join(' · ')}</Text>}<Button variant="outline" label={t('eventDetails')} onPress={() => router.push({ pathname: '/event/[id]', params: { id: row.occurrence_id } })} /></View></Fragment>)}
  </>}</Screen>;
 }

@@ -1,10 +1,12 @@
 // Adapted from Obytes; own provisional app IDs, no upstream account/project/secret.
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 import { getVariant } from './config/variants.mjs';
+import { assertBetaConfig } from './config/beta.mjs';
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   const { name, id, scheme, variant } = getVariant(process.env.APP_VARIANT);
   const projectId = process.env.EAS_PROJECT_ID;
+  if (process.env.EAS_BUILD_PROFILE === 'beta') assertBetaConfig({ variant, projectId, url: process.env.EXPO_PUBLIC_SUPABASE_URL, key: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY });
   if (projectId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(projectId)) {
     throw new Error('EAS_PROJECT_ID must be your own project UUID.');
   }

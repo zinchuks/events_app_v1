@@ -1,16 +1,37 @@
 {
-  "cli": { "version": ">=16.0.0", "appVersionSource": "local" },
+  "cli": {
+    "version": ">=16.0.0",
+    "appVersionSource": "local"
+  },
   "build": {
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": { "APP_VARIANT": "development" },
-      "ios": { "simulator": true }
+      "env": {
+        "APP_VARIANT": "development"
+      },
+      "ios": {
+        "simulator": true
+      }
     },
     "staging": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": { "APP_VARIANT": "staging" }
+      "env": {
+        "APP_VARIANT": "staging"
+      }
+    },
+    "beta": {
+      "extends": "staging",
+      "developmentClient": false,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": false
+      },
+      "environment": "preview"
     }
   }
 }

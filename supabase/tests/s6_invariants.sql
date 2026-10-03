@@ -3,7 +3,7 @@ begin;
 do $$
 declare claim uuid; repeated uuid; batch jsonb; row jsonb; e uuid; occ uuid; v integer; n integer;
  before_health timestamptz; caught boolean; hel uuid; alternate uuid; alt_event uuid; alt_occ uuid; other_occ uuid; uid uuid:=gen_random_uuid();
- fresh_digest uuid; s3_rule uuid; s3_digest uuid; madrid_event uuid; madrid_occ uuid;
+ fresh_digest uuid; partial_digest uuid; s3_rule uuid; s3_digest uuid; madrid_event uuid; madrid_occ uuid;
 begin
  if exists((select name from pg_catalog.pg_timezone_names except select name from public.timezone_names)
   union all (select name from public.timezone_names except select name from pg_catalog.pg_timezone_names)) then raise exception 'Timezone inventory mismatch'; end if;
@@ -95,8 +95,10 @@ begin
  if fresh_digest is null then raise exception 'Fresh selection unavailable'; end if;
  select o.event_id,o.id into e,occ from public.occurrences o where external_id='fixture:helsinki';
  update public.events set checked_at=now()-interval '13 hours' where id=e;
- caught:=false;begin perform public.build_rule_digest();exception when others then caught:=position('stale' in sqlerrm)>0;end;
- if not caught then raise exception 'Fresh source concealed stale individual record'; end if;
+ -- S11 partial freshness: expired records are omitted; other fresh records stay usable.
+ partial_digest:=public.build_rule_digest();
+ if partial_digest is null or exists(select 1 from public.digest_items where digest_id=partial_digest and occurrence_id=occ)
+  or not exists(select 1 from public.digests where id=partial_digest and stale_excluded>=1) then raise exception 'Fresh source concealed stale individual record'; end if;
  perform set_config('role','authenticated',true);
  if not exists(select 1 from public.events where id=e) or not exists(select 1 from public.digest_items where digest_id=fresh_digest and occurrence_id=occ)
  then raise exception 'Stale record hid catalog or historical digest'; end if;

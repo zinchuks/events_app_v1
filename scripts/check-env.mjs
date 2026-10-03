@@ -3,6 +3,7 @@ import { getVariant } from '../apps/mobile/config/variants.mjs';
 
 // Exact allowlist: example files cannot silently introduce public server secrets.
 const examples = {
+  '.env.worker.staging.example': ['APP_ENV','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','STAGING_SUPABASE_HOST','S11_PUSH_ENABLED','S11_BILLING_ENABLED','S11_WEBHOOK_ENABLED','EXPO_ACCESS_TOKEN','REVENUECAT_SECRET_KEY','REVENUECAT_WEBHOOK_AUTH'],
   '.env.billing.example': ['REVENUECAT_SECRET_KEY','REVENUECAT_WEBHOOK_AUTH'],
   'apps/mobile/.env.example': ['APP_VARIANT', 'EAS_PROJECT_ID', 'EXPO_PUBLIC_SUPABASE_URL', 'EXPO_PUBLIC_SUPABASE_ANON_KEY', 'EXPO_PUBLIC_REVENUECAT_IOS_KEY', 'EXPO_PUBLIC_REVENUECAT_ANDROID_KEY'],
   'apps/mobile/.env.staging.example': ['APP_VARIANT', 'EAS_PROJECT_ID', 'EXPO_PUBLIC_SUPABASE_URL', 'EXPO_PUBLIC_SUPABASE_ANON_KEY', 'EXPO_PUBLIC_REVENUECAT_IOS_KEY', 'EXPO_PUBLIC_REVENUECAT_ANDROID_KEY'],
@@ -26,6 +27,8 @@ for (const [file, allowed] of Object.entries(examples)) {
       if (value !== (file.includes('staging') ? 'staging' : 'development')) {
         throw new Error(`Wrong environment in ${file}`);
       }
+    } else if (file === '.env.worker.staging.example' && key.startsWith('S11_')) {
+      if (value !== 'false') throw new Error('Staging transports must be disabled in examples');
     } else if (value !== '') {
       throw new Error(`Example credentials must be empty in ${file}`);
     }

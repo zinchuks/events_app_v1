@@ -81,6 +81,8 @@ jobs:
       - run: pnpm test:s9
       - run: pnpm test:s10
       - run: pnpm test:s10:api
+      - run: pnpm test:s11
+      # Live source API/browser journey is a separate local command, not a CI fixture.
       - run: pnpm local:env
       - run: pnpm export:mobile
       - run: pnpm build:admin

@@ -186,6 +186,7 @@ export type Database = {
           id: string
           rule_id: string | null
           rule_name: string | null
+          stale_excluded: number
           user_id: string
         }
         Insert: {
@@ -196,6 +197,7 @@ export type Database = {
           id?: string
           rule_id?: string | null
           rule_name?: string | null
+          stale_excluded?: number
           user_id: string
         }
         Update: {
@@ -206,6 +208,7 @@ export type Database = {
           id?: string
           rule_id?: string | null
           rule_name?: string | null
+          stale_excluded?: number
           user_id?: string
         }
         Relationships: [
@@ -854,6 +857,76 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      s11_metrics: {
+        Row: {
+          count: number
+          day: string
+          kind: string
+          user_id: string
+        }
+        Insert: {
+          count: number
+          day: string
+          kind: string
+          user_id: string
+        }
+        Update: {
+          count?: number
+          day?: string
+          kind?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s11_metrics_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "s11_preferences"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      s11_preferences: {
+        Row: {
+          metrics_enabled: boolean
+          user_id: string
+        }
+        Insert: {
+          metrics_enabled?: boolean
+          user_id: string
+        }
+        Update: {
+          metrics_enabled?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s11_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s11_runtime: {
+        Row: {
+          api_host: string | null
+          environment: string
+          id: boolean
+        }
+        Insert: {
+          api_host?: string | null
+          environment?: string
+          id?: boolean
+        }
+        Update: {
+          api_host?: string | null
+          environment?: string
+          id?: boolean
+        }
+        Relationships: []
       }
       s6_ai_days: {
         Row: {
@@ -1832,6 +1905,14 @@ export type Database = {
         }
         Returns: Json
       }
+      prune_s11_metrics: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      record_s11_metric: {
+        Args: { kind: string }
+        Returns: boolean
+      }
       register_push_device: {
         Args: { device_platform: string; expo_token: string }
         Returns: undefined
@@ -1935,6 +2016,14 @@ export type Database = {
           selected_source?: string
         }
         Returns: string
+      }
+      s11_metrics_enabled: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      s11_metrics_report: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
       }
       s4_area_matches: {
         Args: {
@@ -2088,6 +2177,10 @@ export type Database = {
         Args: { assigned_role: string; reason: string; selected_owner: string }
         Returns: undefined
       }
+      set_s11_metrics: {
+        Args: { enabled: boolean }
+        Returns: boolean
+      }
       set_s4_rule_enabled: {
         Args: { rule_enabled: boolean; selected_rule: string }
         Returns: undefined
@@ -2121,6 +2214,10 @@ export type Database = {
       valid_timezone: {
         Args: { value: string }
         Returns: boolean
+      }
+      verify_s11_staging: {
+        Args: { expected_host: string }
+        Returns: undefined
       }
     }
     Enums: {
