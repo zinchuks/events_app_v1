@@ -108,3 +108,12 @@ Live DB roles chosen over role in signup metadata/cached JWT: immediate next-RPC
 Logical merge chosen to preserve stable occurrence identities, saved/reminder configs and immutable digest history. It deduplicates eligible future catalog/match union, rechecks exact session facts, uses eligible fallback when canonical is unavailable, supports undo and forbids chains. Original S8 reminders remain separate if user saved both; no destructive FK rewrites or inferred dates.
 
 Actual local custom restore found lookup-order bug: valid_timezone CHECK depends on timezone_names TABLE DATA. Restore pre-data then same-PG IANA inventory then remaining data/post-data fixed it and passed row/Auth/RLS/grants checks. Hosted staging restore remains blocked; no fixture substituted for staging evidence.
+
+
+## S11 (2026-10-04): evidence boundaries and QA repairs
+
+Native/cloud access absent: execute independent real local QA, add guarded configuration, keep overall S11 blocked rather than substitute JS exports/fakes. S12 pending. Opt-in internal owner-bound daily counters avoid third-party telemetry and event/coordinate payloads; server locks enforce removal, client captured bearer fences account changes. Report30day window is not unverified hard physical retention promise. Purchase metric is not billing evidence.
+
+Fix confirmed whole-fresh-digest outage caused by one expired record using atomic fresh subset+visible excluded count; retain all-stale guard/provenance. Fresh duplicate selection prevents stale canonical loss. Manual snapshots added to match immutable scheduled history contract, v2 key preserves old history without fabricated backfill. Unmerged direct-ID fast path based on measured100k benchmark (~3× catalog gain); full matcher bottleneck reported, no speculative rewrite.
+
+Staging marker checks actual DB identity beyond env labels; current managed local staysdevelopment. Flagsdefaultfalse, reuse existing durable workers, server-only secret env. Byte-bounded webhook durable enqueue503 permits retries without falseACK/Plus grant. No dependency upgrades/audit suppression or remote deployment; 2high1moderate release gate remains failed.

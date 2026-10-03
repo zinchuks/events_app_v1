@@ -175,3 +175,14 @@ s10_merges links duplicate→canonical without deleting/transferring originals. 
 Dashboard includes public-source partial coverage, source+record TTL, poll leases/backoff/failures, last50 safe imports, aggregated job/error/scheduler/receipt counts, disabled AI config and known vs reserved budget totals, bounded review/audit history. No browser service key, arbitrary fetch URL worker, paid retry, Expo send or fake Plus.
 
 Restore test makes custom PostgreSQL17 archive of own synthetic auth/public DB, restores into second disposable DB and compares rows/Auth helpers/RLS/ACL. Excludes IANA TABLE DATA then regenerates same-version inventory between pre-data and data/post-data: CHECK valid_timezone needs lookup before occurrences. Local proof does not establish hosted staging restore or Storage/Auth provider config. Runbook/evidence: S10_OPERATIONS/S10_ACCEPTANCE.
+
+
+## S11 — QA corrections, metrics, guarded staging
+
+S11 supersedes the earlier all-or-nothing partial freshness gate: manual/S7 selection filters both source and record TTL within the same MVCC aggregate; fresh matches survive partial expiry, logical stale_excluded is recorded. All-stale still fails/retries; historical catalog facts are preserved. Fresh eligible merged representative precedes canonical preference. Nonmerged catalog rows skip dynamic group helper; actual merges keep exact fact checks before count/pagination. Synthetic100k catalog median830.720→280.260ms; full matcher ~1.4s remains.
+
+Manual history now uses s8_snapshot+version+matched rule names captured atomically with fresh membership. UTC `s4:v2:` key avoids reusing older unsnapshotted same-key history; prior records preserved and legacy fallback labelled. New snapshots survive source changes; detail explicitly reads current facts.
+
+S11 preference row serializes opt-in/off and record; dailyUTC5kind counters max1000, defaultfalse/no direct client writes, account cascades. Captured session bearer and owner/generation checks fence UI races. Client metrics best-effort/untrusted, no provider/ads/export SDK; admin report aggregates only day/kind/count last30days. RLS report window excludes expired counters; actual physical prune needs worker uptime, local daily watchdog not hosted SLA. Purchase counter callback does not authorize entitlements.
+
+Beta config guards own staging identity/public key/hosted URL. s11_runtime actual DB binding defaultdevelopment/service-only; hosted worker verifies host+SANDBOX at start/every tick/webhook, no local relabel. Existing ingestion/schedulers/billing/push reused, transport flagsfalse by default, no AI activation. Shared webhook64KiB byte cap/auth/durable ACK; failed enqueue503. Loopback8099 needs separate HTTPS ingress, supervision and actual hosted proof. QA_REPORT/S11_BETA distinguish local/fixtures from native/provider acceptance; S12 pending.

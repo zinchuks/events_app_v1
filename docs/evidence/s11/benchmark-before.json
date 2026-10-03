@@ -1,0 +1,119 @@
+[
+  {
+    "checks": 11,
+    "synthetic": true,
+    "rows": 100000,
+    "known_points": 80000,
+    "database": "isolated schema-only clone",
+    "native_latency_verified": false,
+    "first_is_not_cold_io": true,
+    "samples_per_query": 5,
+    "metrics_optout_observed_lock": true,
+    "results": {
+      "radius_10km": {
+        "execution_ms": [
+          27.674,
+          11.125,
+          10.527,
+          10.574,
+          11.291
+        ],
+        "median_ms": 11.125,
+        "max_ms": 27.674,
+        "first_observed_ms": 27.674,
+        "planning_ms": [
+          14.641,
+          13.987,
+          14.668,
+          15.233,
+          14.653
+        ],
+        "plan_nodes": [
+          "Aggregate",
+          "Bitmap Heap Scan",
+          "Bitmap Index Scan:events_location_idx"
+        ],
+        "shared_hit_blocks": 1406,
+        "shared_read_blocks": 5
+      },
+      "polygon_madrid": {
+        "execution_ms": [
+          3.905,
+          3.627,
+          3.643,
+          3.563,
+          3.541
+        ],
+        "median_ms": 3.627,
+        "max_ms": 3.905,
+        "first_observed_ms": 3.905,
+        "planning_ms": [
+          15.447,
+          14.55,
+          13.957,
+          13.252,
+          12.86
+        ],
+        "plan_nodes": [
+          "Aggregate",
+          "Bitmap Heap Scan",
+          "Bitmap Index Scan:events_location_idx"
+        ],
+        "shared_hit_blocks": 1166,
+        "shared_read_blocks": 0
+      },
+      "full_current_matcher": {
+        "execution_ms": [
+          1365.646,
+          1394.794,
+          1350.707,
+          1361.8,
+          1435.214
+        ],
+        "median_ms": 1365.646,
+        "max_ms": 1435.214,
+        "first_observed_ms": 1365.646,
+        "planning_ms": [
+          0.325,
+          0.077,
+          0.051,
+          0.105,
+          0.084
+        ],
+        "plan_nodes": [
+          "Aggregate",
+          "Function Scan"
+        ],
+        "shared_hit_blocks": 7494,
+        "shared_read_blocks": 7
+      },
+      "catalog_page": {
+        "execution_ms": [
+          844.84,
+          830.72,
+          814.265,
+          830.681,
+          853.005
+        ],
+        "median_ms": 830.72,
+        "max_ms": 853.005,
+        "first_observed_ms": 844.84,
+        "planning_ms": [
+          0.029,
+          0.024,
+          0.04,
+          0.027,
+          0.026
+        ],
+        "plan_nodes": [
+          "Result"
+        ],
+        "shared_hit_blocks": 325698,
+        "shared_read_blocks": 6
+      }
+    }
+  },
+  {
+    "own_synthetic_database_removed": true
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "invariant_checks": 20
+  },
+  {
+    "checks": 17,
+    "runtime": {
+      "postgis": "3.3.7",
+      "postgres": "PostgreSQL 17.4 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 13.2.0, 64-bit"
+    },
+    "synthetic": true,
+    "rows": 100000,
+    "known_points": 80000,
+    "database": "isolated schema-only clone",
+    "native_latency_verified": false,
+    "first_is_not_cold_io": true,
+    "samples_per_query": 5,
+    "metrics_optout_observed_lock": true,
+    "results": {
+      "radius_10km": {
+        "selected_count": 1332,
+        "execution_ms": [
+          15.765,
+          14.951,
+          9.143,
+          14.039,
+          14.111
+        ],
+        "median_ms": 14.111,
+        "max_ms": 15.765,
+        "first_observed_ms": 15.765,
+        "planning_ms": [
+          20.93,
+          30.955,
+          14.059,
+          17.667,
+          15.601
+        ],
+        "plan_nodes": [
+          "Aggregate",
+          "Bitmap Heap Scan",
+          "Bitmap Index Scan:events_location_idx"
+        ],
+        "shared_hit_blocks": 1408,
+        "shared_read_blocks": 10
+      },
+      "polygon_madrid": {
+        "selected_count": 1932,
+        "execution_ms": [
+          3.488,
+          3.423,
+          3.459,
+          3.723,
+          3.41
+        ],
+        "median_ms": 3.459,
+        "max_ms": 3.723,
+        "first_observed_ms": 3.488,
+        "planning_ms": [
+          13.975,
+          13.806,
+          14.911,
+          14.361,
+          14.579
+        ],
+        "plan_nodes": [
+          "Aggregate",
+          "Bitmap Heap Scan",
+          "Bitmap Index Scan:events_location_idx"
+        ],
+        "shared_hit_blocks": 1165,
+        "shared_read_blocks": 0
+      },
+      "full_current_matcher": {
+        "selected_count": 377,
+        "execution_ms": [
+          1371.765,
+          1361.908,
+          1388.075,
+          1373.451,
+          1411.965
+        ],
+        "median_ms": 1373.451,
+        "max_ms": 1411.965,
+        "first_observed_ms": 1371.765,
+        "planning_ms": [
+          0.088,
+          0.087,
+          0.121,
+          0.074,
+          0.062
+        ],
+        "plan_nodes": [
+          "Aggregate",
+          "Function Scan"
+        ],
+        "shared_hit_blocks": 9472,
+        "shared_read_blocks": 282
+      },
+      "catalog_page": {
+        "selected_count": 80000,
+        "execution_ms": [
+          280.924,
+          268.797,
+          297.292,
+          280.26,
+          273.397
+        ],
+        "median_ms": 280.26,
+        "max_ms": 297.292,
+        "first_observed_ms": 280.924,
+        "planning_ms": [
+          0.027,
+          0.025,
+          0.025,
+          0.032,
+          0.051
+        ],
+        "plan_nodes": [
+          "Result"
+        ],
+        "shared_hit_blocks": 5704,
+        "shared_read_blocks": 3
+      }
+    }
+  },
+  {
+    "own_synthetic_database_removed": true
+  }
+]

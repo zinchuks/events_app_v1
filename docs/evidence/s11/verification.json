@@ -1,0 +1,368 @@
+{
+  "recorded_at_utc": "2026-10-03T22:20:05.963304+00:00",
+  "stage": "S11",
+  "overall_status": "blocked",
+  "s12_started": false,
+  "implementation_sha": "4106b862e5272fb237d49b7c1fb946ac18fbcf13",
+  "runtime": {
+    "macos": "27.0.1 arm64",
+    "chrome": "154.0.8037.93",
+    "node": "22.23.3",
+    "pnpm": "10.34.6",
+    "supabase_cli": "2.34.3",
+    "expo_sdk": 54,
+    "react_native": "0.81.5",
+    "app_version": "0.1.0",
+    "browser_build": "development Metro8087",
+    "native_build_ids": null
+  },
+  "checks": {
+    "pnpm_check": "pass",
+    "jest": 24,
+    "node_tests": 53,
+    "s11_api": [
+      {
+        "checks": 89,
+        "actual_auth_api_journey": true,
+        "real_catalog_read": true,
+        "real_catalog_mutated": false,
+        "opt_in_rls_deletion": true,
+        "native_push_purchase_verified": false
+      },
+      {
+        "own_test_accounts_removed": true
+      }
+    ],
+    "s11_sql_and_benchmark": [
+      {
+        "invariant_checks": 20
+      },
+      {
+        "checks": 17,
+        "runtime": {
+          "postgis": "3.3.7",
+          "postgres": "PostgreSQL 17.4 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 13.2.0, 64-bit"
+        },
+        "synthetic": true,
+        "rows": 100000,
+        "known_points": 80000,
+        "database": "isolated schema-only clone",
+        "native_latency_verified": false,
+        "first_is_not_cold_io": true,
+        "samples_per_query": 5,
+        "metrics_optout_observed_lock": true,
+        "results": {
+          "radius_10km": {
+            "selected_count": 1332,
+            "execution_ms": [
+              15.765,
+              14.951,
+              9.143,
+              14.039,
+              14.111
+            ],
+            "median_ms": 14.111,
+            "max_ms": 15.765,
+            "first_observed_ms": 15.765,
+            "planning_ms": [
+              20.93,
+              30.955,
+              14.059,
+              17.667,
+              15.601
+            ],
+            "plan_nodes": [
+              "Aggregate",
+              "Bitmap Heap Scan",
+              "Bitmap Index Scan:events_location_idx"
+            ],
+            "shared_hit_blocks": 1408,
+            "shared_read_blocks": 10
+          },
+          "polygon_madrid": {
+            "selected_count": 1932,
+            "execution_ms": [
+              3.488,
+              3.423,
+              3.459,
+              3.723,
+              3.41
+            ],
+            "median_ms": 3.459,
+            "max_ms": 3.723,
+            "first_observed_ms": 3.488,
+            "planning_ms": [
+              13.975,
+              13.806,
+              14.911,
+              14.361,
+              14.579
+            ],
+            "plan_nodes": [
+              "Aggregate",
+              "Bitmap Heap Scan",
+              "Bitmap Index Scan:events_location_idx"
+            ],
+            "shared_hit_blocks": 1165,
+            "shared_read_blocks": 0
+          },
+          "full_current_matcher": {
+            "selected_count": 377,
+            "execution_ms": [
+              1371.765,
+              1361.908,
+              1388.075,
+              1373.451,
+              1411.965
+            ],
+            "median_ms": 1373.451,
+            "max_ms": 1411.965,
+            "first_observed_ms": 1371.765,
+            "planning_ms": [
+              0.088,
+              0.087,
+              0.121,
+              0.074,
+              0.062
+            ],
+            "plan_nodes": [
+              "Aggregate",
+              "Function Scan"
+            ],
+            "shared_hit_blocks": 9472,
+            "shared_read_blocks": 282
+          },
+          "catalog_page": {
+            "selected_count": 80000,
+            "execution_ms": [
+              280.924,
+              268.797,
+              297.292,
+              280.26,
+              273.397
+            ],
+            "median_ms": 280.26,
+            "max_ms": 297.292,
+            "first_observed_ms": 280.924,
+            "planning_ms": [
+              0.027,
+              0.025,
+              0.025,
+              0.032,
+              0.051
+            ],
+            "plan_nodes": [
+              "Result"
+            ],
+            "shared_hit_blocks": 5704,
+            "shared_read_blocks": 3
+          }
+        }
+      },
+      {
+        "own_synthetic_database_removed": true
+      }
+    ],
+    "s2": [
+      {
+        "status": "pass",
+        "checks": 109,
+        "integration": "real local Auth/PostgREST/Postgres/PostGIS/Mailpit",
+        "nativeStorage": "unverified",
+        "scenarios": [
+          "email signup/confirmation",
+          "profile settings",
+          "cross-user read/write protection",
+          "server-only data and entitlements",
+          "date-only and timezone invariants",
+          "session restore/logout",
+          "email recovery/password change",
+          "own account deletion/private cascade/public preservation",
+          "demo territory/category seeds"
+        ]
+      }
+    ],
+    "s4_rollback_checks": 49,
+    "s5_rollback_checks": 24,
+    "s6_rollback": "pass",
+    "s7": [
+      {
+        "synthetic": true,
+        "expo_requests": 0,
+        "invariant_checks": 54
+      },
+      {
+        "concurrency_checks": 13,
+        "independent_postgres_connections": true,
+        "observed_overlaps": 4,
+        "scheduler_race": "one logical digest",
+        "transport_race": "one fenced dispatch",
+        "synthetic_invariants": "PASS",
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "expo_requests": 0,
+        "device_delivery_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s8": [
+      {
+        "fixtures": "synthetic SQL",
+        "invariant_checks": 69,
+        "external_requests": 0
+      },
+      {
+        "concurrency_checks": 16,
+        "independent_postgres_connections": true,
+        "observed_overlaps": 4,
+        "import_correction_race": true,
+        "actual_timed_reminder": true,
+        "correction_race": "one logical update",
+        "scheduler_race": "one inbox/job",
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "expo_requests": 0,
+        "device_delivery_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s9": [
+      {
+        "invariant_checks": 42,
+        "provider_requests": 0,
+        "store_purchases_verified": false
+      },
+      {
+        "concurrency_checks": 11,
+        "observed_overlaps": 3,
+        "independent_postgres_connections": true,
+        "actual_clock_expiry": true,
+        "schema_only_copy": true,
+        "user_data_copied": false,
+        "provider_requests": 0,
+        "store_purchases_verified": false
+      },
+      {
+        "disposable_database_removed": true
+      }
+    ],
+    "s9_api": [
+      {
+        "checks": 50,
+        "actual_auth_postgrest": true,
+        "config_mutated": false,
+        "store_purchases_verified": false,
+        "provider_requests": 0
+      }
+    ],
+    "s10": [
+      {
+        "invariant_checks": 45
+      },
+      {
+        "checks": 12,
+        "actual_postgres_overlap": true,
+        "optimistic_single_winner": true,
+        "backup_format": "PGDMP custom",
+        "backup_sha256": "643f135ea1e48fb9e33186a7e34c5eb9e5ae59198b5b956757f9041c27fbf38e",
+        "schema_and_synthetic_data_restored": true,
+        "rls_grants_auth_functions_verified": true,
+        "private_user_data_copied": false,
+        "staging_restore_verified": false
+      },
+      {
+        "own_databases_removed": 2
+      }
+    ],
+    "admin_build": "pass",
+    "web_ios_android_js_exports": "pass (not native builds)",
+    "client_server_key_boundary_files": 69,
+    "expo_doctor": {
+      "passed": 18,
+      "total": 18,
+      "network_retry": true
+    },
+    "dependencies_audit": {
+      "high": 2,
+      "moderate": 1,
+      "critical": 0,
+      "gate": "failed",
+      "lock_changed": false
+    },
+    "git_diff_check": "pass"
+  },
+  "browser": {
+    "viewport": "390x844",
+    "languages": [
+      "uk",
+      "en",
+      "es"
+    ],
+    "actual_local_auth_live_catalog": true,
+    "onboarding_rule_search_empty_recovery_pagination": true,
+    "actual_map_tiles_provenance_organizer_url": true,
+    "save_reminder_reload": true,
+    "manual_history_final": {
+      "fresh": 116,
+      "stale_excluded": 1,
+      "rule_names_and_fact_snapshots": true,
+      "date": "2026-10-04 Europe/Madrid"
+    },
+    "consent_default_off_explicit_on_then_off": true,
+    "before_optout_counts": {
+      "rule_created": 1,
+      "digest_opened": 1,
+      "event_saved": 1,
+      "organizer_opened": 1
+    },
+    "after_optout_counts": [],
+    "logout_verified": true,
+    "owner_session_reload": true,
+    "owner_final_console_errors": 0,
+    "qa_account_removed": true,
+    "proofs": [
+      "manual-history.png",
+      "consent-off.png",
+      "digest-responsive.png"
+    ],
+    "historical_screenshot": "consent-es.png records earlier consent text before report-window clarification; final wording in consent-off.png"
+  },
+  "final_managed_local_state": {
+    "counts": {
+      "profiles": 1,
+      "rules": 4,
+      "saved_events": 2,
+      "sources": 3
+    },
+    "ai": {
+      "enabled": false
+    },
+    "billing": {
+      "enabled": false,
+      "environment": "SANDBOX"
+    },
+    "runtime": {
+      "environment": "development",
+      "api_host": null
+    }
+  },
+  "own_s11_disposable_databases_remaining": 0,
+  "native_and_external": {
+    "ios": "blocked: Xcode license, no own physical build/device",
+    "android": "blocked: adb/SDK absent, no own physical build/device",
+    "beta_config_negative_guard": "pass: absent own EAS project rejected",
+    "staging_worker_check": "blocked before network: explicit staging env absent",
+    "hosted_tick_deploy_restore": "unverified",
+    "real_device_push_permissions_background_deep_links": "unverified",
+    "real_store_purchase_restore_expiry": "unverified",
+    "actual_ai": "blocked: provider/model/budget not supplied",
+    "gmail_smtp": "not configured: local login only",
+    "remote_ci": "unverified",
+    "devtools_trace_cwv_formal_accessibility_browser_offline": "unverified",
+    "expo_revenuecat_ai_requests_by_s11_qa": 0
+  }
+}
