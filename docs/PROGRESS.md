@@ -1,6 +1,8 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-05, Europe/Madrid. Поточне замовлене розширення: **глобальний довідник міст і сіл GeoNames — implemented та local verified**. Завантажено 5 632 100 активних місць, з них 5 170 256 населених пунктів; server search, aliases/uk-en-es, інтеграція onboarding/editor та явний point-radius. [Опис і команди](GLOBAL_PLACES.md), [фактичні докази](evidence/places/verification.json). Це окрема авторизована задача, **не S12**.
+**Початок нової AI-сесії:** [HANDOFF.md](HANDOFF.md) — актуальна точка зупинки та перша наступна дія; [WORK_LOG.md](WORK_LOG.md) — що й коли змінювалося. Правило обов’язкового оновлення — [AGENTS.md](../AGENTS.md). Передача контексту завершена 2026-10-05 як окреме документаційне завдання; локальні посилання/узгодженість стану та diff перевірено, продуктова реалізація не змінювалася. Інтеграція афіш Benidorm+50km ще не розпочата.
+
+Оновлено 2026-10-05, Europe/Madrid. Останнє реалізоване продуктове розширення: **глобальний довідник міст і сіл GeoNames — implemented та local verified**. Завантажено 5 632 100 активних місць, з них 5 170 256 населених пунктів; server search, aliases/uk-en-es, інтеграція onboarding/editor та явний point-radius. [Опис і команди](GLOBAL_PLACES.md), [фактичні докази](evidence/places/verification.json). Це окрема авторизована задача, **не S12**.
 
 **S11 blocked**: actual iOS/Android builds/devices/scenario та hosted staging відсутні; не називати beta-ready. S10 staging restore, S9 actual stores, S6 actual AI, device push/SMTP лишаються blocked/unverified. Останній audit2026-10-03: **2 high +1 moderate,0 critical; gate failed**; цього розширення не перевірявся повторно. **S12 pending**. [QA_REPORT](QA_REPORT.md), [runbook](S11_BETA.md). Нижче історичні результати попередніх етапів.
 
