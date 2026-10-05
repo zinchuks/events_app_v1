@@ -47,6 +47,9 @@ jobs:
       - run: uv run --frozen python -m ingestion --check
       - run: APP_ENV=staging uv run --frozen python -m ingestion --check
       - run: uv run --frozen python -m unittest discover -s . -t .
+      - run: uv run --frozen python -m unittest discover -s ../../scripts/places -p 'test_*.py'
+      - run: uv run --frozen ruff check ../../scripts/places
+      - run: uv run --frozen ruff format --check ../../scripts/places
   database-auth:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -82,6 +85,7 @@ jobs:
       - run: pnpm test:s10
       - run: pnpm test:s10:api
       - run: pnpm test:s11
+      - run: docker exec -i supabase_db_event-radar-local psql -U postgres -d postgres -v ON_ERROR_STOP=1 < supabase/tests/places_invariants.sql
       # Live source API/browser journey is a separate local command, not a CI fixture.
       - run: pnpm local:env
       - run: pnpm export:mobile

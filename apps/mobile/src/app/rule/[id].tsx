@@ -1,3 +1,4 @@
+import { PlacePicker } from '@/components/place-picker';
 import { useMetrics } from '@/lib/metrics-context';
 import { useEffect, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -15,18 +16,19 @@ export default function RuleEditor(){
  const{record}=useMetrics();const{id}=useLocalSearchParams<{id:string}>();const{session,loading}=useAuth();const{t,locale}=useLanguage();
  const owner=useRef(session?.user.id);owner.current=session?.user.id;
  const[name,setName]=useState('');const[enabled,setEnabled]=useState(true);const[filters,setFilters]=useState<Filters>({...emptyFilters});const[areas,setAreas]=useState<Area[]>([]);const[territories,setTerritories]=useState<Territory[]>([]);const[categories,setCategories]=useState<{code:string;names:Json}[]>([]);const[state,setState]=useState('loading');const[busy,setBusy]=useState(false);const[message,setMessage]=useState('');
- const[kind,setKind]=useState<Area['kind']>('city');const[search,setSearch]=useState('');const[shown,setShown]=useState(12);const[points,setPoints]=useState<Point[]>([]);const[lon,setLon]=useState('');const[lat,setLat]=useState('');const[km,setKm]=useState('10');
+ const[kind,setKind]=useState<Area['kind']>('city');const[areaLabels,setAreaLabels]=useState<Record<string,string>>({});const[points,setPoints]=useState<Point[]>([]);const[lon,setLon]=useState('');const[lat,setLat]=useState('');const[km,setKm]=useState('10');
  const[priceMin,setPriceMin]=useState('');const[priceMax,setPriceMax]=useState('');const[currency,setCurrency]=useState('');const[languages,setLanguages]=useState('');const[ageMin,setAgeMin]=useState('');const[ageMax,setAgeMax]=useState('');
  const[dateMode,setDateMode]=useState<'days'|'range'|'months'|'weekend'>('days');const[days,setDays]=useState('30');const[start,setStart]=useState('');const[end,setEnd]=useState('');const[timezone,setTimezone]=useState('Europe/Madrid');
- useEffect(()=>{let active=true;setMessage('');setState('loading');setAreas([]);setFilters({...emptyFilters});setName('');setEnabled(true);setPoints([]);
+ useEffect(()=>{let active=true;setMessage('');setState('loading');setAreaLabels({});setAreas([]);setFilters({...emptyFilters});setName('');setEnabled(true);setPoints([]);
   if(!session||!supabase){setState('ready');return;}const client=supabase;
   void (async()=>{
-   const[cats,ts]=await Promise.all([client.from('categories').select('code,names').order('code'),client.from('territories').select('id,kind,names,country_code,provenance').eq('is_demo',false).order('country_code')]);
-   if(cats.error||ts.error)throw Error('Catalog unavailable');if(!active)return;setCategories(cats.data);setTerritories(ts.data);
+   const cats=await client.from('categories').select('code,names').order('code');
+   if(cats.error)throw Error('Catalog unavailable');if(!active)return;setCategories(cats.data);setTerritories([]);
    if(id!=='new'){
     const{data,error}=await client.from('rules').select('*,rule_areas(kind,territory_id,parameters)').eq('id',id).eq('user_id',session.user.id).eq('filters->>scope','s4').single();
     if(error)throw error;if(!active)return;const f={...emptyFilters,...(data.filters as unknown as Filters)};const h=data.event_horizon as Record<string,Json>;
     setName(data.name);setEnabled(data.enabled);setFilters(f);setAreas(data.rule_areas as unknown as Area[]);setTimezone(data.timezone);
+    const territoryIds=data.rule_areas.map(a=>a.territory_id).filter((v):v is string=>Boolean(v));if(territoryIds.length){const ts=await client.from('territories').select('id,kind,names,country_code,provenance').in('id',territoryIds);if(ts.error)throw ts.error;if(active)setTerritories(ts.data);}
     setPriceMin(f.price_min===null?'':String(f.price_min));setPriceMax(f.price_max===null?'':String(f.price_max));setCurrency(f.currency??'');setLanguages(f.languages.join(', '));setAgeMin(f.age_min===null?'':String(f.age_min));setAgeMax(f.age_max===null?'':String(f.age_max));
     setDateMode(h.kind==='range'?'range':h.kind==='months'?'months':h.kind==='weekend'?'weekend':'days');setDays(String(h.days??h.months??30));setStart(String(h.start??''));setEnd(String(h.end??''));
    } else {setPriceMin('');setPriceMax('');setCurrency('');setLanguages('');setAgeMin('');setAgeMax('');setDateMode('days');setDays('30');setStart('');setEnd('');setTimezone('Europe/Madrid');}
@@ -46,17 +48,15 @@ export default function RuleEditor(){
    const{error}=await supabase.rpc('save_s4_rule',{rule_document:document,selected_rule:id==='new'?undefined:id});if(error)throw error;if(id==='new')record('rule_created');if(owner.current===caller)router.replace('/rules');
   }catch(error){if(owner.current===caller)report(error);}finally{setBusy(false);}
  }
- const choices=territories.filter(v=>v.kind===kind && (label(v.names,locale)+' '+v.country_code).toLowerCase().includes(search.toLowerCase())).sort((a,b)=>label(a.names,locale).localeCompare(label(b.names,locale)));
- const areaName=(a:Area)=>a.kind==='radius'?`${t('radius')}: ${a.parameters.longitude}, ${a.parameters.latitude} · ${a.parameters.meters/1000} km`:a.kind==='polygon'?`${t('polygon')}: ${a.parameters.points.length} ${t('vertices')}`:label(territories.find(v=>v.id===a.territory_id)?.names??{},locale);
+
+ const areaName=(a:Area)=>areaLabels[JSON.stringify(a)]??(a.kind==='radius'?`${t('radius')}: ${a.parameters.longitude}, ${a.parameters.latitude} · ${a.parameters.meters/1000} km`:a.kind==='polygon'?`${t('polygon')}: ${a.parameters.points.length} ${t('vertices')}`:label(territories.find(v=>v.id===a.territory_id)?.names??{},locale));
  return <Screen title={id==='new'?t('newRule'):t('editRule')}>{loading||state==='loading'?<Text>{t('loading')}</Text>:!session?<Button label={t('signInForRule')} onPress={()=>router.push('/account')}/>:state==='error'?<Text accessibilityRole="alert">{t('ruleUnavailable')}</Text>:<>
   <View style={ui.card}><Field label={t('ruleName')} value={name} onChange={setName} disabled={disabled}/><Toggle label={t('activeRule')} value={enabled} onChange={setEnabled} disabled={disabled}/><Text style={ui.muted}>{t('rulesHint')}</Text></View>
   <View style={ui.card}><Text style={ui.title}>{t('ruleAreas')}</Text><Text style={ui.muted}>{t('areasHint')}</Text><Text style={ui.muted}>{t('s4Coverage')}</Text>
    {areas.map((a,i)=><View key={i} style={{gap:6}}><Text style={ui.text}>{areaName(a)}</Text><View style={ui.row}><Button size="sm" variant="link" label={t('removeArea')} disabled={disabled} onPress={()=>setAreas(as=>as.filter((_,n)=>n!==i))}/>{(a.kind==='radius'||a.kind==='polygon')&&<Button size="sm" variant="link" label={t('editArea')} disabled={disabled} onPress={()=>{setKind(a.kind);setPoints(a.kind==='polygon'?a.parameters.points:[[a.parameters.longitude,a.parameters.latitude]]);if(a.kind==='radius')setKm(String(a.parameters.meters/1000));setAreas(as=>as.filter((_,n)=>n!==i));}}/>}</View></View>)}
-   <View style={ui.row}>{(['country','admin','city','radius','polygon']as const).map(value=><Button key={value} size="sm" label={t(value)} disabled={disabled} variant={kind===value?'default':'outline'} onPress={()=>{setKind(value);setSearch('');setShown(12);setPoints([]);}}/>)}</View>
+   <View style={ui.row}>{(['country','admin','city','radius','polygon']as const).map(value=><Button key={value} size="sm" label={t(value)} disabled={disabled} variant={kind===value?'default':'outline'} onPress={()=>{setKind(value);setPoints([]);}}/>)}</View>
    {kind==='country'||kind==='admin'||kind==='city'?<>
-    <Field label={t('searchTerritories')} value={search} onChange={v=>{setSearch(v);setShown(12);}} disabled={disabled}/>
-    <View style={ui.row}>{choices.slice(0,shown).map(v=><Button key={v.id} size="sm" label={`${label(v.names,locale)} · ${v.country_code}`} disabled={disabled||areas.some(a=>a.territory_id===v.id)} variant="outline" onPress={()=>addArea({kind:v.kind as 'city'|'country'|'admin',territory_id:v.id,parameters:{}})}/>)}</View>
-    {choices.length===0&&<Text style={ui.text}>{t('noTerritories')}</Text>}{shown<choices.length&&<Button size="sm" label={t('moreTerritories')} variant="link" onPress={()=>setShown(v=>v+12)}/>}
+    <PlacePicker kind={kind} disabled={disabled} onChoose={(area,name)=>{setAreaLabels(ls=>({...ls,[JSON.stringify(area)]:name}));addArea(area);}}/>
    </>:<>
     <AreaMap points={points} onPoint={addPoint} meters={kind==='radius'?Number(km.replace(',','.'))*1000:undefined} disabled={disabled}/>
     <Field label={t('longitude')} value={lon} onChange={setLon} disabled={disabled} numeric/><Field label={t('latitude')} value={lat} onChange={setLat} disabled={disabled} numeric/>

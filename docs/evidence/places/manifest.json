@@ -1,0 +1,51 @@
+{
+  "provider": "GeoNames",
+  "license": "CC BY 4.0",
+  "full_dump": true,
+  "population_threshold": null,
+  "excluded_codes": [
+    "PPLCH",
+    "PPLH",
+    "PPLQ",
+    "PPLW"
+  ],
+  "inspected": 13472245,
+  "places": 5632102,
+  "countries": 252,
+  "feature_codes": {
+    "PPL": 4715724,
+    "PPLL": 177497,
+    "ADM1": 3865,
+    "PPLA": 3464,
+    "PPLX": 170773,
+    "PPLC": 241,
+    "PCLI": 193,
+    "PPLF": 20505,
+    "ADM2": 47643,
+    "ADM3": 170131,
+    "PPLA2": 23375,
+    "PCLD": 35,
+    "PPLA3": 30530,
+    "ADM4": 224734,
+    "PPLR": 163,
+    "PCLH": 2,
+    "TERR": 4,
+    "PPLA4": 27355,
+    "PPLS": 354,
+    "STLMT": 225,
+    "PCLIX": 7,
+    "ADM5": 15221,
+    "PPLA5": 40,
+    "PPLG": 9,
+    "PCLS": 5,
+    "PCLF": 3,
+    "PCL": 3,
+    "": 1
+  },
+  "ambiguous_admin_keys": 2586,
+  "files": {
+    "allCountries.zip": "2ff428281f51ba8e716395921e7aed517b409186c96fd807620f0d5ad6cae1ea",
+    "alternateNamesV2.zip": "9e3a39c5ba3c87e27ef857e554a205d1c78f74090e3d6643d4ca50211e298440",
+    "countryInfo.txt": "93bafc525813f22e4711ff9ed6d626343094ce48c26388dc7c49189b3d7d5512"
+  }
+}

@@ -597,6 +597,78 @@ export type Database = {
           },
         ]
       }
+      place_catalog: {
+        Row: {
+          active: boolean
+          admin_path: string[]
+          country_code: string
+          feature_code: string
+          geoname_id: number
+          kind: string
+          latitude: number
+          longitude: number
+          modified_on: string
+          name: string
+          names: Json
+          parent_geoname_id: number | null
+          population: number
+          search_text: string
+          timezone: string | null
+        }
+        Insert: {
+          active?: boolean
+          admin_path: string[]
+          country_code: string
+          feature_code: string
+          geoname_id: number
+          kind: string
+          latitude: number
+          longitude: number
+          modified_on: string
+          name: string
+          names: Json
+          parent_geoname_id?: number | null
+          population: number
+          search_text: string
+          timezone?: string | null
+        }
+        Update: {
+          active?: boolean
+          admin_path?: string[]
+          country_code?: string
+          feature_code?: string
+          geoname_id?: number
+          kind?: string
+          latitude?: number
+          longitude?: number
+          modified_on?: string
+          name?: string
+          names?: Json
+          parent_geoname_id?: number | null
+          population?: number
+          search_text?: string
+          timezone?: string | null
+        }
+        Relationships: []
+      }
+      place_imports: {
+        Row: {
+          evidence: Json
+          fingerprint: string
+          imported_at: string
+        }
+        Insert: {
+          evidence: Json
+          fingerprint: string
+          imported_at?: string
+        }
+        Update: {
+          evidence?: Json
+          fingerprint?: string
+          imported_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -1639,11 +1711,13 @@ export type Database = {
           center: unknown | null
           country_code: string
           external_id: string
+          geoname_id: number | null
           id: string
           is_demo: boolean
           kind: string
           names: Json
           parent_id: string | null
+          place_feature_code: string | null
           provenance: string
         }
         Insert: {
@@ -1651,11 +1725,13 @@ export type Database = {
           center?: unknown | null
           country_code: string
           external_id: string
+          geoname_id?: number | null
           id?: string
           is_demo?: boolean
           kind: string
           names: Json
           parent_id?: string | null
+          place_feature_code?: string | null
           provenance: string
         }
         Update: {
@@ -1663,11 +1739,13 @@ export type Database = {
           center?: unknown | null
           country_code?: string
           external_id?: string
+          geoname_id?: number | null
           id?: string
           is_demo?: boolean
           kind?: string
           names?: Json
           parent_id?: string | null
+          place_feature_code?: string | null
           provenance?: string
         }
         Relationships: [
@@ -1905,6 +1983,18 @@ export type Database = {
         }
         Returns: Json
       }
+      place_normalize: {
+        Args: { value: string }
+        Returns: string
+      }
+      place_prefixes: {
+        Args: { value: string }
+        Returns: string[]
+      }
+      place_result: {
+        Args: { t: Database["public"]["Tables"]["territories"]["Row"] }
+        Returns: Json
+      }
       prune_s11_metrics: {
         Args: Record<PropertyKey, never>
         Returns: number
@@ -1927,6 +2017,10 @@ export type Database = {
       }
       reserve_s6_ai: {
         Args: { selected_event: string; selected_locale: string }
+        Returns: Json
+      }
+      resolve_place: {
+        Args: { place_key: string }
         Returns: Json
       }
       run_s7_scheduler: {
@@ -2172,6 +2266,16 @@ export type Database = {
           selected_rule?: string
         }
         Returns: string
+      }
+      search_places: {
+        Args: {
+          country?: string
+          locale?: string
+          page_offset?: number
+          place_kind?: string
+          query_text?: string
+        }
+        Returns: Json
       }
       set_s10_role: {
         Args: { assigned_role: string; reason: string; selected_owner: string }

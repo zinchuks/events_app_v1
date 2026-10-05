@@ -60,7 +60,10 @@
     "metrics:s11:watch": "node scripts/prune-s11-local.mjs --watch",
     "worker:s11:check": "node scripts/staging-s11-worker.mjs check",
     "worker:s11:run": "node scripts/staging-s11-worker.mjs run",
-    "worker:s11:watch": "node scripts/staging-s11-worker.mjs watch"
+    "worker:s11:watch": "node scripts/staging-s11-worker.mjs watch",
+    "test:places": "node scripts/test-places-integration.mjs",
+    "places:prepare": "python3 scripts/places/prepare.py",
+    "places:import:local": "python3 scripts/places/import.py"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

@@ -1,5 +1,12 @@
 export const messages = {
   "uk": {
+    "globalPlacesHint": "Пошук населених пунктів світу. Наявність місця не означає, що його афіша вже підключена.",
+    "placeCoverageUnknown": "Покриття подіями тут ще не підтверджено.",
+    "placePointNotice": "Для цього місця немає перевірених меж. Радіус відраховується від координати GeoNames.",
+    "selectPlace": "Вибрати територію",
+    "selectPlaceRadius": "Вибрати радіус навколо місця",
+    "placeMinimumSearch": "Введіть щонайменше 2 символи.",
+
     "legacyDigestNotice": "У цій старій добірці початковий вміст не був зафіксований. Назви й дати нижче читаються з поточних записів; це не історичний snapshot.",
     "staleExcluded": "Застарілих записів пропущено",
     "metricsTitle": "Допомогти покращити апку",
@@ -133,7 +140,7 @@ export const messages = {
     "browse": "Події",
     "savedEvents": "Збережені",
     "inbox": "Добірки",
-    "city": "Місто",
+    "city": "Міста й села",
     "s3Coverage": "Підключено частину офіційної афіші Madrid: одноразові події. Інші міста та повторювані події ще не доступні.",
     "sourceUnavailable": "Джерело поки недоступне.",
     "sourceStale": "Дані джерела застаріли. Нові добірки тимчасово недоступні; перевіряйте оригінал.",
@@ -322,6 +329,13 @@ export const messages = {
     "eventScheduled": "Заплановано"
   },
   "en": {
+    "globalPlacesHint": "Search places worldwide. A listed place does not mean its event sources are connected.",
+    "placeCoverageUnknown": "Event coverage here is not yet confirmed.",
+    "placePointNotice": "No verified boundary is available. Radius starts at the GeoNames coordinate.",
+    "selectPlace": "Select territory",
+    "selectPlaceRadius": "Select radius around this place",
+    "placeMinimumSearch": "Enter at least 2 characters.",
+
     "legacyDigestNotice": "This older selection did not capture its original content. Titles and dates below come from current records, not a historical snapshot.",
     "staleExcluded": "Expired records omitted",
     "metricsTitle": "Help improve the app",
@@ -455,7 +469,7 @@ export const messages = {
     "browse": "Events",
     "savedEvents": "Saved",
     "inbox": "Selections",
-    "city": "City",
+    "city": "Cities and villages",
     "s3Coverage": "Partial official Madrid coverage: single-day events. Other cities and recurring events are not available yet.",
     "sourceUnavailable": "Source is unavailable.",
     "sourceStale": "Source data is stale. New selections are temporarily unavailable; check the original.",
@@ -644,6 +658,13 @@ export const messages = {
     "eventScheduled": "Scheduled"
   },
   "es": {
+    "globalPlacesHint": "Busca localidades de todo el mundo. Que un lugar aparezca no significa que sus fuentes de eventos estén conectadas.",
+    "placeCoverageUnknown": "La cobertura de eventos aquí aún no está confirmada.",
+    "placePointNotice": "No hay límites verificados. El radio parte de la coordenada de GeoNames.",
+    "selectPlace": "Seleccionar territorio",
+    "selectPlaceRadius": "Seleccionar radio alrededor del lugar",
+    "placeMinimumSearch": "Introduce al menos 2 caracteres.",
+
     "legacyDigestNotice": "Esta selección antigua no guardó su contenido original. Los títulos y fechas se leen de los registros actuales; no son una instantánea histórica.",
     "staleExcluded": "Registros desactualizados omitidos",
     "metricsTitle": "Ayudar a mejorar la app",
@@ -777,7 +798,7 @@ export const messages = {
     "browse": "Eventos",
     "savedEvents": "Guardados",
     "inbox": "Selecciones",
-    "city": "Ciudad",
+    "city": "Ciudades y pueblos",
     "s3Coverage": "Cobertura parcial de la agenda oficial de Madrid: eventos de un día. Otras ciudades y eventos recurrentes aún no disponibles.",
     "sourceUnavailable": "La fuente no está disponible.",
     "sourceStale": "Los datos están desactualizados. No se pueden crear nuevas selecciones; consulta el original.",
