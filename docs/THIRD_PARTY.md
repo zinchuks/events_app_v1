@@ -50,3 +50,6 @@ Original adapters/SQL/UI, no new third-party source-code import or package depen
 ## S9 RevenueCat
 
 Registry `react-native-purchases` **10.11.0**, MIT, npm gitHead `79e4a644407fe3448ef5ec14e65b52041a8f75b2`, lock integrity `sha512-SbBYL+kcd9XMg+EN1Ub+wdb4oTH57+hBqB+BqWG1DoOSsYK5+KBUDagtZTOxefIvAyQpU4rWQeJsilAtG6mGZg==`. [Preserved licence](../licenses/revenuecat/LICENSE), [upstream](https://github.com/RevenueCat/react-native-purchases). Transitive `@revenuecat/purchases-typescript-internal`19.5.0, `purchases-js-hybrid-mappings`19.5.0, `purchases-js`1.67.1 declare MIT in installed metadata; available notices copied into the same licence directory. No upstream sample/paywall implementation copied or SDK bytes modified. Native store binaries/transitive release notices must be reviewed when actual builds exist. Local SQL, adapters/UI/fixtures are original; RevenueCat service/store terms and account configuration are separate from MIT code licensing.
+
+
+GeoNames geographic data (2026-10-05): CC BY4.0, [notice](licenses/GeoNames-NOTICE.md), official archive SHA256s in [manifest](evidence/places/manifest.json). Original stdlib importer/search UI written for this project; no upstream program copied, no new npm/Python runtime dependencies. Point data does not grant rights to event descriptions.

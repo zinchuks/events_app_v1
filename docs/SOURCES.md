@@ -91,3 +91,8 @@ AI user confirms access but provider/model/budget still absent; no live AI servi
 ## S10 operator registry policy
 
 Наявні Madrid/Toronto/Helsinki rights/attribution/partial-coverage notes збережені. Admin CRUD не надає прав на нові дані: entry створюється disabled/unreviewed/cache-off, worker adapter allowlist незмінний. Code/URL/acquisition stable; metadata/poll/TTL/rights edits version-fenced й audited. Pause ≠ cancellation/rights revocation; blocked rights прибирають public detail/feed/cache access. Referenced sources не delete; нові failures видно в import history. S10 provider baseline — приватні валідовані normalized facts для explicit override reset, тільки після S6 poll, source TTL/rights перевіряються. Logical merge зберігає кожний original source record/URL і occurrence ID; не стирає provenance. [Operator runbook](S10_OPERATIONS.md).
+
+
+## GeoNames geography (2026-10-05)
+
+Explicit global-place extension. Official allCountries.zip/alternateNamesV2.zip/countryInfo.txt; CC BY4.0 per [README](https://download.geonames.org/export/dump/readme.txt), required GeoNames attribution in UI/[notice](licenses/GeoNames-NOTICE.md). SHA/counts [manifest](evidence/places/manifest.json), implementation/proof [GLOBAL_PLACES](GLOBAL_PLACES.md). Current settlements without population threshold, admins/available locale names, source points only, no fabricated boundaries or event facts. GeoNames is not an event source; existing3 event integrations unchanged. Dataset does not guarantee completeness. Hosted sync/native checks unverified.

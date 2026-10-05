@@ -1,6 +1,8 @@
 # Прогрес Event Radar
 
-Оновлено 2026-10-04, Europe/Madrid. Поточна задача: **S11** за новим «продовжуй» (P4). Local Auth/API/browser QA, opt-in metrics, synthetic geo benchmark, beta guards та server-only staging worker **implemented та local verified**. **S11 blocked**: actual iOS/Android builds/devices/scenario та hosted staging відсутні; не називати beta-ready. S10 staging restore, S9 actual stores, S6 actual AI, device push/SMTP лишаються blocked/unverified. Audit2026-10-03UTC: **2 high +1 moderate,0 critical; gate failed**. **S12 pending**. [QA_REPORT](QA_REPORT.md), [runbook](S11_BETA.md), [verification](evidence/s11/verification.json). Нижче історичні результати попередніх етапів.
+Оновлено 2026-10-05, Europe/Madrid. Поточне замовлене розширення: **глобальний довідник міст і сіл GeoNames — implemented та local verified**. Завантажено 5 632 100 активних місць, з них 5 170 256 населених пунктів; server search, aliases/uk-en-es, інтеграція onboarding/editor та явний point-radius. [Опис і команди](GLOBAL_PLACES.md), [фактичні докази](evidence/places/verification.json). Це окрема авторизована задача, **не S12**.
+
+**S11 blocked**: actual iOS/Android builds/devices/scenario та hosted staging відсутні; не називати beta-ready. S10 staging restore, S9 actual stores, S6 actual AI, device push/SMTP лишаються blocked/unverified. Останній audit2026-10-03: **2 high +1 moderate,0 critical; gate failed**; цього розширення не перевірявся повторно. **S12 pending**. [QA_REPORT](QA_REPORT.md), [runbook](S11_BETA.md). Нижче історичні результати попередніх етапів.
 
 | Етап | Статус | Доказ / наступна дія |
 | --- | --- | --- |
@@ -17,6 +19,16 @@
 | S10 | **blocked; local foundation implemented/verified** | Admin roles/CRUD/monitoring/audited corrections/category/merge;45 SQL +12 concurrency/restore +25 actual Auth/API, browser uk/en/es. Local restore verified; staging restore unverified; [acceptance](S10_ACCEPTANCE.md) |
 | S11 | **blocked; local foundation implemented/verified** | 89 actual Auth/API,20 SQL+17 concurrent/benchmark,24 Jest+53 Node; browser journey/opt-in/history;100k labelled synthetic. Native both-platform beta/hosted worker/provider acceptance missing; [QA](QA_REPORT.md) |
 | S12 | pending | Release/store metadata/policies/operator data |
+
+
+## Глобальні міста й села — окреме розширення, 2026-10-05
+
+- Повний GeoNames snapshot, без population threshold: 5 170 256 current populated places,461 594 admins,250 country/territory codes. Окремий private catalog; лише вибрані території materialize. GeoNames CC BY4.0 attribution і SHA збережені; raw archives/SQLite/COPY поза Git.
+- Bounded RPC search25/page, aliases/accent/Unicode,2-character prefix GIN+trigram GIN; authenticated stable resolve, reviewed UUID/parents/boundaries та наявні правила збережено. Point-only місця пропонують явний radius, не вигадані межі. Старі Kyiv/Paris тепер доступні для radius через linked source point.
+- Фактичні checks:27Jest+53Node,9Python,Ruff/typecheck/lint/env/secrets;16SQL rollback,51Auth/API,109S2 regression,49S4+24S5 rollback;3JS exports і client boundary69files. Chrome реальна Верховина/5km/Київ/старе Madrid правило; owner QA чернетка скасована без запису.
+- Initial CRLF import повністю rollback; LF corrected. Один blank feature збережено після source validation; historical PCLH countries виключено. Same fingerprint repeat skipped. Full changed snapshot refresh/automatic hosted scheduling ще не перевірені.
+- Implementation checkpoint: `31fc73697ed2c80993cfcee243ac34bae34849ef`; наступний documentation commit зберігає ці результати й знімок.
+- Managed state:1profile/4rules/2saved/3sources,AI/billing disabled,development. Немає reset/remote/push. Події лишаються частковими для Madrid/Toronto/Helsinki; новий gazetteer не додає їх до решти світу. Native/staging/SMTP/AI/stores/audit gates відкриті; S12 pending.
 
 `verified` для S0 означає готовий **аудит і рішення**, а не verified native platforms або інтеграції. Native builds не є критерієм pass S0: план вимагає явно оцінити їх доступність. Всі недоступні перевірки нижче лишаються unverified. `pending` означає етап не розпочато; `implemented` — код є без повного proof; `blocked` — записувати виконану частину, blocker і next action, коли відповідний етап розпочнеться. Не називати продукт MVP-ready.
 

@@ -1,0 +1,339 @@
+{
+  "date": "2026-10-05",
+  "scope": "Authorized global places extension; not S12",
+  "environment": "local development; Supabase CLI 2.34.3; Node 22.23.3; pnpm 10.34.6; Python 3.13",
+  "migration": "20261005006400",
+  "base_commit": "78e3b98",
+  "fingerprint": "2d2525316c0d0fa9c6fed416b50c55121ad0e1b2affd5cfb96feab71954d158b",
+  "source_manifest": "manifest.json",
+  "published_active": 5632100,
+  "database_summary": {
+    "counts": {
+      "city": 5170256,
+      "admin": 461594,
+      "country": 250
+    },
+    "runtime": "development",
+    "ai_enabled": false,
+    "rule_count": 4,
+    "saved_count": 2,
+    "profile_count": 1,
+    "billing_enabled": false,
+    "catalog_size_bytes": 2976538624,
+    "event_source_count": 3,
+    "historical_country_rows": 0,
+    "blank_feature_source_preserved": true
+  },
+  "checks": {
+    "pnpm_check": {
+      "typecheck": "pass",
+      "lint": "pass",
+      "jest_suites": 8,
+      "jest_tests": 27,
+      "node_tests": 53,
+      "env": "pass",
+      "secret_patterns": "pass"
+    },
+    "python_parser_tests": 9,
+    "python_ruff": "pass",
+    "sql_places_rollback_invariants": 16,
+    "actual_auth_api": {
+      "checks": 51,
+      "actual_auth_api": true,
+      "full_catalog_required": true,
+      "timings": [
+        {
+          "query": "Київ",
+          "country": "UA",
+          "api_ms": 1354,
+          "returned": 22
+        },
+        {
+          "query": "Kiev",
+          "country": "UA",
+          "api_ms": 364,
+          "returned": 25
+        },
+        {
+          "query": "São Paulo",
+          "country": "BR",
+          "api_ms": 1080,
+          "returned": 25
+        },
+        {
+          "query": "東京",
+          "country": null,
+          "api_ms": 43,
+          "returned": 3
+        },
+        {
+          "query": "Londres",
+          "country": "GB",
+          "api_ms": 135,
+          "returned": 3
+        },
+        {
+          "query": "Верховина",
+          "country": "UA",
+          "api_ms": 39,
+          "returned": 4
+        },
+        {
+          "query": "Zermatt",
+          "country": "CH",
+          "api_ms": 232,
+          "returned": 1
+        }
+      ],
+      "native_verified": false,
+      "owner_rules_mutated": false
+    },
+    "disposable_auth_cleanup": {
+      "own_test_user_removed": true
+    },
+    "s2_actual_api_regression": 109,
+    "s4_rollback_regression": 49,
+    "s5_rollback_regression": 24,
+    "web_ios_android_javascript_exports": "pass; not native builds",
+    "client_server_key_boundary_files": 69,
+    "same_fingerprint_repeat": "skipped; idempotent"
+  },
+  "query_plan_samples": {
+    "limitation": "Single local samples on actual full catalog; not RPC latency, median, load test or hosted SLA",
+    "substring_verhovyna": {
+      "Plan": {
+        "Node Type": "Bitmap Heap Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Relation Name": "place_catalog",
+        "Alias": "place_catalog",
+        "Startup Cost": 131.95,
+        "Total Cost": 2294.11,
+        "Plan Rows": 562,
+        "Plan Width": 8,
+        "Actual Startup Time": 8.484,
+        "Actual Total Time": 9.582,
+        "Actual Rows": 11,
+        "Actual Loops": 1,
+        "Recheck Cond": "(search_text ~~ '%верховина%'::text)",
+        "Rows Removed by Index Recheck": 0,
+        "Exact Heap Blocks": 11,
+        "Lossy Heap Blocks": 0,
+        "Shared Hit Blocks": 14,
+        "Shared Read Blocks": 43,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Bitmap Index Scan",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Index Name": "place_search_idx",
+            "Startup Cost": 0.0,
+            "Total Cost": 131.81,
+            "Plan Rows": 562,
+            "Plan Width": 0,
+            "Actual Startup Time": 8.416,
+            "Actual Total Time": 8.416,
+            "Actual Rows": 11,
+            "Actual Loops": 1,
+            "Index Cond": "(search_text ~~ '%верховина%'::text)",
+            "Shared Hit Blocks": 14,
+            "Shared Read Blocks": 32,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        ]
+      },
+      "Planning": {
+        "Shared Hit Blocks": 38,
+        "Shared Read Blocks": 5,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 10.619,
+      "Triggers": [],
+      "Execution Time": 9.78
+    },
+    "two_character_tokyo": {
+      "Plan": {
+        "Node Type": "Bitmap Heap Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Relation Name": "place_catalog",
+        "Alias": "place_catalog",
+        "Startup Cost": 24.79,
+        "Total Cost": 2704.14,
+        "Plan Rows": 657,
+        "Plan Width": 8,
+        "Actual Startup Time": 2.908,
+        "Actual Total Time": 3.031,
+        "Actual Rows": 5,
+        "Actual Loops": 1,
+        "Recheck Cond": "(place_prefixes(search_text) @> '{東京}'::text[])",
+        "Rows Removed by Index Recheck": 0,
+        "Exact Heap Blocks": 7,
+        "Lossy Heap Blocks": 0,
+        "Shared Hit Blocks": 3,
+        "Shared Read Blocks": 9,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0,
+        "Plans": [
+          {
+            "Node Type": "Bitmap Index Scan",
+            "Parent Relationship": "Outer",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Index Name": "place_prefix_idx",
+            "Startup Cost": 0.0,
+            "Total Cost": 24.63,
+            "Plan Rows": 657,
+            "Plan Width": 0,
+            "Actual Startup Time": 2.849,
+            "Actual Total Time": 2.85,
+            "Actual Rows": 7,
+            "Actual Loops": 1,
+            "Index Cond": "(place_prefixes(search_text) @> '{東京}'::text[])",
+            "Shared Hit Blocks": 1,
+            "Shared Read Blocks": 4,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        ]
+      },
+      "Planning": {
+        "Shared Hit Blocks": 17,
+        "Shared Read Blocks": 2,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 2.004,
+      "Triggers": [],
+      "Execution Time": 3.071
+    },
+    "empty_search_rpc_sql": {
+      "Plan": {
+        "Node Type": "Result",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Startup Cost": 0.0,
+        "Total Cost": 0.26,
+        "Plan Rows": 1,
+        "Plan Width": 32,
+        "Actual Startup Time": 672.759,
+        "Actual Total Time": 672.759,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Shared Hit Blocks": 2130,
+        "Shared Read Blocks": 164,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning": {
+        "Shared Hit Blocks": 0,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.044,
+      "Triggers": [],
+      "Execution Time": 672.777
+    }
+  },
+  "browser": {
+    "tool": "Chrome computer-use; real local owner session",
+    "editor": [
+      "Global search Верховина",
+      "Explicit radius 5 km added to transient draft then removed/cancelled",
+      "Київ has source point/radius choice while reviewed territory unchanged",
+      "Existing Музика в Madrid loads original territory and fields"
+    ],
+    "viewport": {
+      "width": 390,
+      "height": 844,
+      "override_reset": true
+    },
+    "screenshot": "village-radius.png",
+    "owner_rule_saved": false,
+    "onboarding": "Actual global 東京 search shows Tokyo and source alias matches; no rule saved",
+    "console_errors_observed": []
+  },
+  "import_corrections": [
+    "Initial CRLF COPY failure rolled back; published zero; LF writer corrected before successful full import",
+    "Query normalization aligned with NFKD source search keys for Ukrainian ї/й",
+    "One valid class-P blank feature row (6620472 Ottawa Lake) restored from verified prepared source; parser and importer preserve empty feature code; 2 PCLH historical countries excluded"
+  ],
+  "limitations": {
+    "worldwide_completeness_guaranteed": false,
+    "worldwide_municipal_boundaries": false,
+    "new_event_sources": false,
+    "automatic_hosted_refresh": false,
+    "changed_full_snapshot_refresh_verified": false,
+    "ios_native": false,
+    "android_native": false,
+    "hosted_staging": false,
+    "remote_ci_execution": false,
+    "live_ai": false,
+    "smtp_gmail": false,
+    "real_push": false,
+    "actual_store_purchase_restore": false
+  },
+  "audit": {
+    "rerun_this_extension": false,
+    "last_recorded_date": "2026-10-03",
+    "high": 2,
+    "moderate": 1,
+    "gate": "failed"
+  },
+  "git_push": false,
+  "implementation_commit": "31fc73697ed2c80993cfcee243ac34bae34849ef"
+}
